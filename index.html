@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
@@ -60,6 +60,32 @@
       background-size: 24px 24px, 100% 100%;
     }
 
+    /* Subtle cursor ambient glow that tracks the pointer */
+    .ambient-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(750px circle at var(--mouse-x, 50vw) var(--mouse-y, 35vh), rgba(234, 134, 118, 0.05), transparent 75%);
+      transition: opacity 0.4s ease;
+    }
+
+    /* Reading Progress Bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ea8676, #ffaba0, #ea8676);
+      z-index: 999;
+      box-shadow: 0 0 12px rgba(234, 134, 118, 0.75);
+      transition: width 0.1s ease-out;
+      width: 0%;
+    }
+
     /* Section Badges: 84px tall, 6px radius, Bebas Neue 54px */
     .section-badge {
       background-color: #d4d4d4;
@@ -78,21 +104,35 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
       user-select: none;
       white-space: nowrap;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background-color 0.2s ease, color 0.2s ease;
+      cursor: pointer;
     }
 
-    /* Links & Underlines matching reference */
+    .section-badge:hover {
+      transform: translateY(-4px) scale(1.03) rotate(-0.5deg);
+      background-color: #ffffff;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(234, 134, 118, 0.5);
+    }
+
+    .section-badge:active {
+      transform: translateY(2px) scale(0.97);
+    }
+
+    /* Links & Underlines */
     .ref-link {
       color: #e5e5e5;
       text-decoration: underline;
       text-underline-offset: 6px;
       text-decoration-thickness: 1.5px;
       text-decoration-color: #8c8c8c;
-      transition: text-decoration-color 0.15s ease, color 0.15s ease;
+      transition: text-decoration-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
     }
 
     .ref-link:hover {
       color: #ffffff;
-      text-decoration-color: #ffffff;
+      text-decoration-color: #ea8676;
+      transform: translateY(-1px);
     }
 
     /* Subtle dotted line separator between work & project items */
@@ -104,19 +144,378 @@
     .section-divider {
       border-top: 1.5px solid rgba(255, 255, 255, 0.18);
     }
+
+    /* ========================================================
+       KEYFRAME ANIMATIONS FOR HERO DOODLES & ELEMENTS
+       ======================================================== */
+
+    /* Wagging devil tail */
+    @keyframes tailWag {
+      0%, 100% {
+        transform: rotate(0deg);
+      }
+      25% {
+        transform: rotate(3deg) translateY(-2px);
+      }
+      75% {
+        transform: rotate(-3.5deg) translateY(2px);
+      }
+    }
+
+    .doodle-tail {
+      transform-origin: 1500px 820px;
+      animation: tailWag 3.2s ease-in-out infinite;
+      transition: filter 0.3s ease;
+    }
+
+    .doodle-tail:hover {
+      filter: drop-shadow(0 0 8px rgba(234, 134, 118, 0.8));
+    }
+
+    /* Radiating Idea Sparks / Rays */
+    @keyframes rayPulse {
+      0%, 100% {
+        opacity: 0.35;
+        transform: scale(0.96);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    .doodle-ray-1 {
+      transform-origin: 805px 780px;
+      animation: rayPulse 2.1s ease-in-out infinite;
+    }
+
+    .doodle-ray-2 {
+      transform-origin: 885px 720px;
+      animation: rayPulse 2.4s ease-in-out 0.4s infinite;
+    }
+
+    .doodle-ray-3 {
+      transform-origin: 990px 685px;
+      animation: rayPulse 1.9s ease-in-out 0.8s infinite;
+    }
+
+    .doodle-ray-4 {
+      transform-origin: 1115px 710px;
+      animation: rayPulse 2.3s ease-in-out 1.2s infinite;
+    }
+
+    /* Horizontal Energy Marks next to laptop */
+    @keyframes energyHum {
+      0%, 100% {
+        opacity: 0.4;
+        stroke-dashoffset: 0;
+        transform: translateX(0);
+      }
+      50% {
+        opacity: 1;
+        stroke-dashoffset: 8;
+        transform: translateX(3px);
+      }
+    }
+
+    .doodle-energy-1 {
+      animation: energyHum 1.8s ease-in-out infinite;
+    }
+
+    .doodle-energy-2 {
+      animation: energyHum 1.8s ease-in-out 0.5s infinite;
+    }
+
+    /* Gentle floating sparkle & cursor */
+    @keyframes floatBob {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-9px) rotate(3deg);
+      }
+    }
+
+    .doodle-sparkle {
+      transform-origin: 1600px 130px;
+      animation: floatBob 3.8s ease-in-out infinite;
+    }
+
+    /* Subtle horn twitch */
+    @keyframes hornTwitchL {
+      0%, 88%, 100% {
+        transform: rotate(0deg);
+      }
+      92% {
+        transform: rotate(-4deg);
+      }
+      96% {
+        transform: rotate(2deg);
+      }
+    }
+
+    @keyframes hornTwitchR {
+      0%, 88%, 100% {
+        transform: rotate(0deg);
+      }
+      92% {
+        transform: rotate(4deg);
+      }
+      96% {
+        transform: rotate(-2deg);
+      }
+    }
+
+    .doodle-horn-l {
+      transform-origin: 1248px 355px;
+      animation: hornTwitchL 6s ease-in-out infinite;
+    }
+
+    .doodle-horn-r {
+      transform-origin: 1350px 375px;
+      animation: hornTwitchR 6s ease-in-out 0.4s infinite;
+    }
+
+    /* Interactive Face Doodles Hover Shake */
+    .doodle-face {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-origin: 1300px 520px;
+    }
+
+    #hero-tilt-card:hover .doodle-face {
+      transform: scale(1.02);
+    }
+
+    /* ALKEMIST Outline Draw-in Animation on load */
+    @keyframes strokeDraw {
+      0% {
+        stroke-dasharray: 1400;
+        stroke-dashoffset: 1400;
+        fill: transparent;
+      }
+      75% {
+        stroke-dasharray: 1400;
+        stroke-dashoffset: 0;
+        fill: transparent;
+      }
+      100% {
+        stroke-dasharray: 1400;
+        stroke-dashoffset: 0;
+        fill: rgba(226, 226, 226, 0.04);
+      }
+    }
+
+    .alkemist-title-stroke {
+      stroke-dasharray: 1400;
+      stroke-dashoffset: 0;
+      animation: strokeDraw 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      transition: stroke 0.3s ease, filter 0.3s ease, fill 0.3s ease;
+    }
+
+    .alkemist-title-stroke:hover {
+      stroke: #ffffff;
+      fill: rgba(234, 134, 118, 0.08);
+      filter: drop-shadow(0 0 20px rgba(234, 134, 118, 0.35));
+      cursor: default;
+    }
+
+    /* UX/UI DESIGN Marker Stamp entrance */
+    @keyframes stampIn {
+      0% {
+        opacity: 0;
+        transform: rotate(-3.5deg) scale(0.85);
+      }
+      70% {
+        opacity: 1;
+        transform: rotate(-2deg) scale(1.06);
+      }
+      100% {
+        opacity: 1;
+        transform: rotate(-3.5deg) scale(1);
+      }
+    }
+
+    .marker-stamp {
+      animation: stampIn 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s backwards;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .marker-stamp:hover {
+      transform: rotate(-1.5deg) scale(1.05) translateY(-4px);
+      filter: drop-shadow(0 10px 24px rgba(234, 134, 118, 0.5));
+    }
+
+    /* Work and Project Rows Interactive Highlighting */
+    .work-row {
+      border-radius: 8px;
+      transition: background-color 0.25s ease, padding 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .work-row:hover {
+      background-color: rgba(255, 255, 255, 0.032);
+      transform: translateX(8px);
+    }
+
+    .work-row:hover .row-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    .row-arrow {
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    /* Links Section pill hover style */
+    .link-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .link-pill:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
+    }
+
+    /* Elsewhere rows hover */
+    .elsewhere-row {
+      border-radius: 6px;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      padding: 4px 8px;
+      margin-left: -8px;
+      margin-right: -8px;
+    }
+
+    .elsewhere-row:hover {
+      background-color: rgba(255, 255, 255, 0.025);
+      transform: translateX(4px);
+    }
+
+    /* Scroll Reveal animations */
+    .reveal-section {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-badge {
+      opacity: 0;
+      transform: scale(0.92) translateX(-16px);
+      transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .reveal-section.is-visible .reveal-badge {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+    }
+
+    /* Floating Project Preview Popover Card */
+    #project-preview-card {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      width: 300px;
+      background: rgba(24, 24, 27, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(234, 134, 118, 0.35);
+      padding: 16px;
+      opacity: 0;
+      transform: scale(0.9) translateY(12px);
+      transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #project-preview-card.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Interactive click burst particle on hero */
+    .burst-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      width: 24px;
+      height: 24px;
+      transform: translate(-50%, -50%) scale(0);
+      animation: burstPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes burstPop {
+      0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.6) rotate(90deg);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(2.2) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    /* Accessibility: Respect Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal-section, .reveal-badge {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
   </style>
 </head>
 
-<body class="noise-bg selection:bg-[#ea8676] selection:text-black">
+<body class="noise-bg selection:bg-[#ea8676] selection:text-black relative">
 
-  <main class="w-full max-w-[1920px] mx-auto px-6 sm:px-12 md:px-16 lg:px-[76px] pt-0 pb-16">
+  <!-- Reading Progress Bar -->
+  <div id="scroll-progress"></div>
+
+  <!-- Ambient Cursor Glow Follower -->
+  <div id="ambient-glow" class="ambient-glow"></div>
+
+  <!-- Interactive Floating Project Preview Card -->
+  <div id="project-preview-card">
+    <div class="flex items-center justify-between mb-2">
+      <span id="preview-company" class="text-[12px] font-mono uppercase tracking-wider text-[#ea8676] font-semibold">COMPANY</span>
+      <span id="preview-year" class="text-[11px] font-mono text-neutral-400">YEAR</span>
+    </div>
+    <h4 id="preview-title" class="text-[18px] font-bold text-white mb-1.5 leading-snug">Project Name</h4>
+    <p id="preview-desc" class="text-[13px] text-neutral-300 leading-relaxed mb-3">Product design and user experience craftsmanship.</p>
+    <div class="flex items-center gap-1.5 pt-2 border-t border-neutral-700/60">
+      <span class="inline-block w-2 h-2 rounded-full bg-[#ea8676] animate-pulse"></span>
+      <span id="preview-tag" class="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">UX Systems • Prototyping</span>
+    </div>
+  </div>
+
+  <main class="w-full max-w-[1920px] mx-auto px-6 sm:px-12 md:px-16 lg:px-[76px] pt-0 pb-16 relative z-10">
 
     <!-- ==================== HERO SECTION (Height exact 1831px to first divider) ==================== -->
     <header class="w-full relative mb-[335px]">
 
-      <!-- HERO IMAGE CONTAINER (1768px x 1095px) -->
-      <div
-        class="relative w-full h-[1095px] overflow-hidden rounded-[2px] transform -rotate-[0.6deg] bg-[#111111] shadow-2xl border border-white/5 mt-0 mb-16">
+      <!-- HERO IMAGE CONTAINER (1768px x 1095px with 3D Tilt interaction) -->
+      <div id="hero-tilt-card"
+        class="relative w-full h-[1095px] overflow-hidden rounded-[2px] transform -rotate-[0.6deg] bg-[#111111] shadow-2xl border border-white/5 mt-0 mb-16 cursor-crosshair transition-transform duration-300 ease-out">
 
         <!-- Placeholder Photo / Stage Graphic -->
         <div class="absolute inset-0 w-full h-full bg-[#141414] overflow-hidden">
@@ -179,46 +578,54 @@
           </svg>
 
           <!-- DOODLES OVERLAY MATCHING REFERENCE (Devil horns, glasses, mustache, goatee, rays, pointer, tail) -->
-          <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1768 1095" fill="none"
+          <svg id="hero-doodles" class="absolute inset-0 w-full h-full pointer-events-none transition-transform duration-200 ease-out" viewBox="0 0 1768 1095" fill="none"
             xmlns="http://www.w3.org/2000/svg">
-            <!-- Devil Horns on baseball cap -->
-            <path d="M1215 360 C1200 280, 1225 220, 1265 250 C1245 280, 1240 310, 1248 355" stroke="#ea8676"
+            
+            <!-- Devil Horns on baseball cap (with twitch animation) -->
+            <path class="doodle-horn-l" d="M1215 360 C1200 280, 1225 220, 1265 250 C1245 280, 1240 310, 1248 355" stroke="#ea8676"
               stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M1365 355 C1385 280, 1430 240, 1395 300 C1380 325, 1370 340, 1350 375" stroke="#ea8676"
+            <path class="doodle-horn-r" d="M1365 355 C1385 280, 1430 240, 1395 300 C1380 325, 1370 340, 1350 375" stroke="#ea8676"
               stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
 
-            <!-- Devil Glasses -->
-            <circle cx="1260" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <circle cx="1350" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <path d="M1306 495 Q1315 480 1324 495" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <!-- Devil Face Features (Glasses, mustache, goatee) -->
+            <g class="doodle-face">
+              <!-- Devil Glasses -->
+              <circle cx="1260" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <circle cx="1350" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <path d="M1306 495 Q1315 480 1324 495" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
 
-            <!-- Curled Handlebar Mustache -->
-            <path
-              d="M1230 555 C1250 515, 1295 555, 1308 545 C1320 555, 1365 515, 1385 555 C1350 575, 1308 560, 1308 560 C1308 560, 1265 575, 1230 555 Z"
-              fill="#ea8676" />
+              <!-- Curled Handlebar Mustache -->
+              <path
+                d="M1230 555 C1250 515, 1295 555, 1308 545 C1320 555, 1365 515, 1385 555 C1350 575, 1308 560, 1308 560 C1308 560, 1265 575, 1230 555 Z"
+                fill="#ea8676" />
 
-            <!-- Pointed Goatee / Beard -->
-            <polygon points="1295,610 1308,680 1322,610" fill="#ea8676" />
+              <!-- Pointed Goatee / Beard -->
+              <polygon points="1295,610 1308,680 1322,610" fill="#ea8676" />
+            </g>
 
-            <!-- Devil Tail on Right -->
-            <path d="M1500 820 C1590 770, 1680 530, 1620 370 C1595 320, 1575 370, 1585 405" stroke="#ea8676"
-              stroke-width="9" stroke-linecap="round" />
-            <polygon points="1620,365 1665,310 1600,330" fill="#ea8676" />
+            <!-- Devil Tail on Right (with smooth rhythmic wagging) -->
+            <g class="doodle-tail">
+              <path d="M1500 820 C1590 770, 1680 530, 1620 370 C1595 320, 1575 370, 1585 405" stroke="#ea8676"
+                stroke-width="9" stroke-linecap="round" />
+              <polygon points="1620,365 1665,310 1600,330" fill="#ea8676" />
+            </g>
 
-            <!-- Radiating Idea Sparks / Rays above laptop -->
-            <line x1="840" y1="800" x2="770" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line x1="910" y1="750" x2="860" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line x1="1000" y1="720" x2="980" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line x1="1090" y1="750" x2="1140" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <!-- Radiating Idea Sparks / Rays above laptop (with pulsing energy) -->
+            <line class="doodle-ray-1" x1="840" y1="800" x2="770" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line class="doodle-ray-2" x1="910" y1="750" x2="860" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line class="doodle-ray-3" x1="1000" y1="720" x2="980" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line class="doodle-ray-4" x1="1090" y1="750" x2="1140" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
 
             <!-- Horizontal Energy Marks next to laptop -->
-            <line x1="720" y1="920" x2="820" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line x1="730" y1="985" x2="845" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line class="doodle-energy-1" x1="720" y1="920" x2="820" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line class="doodle-energy-2" x1="730" y1="985" x2="845" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
 
-            <!-- Mouse Pointer & Sparkles on top right -->
-            <path d="M1570 90 C1545 115, 1590 165, 1635 125 C1655 100, 1610 70, 1570 90 Z" stroke="#ea8676"
-              stroke-width="8" stroke-linecap="round" />
-            <line x1="1635" y1="125" x2="1695" y2="175" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <!-- Mouse Pointer & Sparkles on top right (floating bob animation) -->
+            <g class="doodle-sparkle">
+              <path d="M1570 90 C1545 115, 1590 165, 1635 125 C1655 100, 1610 70, 1570 90 Z" stroke="#ea8676"
+                stroke-width="8" stroke-linecap="round" />
+              <line x1="1635" y1="125" x2="1695" y2="175" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            </g>
           </svg>
         </div>
 
@@ -226,19 +633,19 @@
 
       <!-- MAIN HEADLINE TYPOGRAPHY -->
       <div class="relative z-10 select-none pt-4 pb-6">
-        <!-- Giant Stroked Tube Outline Heading -->
+        <!-- Giant Stroked Tube Outline Heading with draw-in animation -->
         <div class="w-full">
           <svg viewBox="0 0 1768 250" class="w-full h-auto overflow-visible block" xmlns="http://www.w3.org/2000/svg">
             <text x="0" y="215" font-family="'Bebas Neue', sans-serif" font-size="265" font-weight="900" fill="none"
               stroke="#e2e2e2" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"
-              letter-spacing="6">ALKEMIST</text>
+              letter-spacing="6" class="alkemist-title-stroke">ALKEMIST</text>
           </svg>
         </div>
 
-        <!-- Hand-drawn Marker Moniker / Subtitle tilted & overlapping -->
+        <!-- Hand-drawn Marker Moniker / Subtitle tilted & overlapping with stamp-in animation -->
         <div class="transform -rotate-[3.5deg] -mt-12 sm:-mt-20 md:-mt-28 lg:-mt-32 ml-8 sm:ml-20 md:ml-36 lg:ml-48">
           <span
-            class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg">
+            class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg marker-stamp">
             UX/UI DESIGN
           </span>
         </div>
@@ -248,12 +655,12 @@
 
 
     <!-- ==================== SECTION: ABOUT ==================== -->
-    <section class="section-divider pt-[53px] pb-[98px]">
+    <section class="section-divider pt-[53px] pb-[98px] reveal-section">
       <div class="flex flex-col lg:flex-row items-start">
 
         <!-- Left Column: Badge (Fixed 644px column width on 1920 desktop) -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[160px]">
+          <div class="section-badge w-[160px] reveal-badge">
             ABOUT
           </div>
         </div>
@@ -299,28 +706,28 @@
 
 
     <!-- ==================== SECTION: LINKS ==================== -->
-    <section class="section-divider pt-[53px] pb-[68px]">
+    <section class="section-divider pt-[53px] pb-[68px] reveal-section">
       <div class="flex flex-col lg:flex-row items-center">
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-6 lg:mb-0">
-          <div class="section-badge w-[146px]">
+          <div class="section-badge w-[146px] reveal-badge">
             LINKS
           </div>
         </div>
 
         <!-- Right Content: Horizontal List of Links -->
         <div
-          class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-3 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
-          <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link">Twitter/X</a>
-          <span class="text-neutral-500 mx-1.5">•</span>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link">Instagram</a>
-          <span class="text-neutral-500 mx-1.5">•</span>
-          <a href="https://bsky.app" target="_blank" rel="noreferrer" class="ref-link">Bluesky</a>
-          <span class="text-neutral-500 mx-1.5">•</span>
-          <a href="https://threads.net" target="_blank" rel="noreferrer" class="ref-link">Threads</a>
-          <span class="text-neutral-500 mx-1.5">•</span>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="ref-link">LinkedIn</a>
+          class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-2 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
+          <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link link-pill">Twitter/X</a>
+          <span class="text-neutral-500 mx-1">•</span>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link link-pill">Instagram</a>
+          <span class="text-neutral-500 mx-1">•</span>
+          <a href="https://bsky.app" target="_blank" rel="noreferrer" class="ref-link link-pill">Bluesky</a>
+          <span class="text-neutral-500 mx-1">•</span>
+          <a href="https://threads.net" target="_blank" rel="noreferrer" class="ref-link link-pill">Threads</a>
+          <span class="text-neutral-500 mx-1">•</span>
+          <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="ref-link link-pill">LinkedIn</a>
         </div>
 
       </div>
@@ -328,12 +735,12 @@
 
 
     <!-- ==================== SECTION: WORK ==================== -->
-    <section id="work" class="section-divider pt-[53px] pb-[72px]">
+    <section id="work" class="section-divider pt-[53px] pb-[72px] reveal-section">
       <div class="flex flex-col lg:flex-row items-start">
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[148px]">
+          <div class="section-badge w-[148px] reveal-badge">
             WORK
           </div>
         </div>
@@ -342,93 +749,213 @@
         <div class="w-full lg:w-[1124px]">
 
           <!-- WORK ITEM 1 -->
-          <div class="pb-[54px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group pb-[54px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">Figma</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2023–Current</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">UI3</a>, <a href="#" class="ref-link">Icons/rebrand</a>, <a href="#"
-                class="ref-link">Draw</a>
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Figma"
+                data-year="2024"
+                data-title="UI3 Canvas & Toolbar"
+                data-desc="Next-generation overhaul of Figma's canvas, floating toolbar, and modern dark inspector."
+                data-tag="Core Architecture • Design System">UI3</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Figma"
+                data-year="2024"
+                data-title="Icons & Rebrand"
+                data-desc="Comprehensive iconographic system designed for optical clarity across retina displays."
+                data-tag="Iconography • Systems">Icons/rebrand</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Figma"
+                data-year="2025"
+                data-title="Figma Draw Suite"
+                data-desc="Expressive freehand vector tools and organic bezier pen engines for illustrators."
+                data-tag="Vector Engine • Tooling">Draw</a>
             </div>
           </div>
 
           <!-- WORK ITEM 2 -->
-          <div class="py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">Gowalla †</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2021–2023</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">Gowalla 2.0</a>
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Gowalla †"
+                data-year="2022"
+                data-title="Gowalla 2.0 Passport"
+                data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
+                data-tag="Spatial UX • Mobile iOS">Gowalla 2.0</a>
             </div>
           </div>
 
           <!-- WORK ITEM 3 -->
-          <div class="py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">Abstract †</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2016–2021</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer, first employee</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">Alpha</a>, <a href="#" class="ref-link">Beta</a>, <a href="#"
-                class="ref-link">Sketch Libraries</a>, <a href="#" class="ref-link">Compare mode</a>, <a href="#"
-                class="ref-link">Dark mode</a>, <span class="text-neutral-400">...</span>
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Abstract †"
+                data-year="2016"
+                data-title="Abstract Alpha Engine"
+                data-desc="Foundational Git-based version control UI built specifically for Sketch & design teams."
+                data-tag="Version Control • Desktop">Alpha</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Abstract †"
+                data-year="2017"
+                data-title="Abstract Public Beta"
+                data-desc="Branching, merging, and visual commit flows scaled to thousands of design organizations."
+                data-tag="Product Growth • Core UX">Beta</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Abstract †"
+                data-year="2018"
+                data-title="Sketch Libraries Sync"
+                data-desc="Centralized distributed design library distribution with dependency resolution."
+                data-tag="Design Ops • Infrastructure">Sketch Libraries</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Abstract †"
+                data-year="2019"
+                data-title="Visual Compare Mode"
+                data-desc="Side-by-side and onion-skin differential inspectors for graphic revisions."
+                data-tag="Inspection UX • Diffing">Compare mode</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Abstract †"
+                data-year="2020"
+                data-title="Dark Mode Experience"
+                data-desc="Ergonomic dark theme crafted for deep-work focus and low-glare environments."
+                data-tag="Design Tokens • Theming">Dark mode</a>, 
+              <span class="text-neutral-400">...</span>
             </div>
           </div>
 
           <!-- WORK ITEM 4 -->
-          <div class="py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">Dropbox</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2013–2015</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">iOS 7 redesign</a>, <a href="#" class="ref-link">App icons</a>, <a href="#"
-                class="ref-link">Carousel</a>, <a href="#" class="ref-link">Mailbox for iOS</a>, <a href="#"
-                class="ref-link">Mailbox for macOS</a>
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Dropbox"
+                data-year="2013"
+                data-title="iOS 7 Complete Redesign"
+                data-desc="Ground-up architectural redesign embracing fluid gestures and typography hierarchy."
+                data-tag="Mobile Platform • iOS">iOS 7 redesign</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Dropbox"
+                data-year="2014"
+                data-title="Suite App Icons"
+                data-desc="Tactile glyphs and grid alignment across all Dropbox ecosystem applications."
+                data-tag="Brand Design • Glyphs">App icons</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Dropbox"
+                data-year="2014"
+                data-title="Carousel Photo Timeline"
+                data-desc="Chronological photo stream app designed for seamless infinite scrolling memories."
+                data-tag="Consumer App • Media">Carousel</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Dropbox"
+                data-year="2014"
+                data-title="Mailbox for iOS"
+                data-desc="Pioneering swipe-to-archive gesture interactions that defined modern inbox zero."
+                data-tag="Micro-interactions • Gestures">Mailbox for iOS</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Dropbox"
+                data-year="2015"
+                data-title="Mailbox for macOS"
+                data-desc="Keyboard-first desktop mail client built for rapid keyboard navigation."
+                data-tag="Desktop UX • Productivity">Mailbox for macOS</a>
             </div>
           </div>
 
           <!-- WORK ITEM 5 -->
-          <div class="py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">Instagram</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2012–2013</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">Redesigned navigation</a>, <a href="#" class="ref-link">Full redesign & photo
-                maps</a>, <a href="#" class="ref-link">Android app</a>, <a href="#" class="ref-link">Video</a>, <a
-                href="#" class="ref-link">iOS 7 Design Force</a>
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Instagram"
+                data-year="2012"
+                data-title="Redesigned Navigation"
+                data-desc="Bottom navigation architecture tailored for one-thumb smartphone usability."
+                data-tag="Ergonomics • Information Architecture">Redesigned navigation</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Instagram"
+                data-year="2012"
+                data-title="Photo Maps & Profile"
+                data-desc="Clustered geotagged photo discovery on interactive world maps."
+                data-tag="Data Visualization • Mapping">Full redesign & photo maps</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Instagram"
+                data-year="2012"
+                data-title="Instagram for Android"
+                data-desc="Bringing Instagram's signature camera and social feed to millions of Android devices."
+                data-tag="Platform Design • Android">Android app</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Instagram"
+                data-year="2013"
+                data-title="Instagram Video Capture"
+                data-desc="Intuitive hold-to-record video storytelling mechanics and real-time stabilization."
+                data-tag="Camera UI • Video">Video</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Instagram"
+                data-year="2013"
+                data-title="iOS 7 Design Force"
+                data-desc="Stripping skeuomorphism in favor of high-contrast photography and clarity."
+                data-tag="Visual Design • Flat UI">iOS 7 Design Force</a>
             </div>
           </div>
 
           <!-- WORK ITEM 6 -->
-          <div class="pt-[49px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group pt-[49px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">Gowalla †</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2010–2011</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">Website</a>, <a href="#" class="ref-link">iOS</a>
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Gowalla †"
+                data-year="2010"
+                data-title="Web Platform Experience"
+                data-desc="Rich responsive web companion for city explorers and social passport stampers."
+                data-tag="Web UX • Community">Website</a>, 
+              <a href="#" class="ref-link preview-trigger"
+                data-company="Gowalla †"
+                data-year="2011"
+                data-title="Gowalla iOS Client"
+                data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
+                data-tag="Native iOS • Checkins">iOS</a>
             </div>
           </div>
 
@@ -439,12 +966,12 @@
 
 
     <!-- ==================== SECTION: SIDE PROJECTS ==================== -->
-    <section class="section-divider pt-[53px] pb-[72px]">
+    <section class="section-divider pt-[53px] pb-[72px] reveal-section">
       <div class="flex flex-col lg:flex-row items-start">
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge px-7">
+          <div class="section-badge px-7 reveal-badge">
             SIDE PROJECTS
           </div>
         </div>
@@ -453,10 +980,11 @@
         <div class="w-full lg:w-[1124px]">
 
           <!-- Side Project 1 -->
-          <div class="pb-[56px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group pb-[56px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">Eventication</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2018–Current</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Cofounder</div>
@@ -467,10 +995,11 @@
           </div>
 
           <!-- Side Project 2 -->
-          <div class="py-[56px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group py-[56px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">MVKB</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2021–Current</div>
             </div>
@@ -480,10 +1009,11 @@
           </div>
 
           <!-- Side Project 3 -->
-          <div class="pt-[64px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
+          <div class="work-row group pt-[64px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5">
+              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
                 <a href="#" class="ref-link">The non-work.</a>
+                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
@@ -498,12 +1028,12 @@
 
 
     <!-- ==================== SECTION: ELSEWHERE ==================== -->
-    <section class="section-divider pt-[53px] pb-[108px]">
+    <section class="section-divider pt-[53px] pb-[108px] reveal-section">
       <div class="flex flex-col lg:flex-row items-start">
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[258px]">
+          <div class="section-badge w-[258px] reveal-badge">
             ELSEWHERE
           </div>
         </div>
@@ -512,7 +1042,7 @@
         <div class="w-full lg:w-[1124px] space-y-[19px]">
 
           <!-- Item 1 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Expressive design and illustration in Figma Draw</a>
             </div>
@@ -522,7 +1052,7 @@
           </div>
 
           <!-- Item 2 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Designing Figma's UI3 icons</a>
             </div>
@@ -532,7 +1062,7 @@
           </div>
 
           <!-- Item 3 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Creatives on Creatives (Dutch)</a>
             </div>
@@ -542,7 +1072,7 @@
           </div>
 
           <!-- Item 4 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Feature Friday</a>
             </div>
@@ -552,7 +1082,7 @@
           </div>
 
           <!-- Item 5 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Change is Constant</a>
             </div>
@@ -562,7 +1092,7 @@
           </div>
 
           <!-- Item 6 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Dribbble Interview</a>
             </div>
@@ -572,7 +1102,7 @@
           </div>
 
           <!-- Item 7 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">iOS 7 Was Leggings</a>
             </div>
@@ -582,7 +1112,7 @@
           </div>
 
           <!-- Item 8 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Founder of Abstract</a>
             </div>
@@ -592,7 +1122,7 @@
           </div>
 
           <!-- Item 9 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Stop Calling the iPhone a Phone</a>
             </div>
@@ -602,7 +1132,7 @@
           </div>
 
           <!-- Item 10 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">The Right Look and Feel</a>
             </div>
@@ -612,7 +1142,7 @@
           </div>
 
           <!-- Item 11 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Working with talented people</a>
             </div>
@@ -622,7 +1152,7 @@
           </div>
 
           <!-- Item 12 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Tim Van Damme</a>
             </div>
@@ -632,7 +1162,7 @@
           </div>
 
           <!-- Item 13 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Inside the mind of a designer</a>
             </div>
@@ -642,7 +1172,7 @@
           </div>
 
           <!-- Item 14 -->
-          <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
               <a href="#" class="ref-link text-[22px] font-normal">Van Damme, that's good design</a>
             </div>
@@ -659,7 +1189,7 @@
 
     <!-- ==================== FOOTER ==================== -->
     <footer class="section-divider pt-[70px] pb-24 flex justify-end items-center">
-      <div class="transform -rotate-[3.5deg]">
+      <div class="transform -rotate-[3.5deg] transition-transform duration-300 hover:rotate-0 hover:scale-110 cursor-pointer">
         <span class="font-marker text-[#ea8676] text-[34px] tracking-wide inline-block drop-shadow-sm select-none">
           © ALKEMIST 2026
         </span>
@@ -667,6 +1197,152 @@
     </footer>
 
   </main>
+
+  <!-- ========================================================
+       INTERACTIVE JAVASCRIPT CONTROLLER
+       ======================================================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // 1. SCROLL PROGRESS BAR
+      const progressBar = document.getElementById('scroll-progress');
+      window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        if (progressBar) {
+          progressBar.style.width = progress + '%';
+        }
+      }, { passive: true });
+
+      // 2. AMBIENT MOUSE GLOW
+      window.addEventListener('pointermove', (e) => {
+        document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+      }, { passive: true });
+
+      // 3. 3D HERO TILT & DOODLE PARALLAX
+      const heroCard = document.getElementById('hero-tilt-card');
+      const doodles = document.getElementById('hero-doodles');
+      if (heroCard) {
+        let isHovered = false;
+
+        heroCard.addEventListener('mouseenter', () => {
+          isHovered = true;
+        });
+
+        heroCard.addEventListener('mouseleave', () => {
+          isHovered = false;
+          heroCard.style.transform = 'rotate(-0.6deg)';
+          if (doodles) doodles.style.transform = 'translate(0px, 0px)';
+        });
+
+        heroCard.addEventListener('mousemove', (e) => {
+          if (!isHovered) return;
+          const rect = heroCard.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+
+          const rotateX = ((y - centerY) / centerY) * -2.4;
+          const rotateY = ((x - centerX) / centerX) * 2.4;
+
+          heroCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotate(-0.6deg) scale3d(1.008, 1.008, 1.008)`;
+
+          if (doodles) {
+            const shiftX = ((x - centerX) / centerX) * 8;
+            const shiftY = ((y - centerY) / centerY) * 8;
+            doodles.style.transform = `translate(${shiftX}px, ${shiftY}px)`;
+          }
+        });
+
+        // 4. INTERACTIVE CLICK BURST SPARKLE ON HERO
+        heroCard.addEventListener('click', (e) => {
+          createBurst(e.clientX, e.clientY);
+        });
+      }
+
+      function createBurst(x, y) {
+        const star = document.createElement('div');
+        star.className = 'burst-particle';
+        star.style.left = x + 'px';
+        star.style.top = y + 'px';
+        star.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ea8676" stroke-width="2.5" stroke-linecap="round">
+            <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93" />
+          </svg>
+        `;
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 700);
+      }
+
+      // 5. FLOATING PROJECT PREVIEW CARD
+      const previewCard = document.getElementById('project-preview-card');
+      const previewTitle = document.getElementById('preview-title');
+      const previewCompany = document.getElementById('preview-company');
+      const previewYear = document.getElementById('preview-year');
+      const previewDesc = document.getElementById('preview-desc');
+      const previewTag = document.getElementById('preview-tag');
+      const triggers = document.querySelectorAll('.preview-trigger');
+
+      triggers.forEach(trigger => {
+        trigger.addEventListener('mouseenter', (e) => {
+          if (!previewCard) return;
+          previewTitle.textContent = trigger.dataset.title || trigger.textContent;
+          previewCompany.textContent = trigger.dataset.company || 'Selected Work';
+          previewYear.textContent = trigger.dataset.year || '2024';
+          previewDesc.textContent = trigger.dataset.desc || 'High-fidelity interface design & design systems.';
+          previewTag.textContent = trigger.dataset.tag || 'UX Systems • Prototyping';
+
+          previewCard.classList.add('active');
+          updatePreviewPosition(e);
+        });
+
+        trigger.addEventListener('mousemove', (e) => {
+          updatePreviewPosition(e);
+        });
+
+        trigger.addEventListener('mouseleave', () => {
+          if (previewCard) previewCard.classList.remove('active');
+        });
+      });
+
+      function updatePreviewPosition(e) {
+        if (!previewCard) return;
+        const offset = 20;
+        let left = e.clientX + offset;
+        let top = e.clientY - 120;
+
+        // Prevent offscreen overflow
+        if (left + 320 > window.innerWidth) {
+          left = e.clientX - 320;
+        }
+        if (top < 20) {
+          top = e.clientY + 20;
+        }
+
+        previewCard.style.left = left + 'px';
+        previewCard.style.top = top + 'px';
+      }
+
+      // 6. SCROLL REVEAL OBSERVER
+      const revealSections = document.querySelectorAll('.reveal-section');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      revealSections.forEach(section => observer.observe(section));
+
+    });
+  </script>
 
 </body>
 
