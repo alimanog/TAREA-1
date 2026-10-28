@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alkemist — UX/UI Design Portfolio</title>
-  <meta name="description" content="Portfolio of Alkemist — Senior UX/UI & Product Designer crafting intuitive digital experiences, design systems, and surfaces that elevate digital products.">
-  
+  <meta name="description"
+    content="Portfolio of Alkemist — Senior UX/UI & Product Designer crafting intuitive digital experiences, design systems, and surfaces that elevate digital products.">
+
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <!-- Google Fonts: Bebas Neue for outline & badges, Permanent Marker for coral script, Inter for body -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap"
+    rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -50,7 +54,7 @@
     /* Textured tactile background */
     .noise-bg {
       background-color: #161616;
-      background-image: 
+      background-image:
         radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 0),
         linear-gradient(to bottom, rgba(22, 22, 22, 0.98), #161616);
       background-size: 24px 24px, 100% 100%;
@@ -85,6 +89,7 @@
       text-decoration-color: #8c8c8c;
       transition: text-decoration-color 0.15s ease, color 0.15s ease;
     }
+
     .ref-link:hover {
       color: #ffffff;
       text-decoration-color: #ffffff;
@@ -101,101 +106,119 @@
     }
   </style>
 </head>
+
 <body class="noise-bg selection:bg-[#ea8676] selection:text-black">
 
   <main class="w-full max-w-[1920px] mx-auto px-6 sm:px-12 md:px-16 lg:px-[76px] pt-0 pb-16">
 
     <!-- ==================== HERO SECTION (Height exact 1831px to first divider) ==================== -->
     <header class="w-full relative mb-[335px]">
-      
+
       <!-- HERO IMAGE CONTAINER (1768px x 1095px) -->
-      <div class="relative w-full h-[1095px] overflow-hidden rounded-[2px] transform -rotate-[0.6deg] bg-[#111111] shadow-2xl border border-white/5 mt-0 mb-16">
-        
+      <div
+        class="relative w-full h-[1095px] overflow-hidden rounded-[2px] transform -rotate-[0.6deg] bg-[#111111] shadow-2xl border border-white/5 mt-0 mb-16">
+
         <!-- Placeholder Photo / Stage Graphic -->
         <div class="absolute inset-0 w-full h-full bg-[#141414] overflow-hidden">
-          <svg class="w-full h-full object-cover opacity-90" viewBox="0 0 1768 1095" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-full h-full object-cover opacity-90" viewBox="0 0 1768 1095" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <defs>
               <radialGradient id="stageGlow" cx="50%" cy="30%" r="60%">
-                <stop offset="0%" stop-color="#3a3a3a"/>
-                <stop offset="60%" stop-color="#181818"/>
-                <stop offset="100%" stop-color="#0e0e0e"/>
+                <stop offset="0%" stop-color="#3a3a3a" />
+                <stop offset="60%" stop-color="#181818" />
+                <stop offset="100%" stop-color="#0e0e0e" />
               </radialGradient>
               <pattern id="dotPattern" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                <circle cx="6" cy="6" r="1.5" fill="#ffffff" fill-opacity="0.08"/>
+                <circle cx="6" cy="6" r="1.5" fill="#ffffff" fill-opacity="0.08" />
               </pattern>
             </defs>
-            <rect width="1768" height="1095" fill="url(#stageGlow)"/>
-            <rect width="1768" height="1095" fill="url(#dotPattern)"/>
-            
+            <rect width="1768" height="1095" fill="url(#stageGlow)" />
+            <rect width="1768" height="1095" fill="url(#dotPattern)" />
+
             <!-- Large circular logo on presentation screen behind presenter -->
-            <circle cx="620" cy="240" r="280" stroke="#ffffff" stroke-opacity="0.25" stroke-width="14" fill="#181818" fill-opacity="0.8"/>
-            <circle cx="620" cy="240" r="240" stroke="#ffffff" stroke-opacity="0.35" stroke-width="8" stroke-dasharray="8 8"/>
-            <path d="M620 110 L620 370 M490 240 L750 240" stroke="#ffffff" stroke-opacity="0.2" stroke-width="6"/>
+            <circle cx="620" cy="240" r="280" stroke="#ffffff" stroke-opacity="0.25" stroke-width="14" fill="#181818"
+              fill-opacity="0.8" />
+            <circle cx="620" cy="240" r="240" stroke="#ffffff" stroke-opacity="0.35" stroke-width="8"
+              stroke-dasharray="8 8" />
+            <path d="M620 110 L620 370 M490 240 L750 240" stroke="#ffffff" stroke-opacity="0.2" stroke-width="6" />
 
             <!-- Stage text on backdrop screen -->
-            <text x="380" y="540" font-family="'Inter', sans-serif" font-weight="900" font-size="64" fill="#ffffff" fill-opacity="0.35" letter-spacing="2">Alkemist Live</text>
-            <text x="490" y="600" font-family="'Inter', sans-serif" font-weight="700" font-size="34" fill="#ffffff" fill-opacity="0.2" letter-spacing="1">Config 2026</text>
+            <text x="380" y="540" font-family="'Inter', sans-serif" font-weight="900" font-size="64" fill="#ffffff"
+              fill-opacity="0.35" letter-spacing="2">Alkemist Live</text>
+            <text x="490" y="600" font-family="'Inter', sans-serif" font-weight="700" font-size="34" fill="#ffffff"
+              fill-opacity="0.2" letter-spacing="1">Config 2026</text>
 
             <!-- Presenter Silhouette & Laptop Podium -->
-            <path d="M1020 1095 C1030 890, 1080 760, 1160 660 C1200 610, 1260 600, 1310 600 C1370 600, 1420 620, 1460 670 C1550 780, 1600 920, 1630 1095 Z" fill="#2c2d30"/>
-            <path d="M1160 660 C1200 740, 1240 890, 1260 1095 L1400 1095 C1410 920, 1430 760, 1460 670 Z" fill="#383a3f"/>
-            <ellipse cx="1300" cy="490" rx="90" ry="110" fill="#4a4b50"/>
+            <path
+              d="M1020 1095 C1030 890, 1080 760, 1160 660 C1200 610, 1260 600, 1310 600 C1370 600, 1420 620, 1460 670 C1550 780, 1600 920, 1630 1095 Z"
+              fill="#2c2d30" />
+            <path d="M1160 660 C1200 740, 1240 890, 1260 1095 L1400 1095 C1410 920, 1430 760, 1460 670 Z"
+              fill="#383a3f" />
+            <ellipse cx="1300" cy="490" rx="90" ry="110" fill="#4a4b50" />
             <!-- Baseball Cap -->
-            <path d="M1200 460 C1210 360, 1390 360, 1400 460 Z" fill="#d0d0d2"/>
-            <path d="M1170 460 C1220 440, 1370 440, 1420 460 C1380 485, 1210 485, 1170 460 Z" fill="#1c1c1e"/>
-            <rect x="1275" y="385" width="50" height="35" rx="4" fill="#222224" stroke="#ffffff" stroke-width="2"/>
+            <path d="M1200 460 C1210 360, 1390 360, 1400 460 Z" fill="#d0d0d2" />
+            <path d="M1170 460 C1220 440, 1370 440, 1420 460 C1380 485, 1210 485, 1170 460 Z" fill="#1c1c1e" />
+            <rect x="1275" y="385" width="50" height="35" rx="4" fill="#222224" stroke="#ffffff" stroke-width="2" />
             <!-- Headset mic -->
-            <path d="M1380 500 Q1350 550 1320 560" stroke="#111111" stroke-width="4" fill="none"/>
-            <circle cx="1320" cy="560" r="6" fill="#111111"/>
+            <path d="M1380 500 Q1350 550 1320 560" stroke="#111111" stroke-width="4" fill="none" />
+            <circle cx="1320" cy="560" r="6" fill="#111111" />
 
             <!-- Presenter Laptop & Podium -->
-            <polygon points="980,860 1340,820 1360,1095 960,1095" fill="#26272b" stroke="#333336" stroke-width="3"/>
-            <polygon points="970,860 1320,810 1300,1010 950,1060" fill="#e8e8ea" stroke="#ffffff" stroke-width="4"/>
+            <polygon points="980,860 1340,820 1360,1095 960,1095" fill="#26272b" stroke="#333336" stroke-width="3" />
+            <polygon points="970,860 1320,810 1300,1010 950,1060" fill="#e8e8ea" stroke="#ffffff" stroke-width="4" />
             <!-- Laptop stickers -->
-            <rect x="1000" y="880" width="60" height="24" rx="3" fill="#333333"/>
-            <circle cx="1230" cy="880" r="18" fill="#333333"/>
-            <circle cx="1120" cy="930" r="22" fill="#555555"/>
-            <rect x="1170" y="920" width="80" height="30" rx="4" fill="#333333"/>
+            <rect x="1000" y="880" width="60" height="24" rx="3" fill="#333333" />
+            <circle cx="1230" cy="880" r="18" fill="#333333" />
+            <circle cx="1120" cy="930" r="22" fill="#555555" />
+            <rect x="1170" y="920" width="80" height="30" rx="4" fill="#333333" />
 
             <!-- Placeholder label in bottom left of hero -->
-            <rect x="80" y="980" width="340" height="48" rx="4" fill="#000000" fill-opacity="0.65"/>
-            <text x="96" y="1012" font-family="'Inter', sans-serif" font-weight="600" font-size="18" fill="#a0a0a0" letter-spacing="1">PLACEHOLDER HERO IMAGE</text>
+            <rect x="80" y="980" width="340" height="48" rx="4" fill="#000000" fill-opacity="0.65" />
+            <text x="96" y="1012" font-family="'Inter', sans-serif" font-weight="600" font-size="18" fill="#a0a0a0"
+              letter-spacing="1">PLACEHOLDER HERO IMAGE</text>
           </svg>
 
           <!-- DOODLES OVERLAY MATCHING REFERENCE (Devil horns, glasses, mustache, goatee, rays, pointer, tail) -->
-          <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1768 1095" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1768 1095" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <!-- Devil Horns on baseball cap -->
-            <path d="M1215 360 C1200 280, 1225 220, 1265 250 C1245 280, 1240 310, 1248 355" stroke="#ea8676" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M1365 355 C1385 280, 1430 240, 1395 300 C1380 325, 1370 340, 1350 375" stroke="#ea8676" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-            
+            <path d="M1215 360 C1200 280, 1225 220, 1265 250 C1245 280, 1240 310, 1248 355" stroke="#ea8676"
+              stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M1365 355 C1385 280, 1430 240, 1395 300 C1380 325, 1370 340, 1350 375" stroke="#ea8676"
+              stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+
             <!-- Devil Glasses -->
-            <circle cx="1260" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            <circle cx="1350" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            <path d="M1306 495 Q1315 480 1324 495" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            
+            <circle cx="1260" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <circle cx="1350" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <path d="M1306 495 Q1315 480 1324 495" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+
             <!-- Curled Handlebar Mustache -->
-            <path d="M1230 555 C1250 515, 1295 555, 1308 545 C1320 555, 1365 515, 1385 555 C1350 575, 1308 560, 1308 560 C1308 560, 1265 575, 1230 555 Z" fill="#ea8676"/>
-            
+            <path
+              d="M1230 555 C1250 515, 1295 555, 1308 545 C1320 555, 1365 515, 1385 555 C1350 575, 1308 560, 1308 560 C1308 560, 1265 575, 1230 555 Z"
+              fill="#ea8676" />
+
             <!-- Pointed Goatee / Beard -->
-            <polygon points="1295,610 1308,680 1322,610" fill="#ea8676"/>
+            <polygon points="1295,610 1308,680 1322,610" fill="#ea8676" />
 
             <!-- Devil Tail on Right -->
-            <path d="M1500 820 C1590 770, 1680 530, 1620 370 C1595 320, 1575 370, 1585 405" stroke="#ea8676" stroke-width="9" stroke-linecap="round"/>
-            <polygon points="1620,365 1665,310 1600,330" fill="#ea8676"/>
+            <path d="M1500 820 C1590 770, 1680 530, 1620 370 C1595 320, 1575 370, 1585 405" stroke="#ea8676"
+              stroke-width="9" stroke-linecap="round" />
+            <polygon points="1620,365 1665,310 1600,330" fill="#ea8676" />
 
             <!-- Radiating Idea Sparks / Rays above laptop -->
-            <line x1="840" y1="800" x2="770" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            <line x1="910" y1="750" x2="860" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            <line x1="1000" y1="720" x2="980" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            <line x1="1090" y1="750" x2="1140" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            
+            <line x1="840" y1="800" x2="770" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line x1="910" y1="750" x2="860" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line x1="1000" y1="720" x2="980" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line x1="1090" y1="750" x2="1140" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+
             <!-- Horizontal Energy Marks next to laptop -->
-            <line x1="720" y1="920" x2="820" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            <line x1="730" y1="985" x2="845" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
+            <line x1="720" y1="920" x2="820" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <line x1="730" y1="985" x2="845" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
 
             <!-- Mouse Pointer & Sparkles on top right -->
-            <path d="M1570 90 C1545 115, 1590 165, 1635 125 C1655 100, 1610 70, 1570 90 Z" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
-            <line x1="1635" y1="125" x2="1695" y2="175" stroke="#ea8676" stroke-width="8" stroke-linecap="round"/>
+            <path d="M1570 90 C1545 115, 1590 165, 1635 125 C1655 100, 1610 70, 1570 90 Z" stroke="#ea8676"
+              stroke-width="8" stroke-linecap="round" />
+            <line x1="1635" y1="125" x2="1695" y2="175" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
           </svg>
         </div>
 
@@ -206,22 +229,16 @@
         <!-- Giant Stroked Tube Outline Heading -->
         <div class="w-full">
           <svg viewBox="0 0 1768 250" class="w-full h-auto overflow-visible block" xmlns="http://www.w3.org/2000/svg">
-            <text x="0" y="215" 
-                  font-family="'Bebas Neue', sans-serif" 
-                  font-size="265" 
-                  font-weight="900" 
-                  fill="none" 
-                  stroke="#e2e2e2" 
-                  stroke-width="5" 
-                  stroke-linejoin="round" 
-                  stroke-linecap="round" 
-                  letter-spacing="6">ALKEMIST</text>
+            <text x="0" y="215" font-family="'Bebas Neue', sans-serif" font-size="265" font-weight="900" fill="none"
+              stroke="#e2e2e2" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"
+              letter-spacing="6">ALKEMIST</text>
           </svg>
         </div>
 
         <!-- Hand-drawn Marker Moniker / Subtitle tilted & overlapping -->
         <div class="transform -rotate-[3.5deg] -mt-12 sm:-mt-20 md:-mt-28 lg:-mt-32 ml-8 sm:ml-20 md:ml-36 lg:ml-48">
-          <span class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg">
+          <span
+            class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg">
             UX/UI DESIGN
           </span>
         </div>
@@ -233,7 +250,7 @@
     <!-- ==================== SECTION: ABOUT ==================== -->
     <section class="section-divider pt-[53px] pb-[98px]">
       <div class="flex flex-col lg:flex-row items-start">
-        
+
         <!-- Left Column: Badge (Fixed 644px column width on 1920 desktop) -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
           <div class="section-badge w-[160px]">
@@ -242,12 +259,16 @@
         </div>
 
         <!-- Right Content: 2 Columns of Body Text -->
-        <div class="w-full lg:w-[1124px] flex flex-col md:flex-row gap-12 lg:gap-[66px] text-[23px] leading-[40px] text-[#e0e0e0] font-normal">
-          
+        <div
+          class="w-full lg:w-[1124px] flex flex-col md:flex-row gap-12 lg:gap-[66px] text-[23px] leading-[40px] text-[#e0e0e0] font-normal">
+
           <!-- Column 1 -->
           <div class="w-full md:w-[520px] flex-shrink-0">
             <p class="mb-7">
-              Alkemist (aka. <a href="#work" class="ref-link font-medium text-white">Alex Morgan</a>) is a principal UX/UI designer and design systems architect, crafting digital surfaces that feel natural, tactile, and effortless — work that's everywhere in the product and, by design, mostly unnoticed. Craft is the through-line. He sets a high bar, holds it, and pulls the work around him up to meet it.
+              Alkemist (aka. <a href="#work" class="ref-link font-medium text-white">Alex Morgan</a>) is a principal
+              UX/UI designer and design systems architect, crafting digital surfaces that feel natural, tactile, and
+              effortless — work that's everywhere in the product and, by design, mostly unnoticed. Craft is the
+              through-line. He sets a high bar, holds it, and pulls the work around him up to meet it.
             </p>
             <p>
               He's also a connector. He jams readily, prototypes to think, and makes a habit of asking
@@ -257,13 +278,16 @@
           <!-- Column 2 -->
           <div class="w-full md:w-[538px] flex-shrink-0">
             <p class="mb-9">
-              the obvious question nobody else wants to raise. He builds community as seriously as he builds systems — from accessible tokens to the tools designers actually want to use — and has a reputation for making the people around him better without needing credit for it.
+              the obvious question nobody else wants to raise. He builds community as seriously as he builds systems —
+              from accessible tokens to the tools designers actually want to use — and has a reputation for making the
+              people around him better without needing credit for it.
             </p>
 
             <!-- Dotted line & Editor's Note -->
             <div class="border-t border-dotted border-neutral-600/80 pt-6 mt-10">
               <p class="text-[14px] tracking-wider text-neutral-400 font-medium uppercase leading-[22px]">
-                <span class="font-bold text-neutral-200">ED. NOTE</span> — Synthesized from colleagues' notes & retrospectives; my impostor syndrome would never let me write this.
+                <span class="font-bold text-neutral-200">ED. NOTE</span> — Synthesized from colleagues' notes &
+                retrospectives; my impostor syndrome would never let me write this.
               </p>
             </div>
           </div>
@@ -277,7 +301,7 @@
     <!-- ==================== SECTION: LINKS ==================== -->
     <section class="section-divider pt-[53px] pb-[68px]">
       <div class="flex flex-col lg:flex-row items-center">
-        
+
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-6 lg:mb-0">
           <div class="section-badge w-[146px]">
@@ -286,7 +310,8 @@
         </div>
 
         <!-- Right Content: Horizontal List of Links -->
-        <div class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-3 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
+        <div
+          class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-3 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
           <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link">Twitter/X</a>
           <span class="text-neutral-500 mx-1.5">•</span>
           <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link">Instagram</a>
@@ -305,7 +330,7 @@
     <!-- ==================== SECTION: WORK ==================== -->
     <section id="work" class="section-divider pt-[53px] pb-[72px]">
       <div class="flex flex-col lg:flex-row items-start">
-        
+
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
           <div class="section-badge w-[148px]">
@@ -315,7 +340,7 @@
 
         <!-- Right Content: List of Roles -->
         <div class="w-full lg:w-[1124px]">
-          
+
           <!-- WORK ITEM 1 -->
           <div class="pb-[54px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
             <div class="w-full md:w-[520px] flex-shrink-0">
@@ -326,7 +351,8 @@
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">UI3</a>, <a href="#" class="ref-link">Icons/rebrand</a>, <a href="#" class="ref-link">Draw</a>
+              <a href="#" class="ref-link">UI3</a>, <a href="#" class="ref-link">Icons/rebrand</a>, <a href="#"
+                class="ref-link">Draw</a>
             </div>
           </div>
 
@@ -354,7 +380,9 @@
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer, first employee</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">Alpha</a>, <a href="#" class="ref-link">Beta</a>, <a href="#" class="ref-link">Sketch Libraries</a>, <a href="#" class="ref-link">Compare mode</a>, <a href="#" class="ref-link">Dark mode</a>, <span class="text-neutral-400">...</span>
+              <a href="#" class="ref-link">Alpha</a>, <a href="#" class="ref-link">Beta</a>, <a href="#"
+                class="ref-link">Sketch Libraries</a>, <a href="#" class="ref-link">Compare mode</a>, <a href="#"
+                class="ref-link">Dark mode</a>, <span class="text-neutral-400">...</span>
             </div>
           </div>
 
@@ -368,7 +396,9 @@
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">iOS 7 redesign</a>, <a href="#" class="ref-link">App icons</a>, <a href="#" class="ref-link">Carousel</a>, <a href="#" class="ref-link">Mailbox for iOS</a>, <a href="#" class="ref-link">Mailbox for macOS</a>
+              <a href="#" class="ref-link">iOS 7 redesign</a>, <a href="#" class="ref-link">App icons</a>, <a href="#"
+                class="ref-link">Carousel</a>, <a href="#" class="ref-link">Mailbox for iOS</a>, <a href="#"
+                class="ref-link">Mailbox for macOS</a>
             </div>
           </div>
 
@@ -382,7 +412,9 @@
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link">Redesigned navigation</a>, <a href="#" class="ref-link">Full redesign & photo maps</a>, <a href="#" class="ref-link">Android app</a>, <a href="#" class="ref-link">Video</a>, <a href="#" class="ref-link">iOS 7 Design Force</a>
+              <a href="#" class="ref-link">Redesigned navigation</a>, <a href="#" class="ref-link">Full redesign & photo
+                maps</a>, <a href="#" class="ref-link">Android app</a>, <a href="#" class="ref-link">Video</a>, <a
+                href="#" class="ref-link">iOS 7 Design Force</a>
             </div>
           </div>
 
@@ -409,7 +441,7 @@
     <!-- ==================== SECTION: SIDE PROJECTS ==================== -->
     <section class="section-divider pt-[53px] pb-[72px]">
       <div class="flex flex-col lg:flex-row items-start">
-        
+
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
           <div class="section-badge px-7">
@@ -419,7 +451,7 @@
 
         <!-- Right Content -->
         <div class="w-full lg:w-[1124px]">
-          
+
           <!-- Side Project 1 -->
           <div class="pb-[56px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start">
             <div class="w-full md:w-[520px] flex-shrink-0">
@@ -468,7 +500,7 @@
     <!-- ==================== SECTION: ELSEWHERE ==================== -->
     <section class="section-divider pt-[53px] pb-[108px]">
       <div class="flex flex-col lg:flex-row items-start">
-        
+
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
           <div class="section-badge w-[258px]">
@@ -478,7 +510,7 @@
 
         <!-- Right Content: 14 Items List with precise two-column alignment -->
         <div class="w-full lg:w-[1124px] space-y-[19px]">
-          
+
           <!-- Item 1 -->
           <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
             <div class="w-full sm:w-[520px] flex-shrink-0">
@@ -637,4 +669,5 @@
   </main>
 
 </body>
+
 </html>
