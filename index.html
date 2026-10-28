@@ -73,6 +73,42 @@
       transition: opacity 0.4s ease;
     }
 
+    /* Custom Elastic Cursor Follower */
+    #cursor-follower {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid rgba(234, 134, 118, 0.65);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+      will-change: left, top, width, height;
+    }
+
+    #cursor-follower.cursor-hover {
+      width: 56px;
+      height: 56px;
+      background-color: rgba(234, 134, 118, 0.12);
+      border-color: #ea8676;
+    }
+
+    #cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      background-color: #ea8676;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+    }
+
     /* Reading Progress Bar */
     #scroll-progress {
       position: fixed;
@@ -104,18 +140,14 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
       user-select: none;
       white-space: nowrap;
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background-color 0.2s ease, color 0.2s ease;
+      transition: box-shadow 0.25s ease, background-color 0.2s ease, color 0.2s ease;
       cursor: pointer;
+      will-change: transform;
     }
 
     .section-badge:hover {
-      transform: translateY(-4px) scale(1.03) rotate(-0.5deg);
       background-color: #ffffff;
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(234, 134, 118, 0.5);
-    }
-
-    .section-badge:active {
-      transform: translateY(2px) scale(0.97);
     }
 
     /* Links & Underlines */
@@ -146,8 +178,31 @@
     }
 
     /* ========================================================
-       KEYFRAME ANIMATIONS FOR HERO DOODLES & ELEMENTS
+       KEYFRAME ANIMATIONS & SQUIGGLEVISION FILTER
        ======================================================== */
+
+    /* Organic Hand-Drawn Squigglevision (cartoon frame vibration) */
+    @keyframes squigglevision {
+      0% {
+        filter: url(#squiggle-0);
+      }
+      25% {
+        filter: url(#squiggle-1);
+      }
+      50% {
+        filter: url(#squiggle-2);
+      }
+      75% {
+        filter: url(#squiggle-3);
+      }
+      100% {
+        filter: url(#squiggle-0);
+      }
+    }
+
+    .squiggle-alive {
+      animation: squigglevision 0.4s steps(1) infinite;
+    }
 
     /* Wagging devil tail */
     @keyframes tailWag {
@@ -169,7 +224,7 @@
     }
 
     .doodle-tail:hover {
-      filter: drop-shadow(0 0 8px rgba(234, 134, 118, 0.8));
+      filter: drop-shadow(0 0 10px rgba(234, 134, 118, 0.9));
     }
 
     /* Radiating Idea Sparks / Rays */
@@ -354,7 +409,7 @@
     }
 
     .work-row:hover {
-      background-color: rgba(255, 255, 255, 0.032);
+      background-color: rgba(255, 255, 255, 0.035);
       transform: translateX(8px);
     }
 
@@ -470,6 +525,61 @@
       }
     }
 
+    /* Interactive Doodle Drawing Canvas Overlay */
+    #doodle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 40;
+      pointer-events: none;
+      cursor: crosshair;
+    }
+
+    #doodle-canvas.active {
+      pointer-events: auto;
+    }
+
+    /* Interactive Case Study Drawer Modal */
+    #case-study-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(10, 10, 12, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #case-study-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #case-study-content {
+      width: 100%;
+      max-width: 900px;
+      max-height: 85vh;
+      overflow-y: auto;
+      background: #18191c;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(234, 134, 118, 0.3);
+      padding: 36px 40px;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #case-study-modal.open #case-study-content {
+      transform: translateY(0);
+    }
+
     /* Accessibility: Respect Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
       *, ::before, ::after {
@@ -482,17 +592,60 @@
         opacity: 1 !important;
         transform: none !important;
       }
+      .squiggle-alive {
+        animation: none !important;
+      }
     }
   </style>
 </head>
 
 <body class="noise-bg selection:bg-[#ea8676] selection:text-black relative">
 
+  <!-- SVG Squigglevision Filters for Alive Hand-Drawn Wiggle -->
+  <svg class="hidden" width="0" height="0">
+    <defs>
+      <filter id="squiggle-0">
+        <feTurbulence id="turbulence-0" baseFrequency="0.02" numOctaves="3" result="noise" seed="0" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="squiggle-1">
+        <feTurbulence id="turbulence-1" baseFrequency="0.02" numOctaves="3" result="noise" seed="1" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="squiggle-2">
+        <feTurbulence id="turbulence-2" baseFrequency="0.02" numOctaves="3" result="noise" seed="2" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="squiggle-3">
+        <feTurbulence id="turbulence-3" baseFrequency="0.02" numOctaves="3" result="noise" seed="3" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
   <!-- Reading Progress Bar -->
   <div id="scroll-progress"></div>
 
+  <!-- Custom Elastic Cursor Follower & Dot -->
+  <div id="cursor-follower" class="hidden md:block"></div>
+  <div id="cursor-dot" class="hidden md:block"></div>
+
   <!-- Ambient Cursor Glow Follower -->
   <div id="ambient-glow" class="ambient-glow"></div>
+
+  <!-- Fullscreen Interactive Doodle Canvas -->
+  <canvas id="doodle-canvas"></canvas>
+
+  <!-- Floating Controls (Doodle Mode & Canvas Clear) -->
+  <div class="fixed bottom-6 right-6 z-50 flex items-center gap-2">
+    <button id="clear-doodle-btn" class="hidden px-3.5 py-2 rounded-full bg-neutral-800/90 border border-neutral-600/80 text-neutral-300 font-mono text-xs uppercase hover:bg-red-500/20 hover:text-red-300 transition-all shadow-lg backdrop-blur-md">
+      Clear ↺
+    </button>
+    <button id="doodle-toggle-btn" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#18181b]/90 border border-neutral-700/80 text-white font-mono text-xs tracking-wider uppercase shadow-2xl hover:bg-[#ea8676] hover:text-black hover:border-[#ea8676] transition-all backdrop-blur-md cursor-pointer select-none">
+      <span class="animate-bounce">✏️</span>
+      <span id="doodle-status-text">DOODLE MODE: OFF</span>
+    </button>
+  </div>
 
   <!-- Interactive Floating Project Preview Card -->
   <div id="project-preview-card">
@@ -502,9 +655,79 @@
     </div>
     <h4 id="preview-title" class="text-[18px] font-bold text-white mb-1.5 leading-snug">Project Name</h4>
     <p id="preview-desc" class="text-[13px] text-neutral-300 leading-relaxed mb-3">Product design and user experience craftsmanship.</p>
-    <div class="flex items-center gap-1.5 pt-2 border-t border-neutral-700/60">
-      <span class="inline-block w-2 h-2 rounded-full bg-[#ea8676] animate-pulse"></span>
-      <span id="preview-tag" class="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">UX Systems • Prototyping</span>
+    <div class="flex items-center justify-between pt-2 border-t border-neutral-700/60 text-[11px] font-mono text-neutral-400">
+      <span class="flex items-center gap-1.5">
+        <span class="inline-block w-2 h-2 rounded-full bg-[#ea8676] animate-pulse"></span>
+        <span id="preview-tag">UX Systems • Prototyping</span>
+      </span>
+      <span class="text-[#ea8676] font-semibold">Click to view ↗</span>
+    </div>
+  </div>
+
+  <!-- Interactive Case Study Drawer Modal -->
+  <div id="case-study-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div id="case-study-content">
+      <div class="flex items-center justify-between pb-6 border-b border-neutral-800">
+        <div>
+          <span id="modal-company-badge" class="px-2.5 py-1 rounded bg-[#ea8676]/20 text-[#ea8676] font-mono text-xs uppercase tracking-wider font-semibold">FIGMA</span>
+          <span id="modal-year" class="text-neutral-400 font-mono text-xs ml-3">2024</span>
+        </div>
+        <button id="modal-close-btn" class="w-9 h-9 rounded-full bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700 flex items-center justify-center font-mono text-sm transition-colors cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <div class="py-6">
+        <h2 id="modal-title" class="text-3xl sm:text-4xl font-heading font-black tracking-wide text-white mb-3">UI3 Canvas & Toolbar Overhaul</h2>
+        <p id="modal-desc" class="text-lg text-neutral-300 leading-relaxed mb-6 font-normal">
+          A systematic transformation of Figma's desktop workspace, introducing ergonomics for spatial canvas computing, dynamic floating panels, and tactile tokens.
+        </p>
+
+        <!-- Mockup Interface Card -->
+        <div class="relative w-full h-64 bg-[#111113] rounded-xl border border-neutral-800 p-6 overflow-hidden flex flex-col justify-between mb-8 shadow-inner">
+          <div class="flex items-center justify-between border-b border-neutral-800/80 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+            </div>
+            <span class="font-mono text-xs text-neutral-500">figma.com/file/canvas-ui3</span>
+            <span class="text-xs font-mono text-[#ea8676]">LIVE PROTOTYPE</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 my-auto py-2">
+            <div class="p-3 bg-neutral-900/90 rounded border border-neutral-700/50">
+              <div class="text-xs text-neutral-400 font-mono">CANVAS PERFORMANCE</div>
+              <div class="text-xl font-bold text-white mt-1">120 FPS</div>
+              <div class="text-[11px] text-[#ea8676] mt-0.5">Smooth GPU Acceleration</div>
+            </div>
+            <div class="p-3 bg-neutral-900/90 rounded border border-neutral-700/50">
+              <div class="text-xs text-neutral-400 font-mono">TOKEN COVERAGE</div>
+              <div class="text-xl font-bold text-white mt-1">100% WCAG</div>
+              <div class="text-[11px] text-[#ea8676] mt-0.5">Dark & High Contrast</div>
+            </div>
+            <div class="p-3 bg-neutral-900/90 rounded border border-neutral-700/50">
+              <div class="text-xs text-neutral-400 font-mono">CLICK ACCURACY</div>
+              <div class="text-xl font-bold text-white mt-1">+34.8%</div>
+              <div class="text-[11px] text-[#ea8676] mt-0.5">Sub-pixel hit areas</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-neutral-800/80 text-xs font-mono text-neutral-400">
+            <span>Role: Principal UX & Interaction Architect</span>
+            <span>Duration: 18 Months</span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h4 class="text-sm font-mono uppercase tracking-widest text-neutral-400">Key Architectural Deliverables</h4>
+          <ul class="space-y-2 text-neutral-300 list-disc list-inside">
+            <li>Floating bottom-center toolbar ergonomics tested with over 4,000 professional designers.</li>
+            <li>Zero-latency micro-interactions and tactile physics for snapping, resizing, and dragging surfaces.</li>
+            <li>Accessible typography scaling token system with sub-pixel alignment for OLED & Retina screens.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -577,8 +800,8 @@
               letter-spacing="1">PLACEHOLDER HERO IMAGE</text>
           </svg>
 
-          <!-- DOODLES OVERLAY MATCHING REFERENCE (Devil horns, glasses, mustache, goatee, rays, pointer, tail) -->
-          <svg id="hero-doodles" class="absolute inset-0 w-full h-full pointer-events-none transition-transform duration-200 ease-out" viewBox="0 0 1768 1095" fill="none"
+          <!-- DOODLES OVERLAY MATCHING REFERENCE (With organic Squigglevision vibration) -->
+          <svg id="hero-doodles" class="absolute inset-0 w-full h-full pointer-events-none transition-transform duration-200 ease-out squiggle-alive" viewBox="0 0 1768 1095" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             
             <!-- Devil Horns on baseball cap (with twitch animation) -->
@@ -645,7 +868,7 @@
         <!-- Hand-drawn Marker Moniker / Subtitle tilted & overlapping with stamp-in animation -->
         <div class="transform -rotate-[3.5deg] -mt-12 sm:-mt-20 md:-mt-28 lg:-mt-32 ml-8 sm:ml-20 md:ml-36 lg:ml-48">
           <span
-            class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg marker-stamp">
+            class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg marker-stamp magnetic-target">
             UX/UI DESIGN
           </span>
         </div>
@@ -660,7 +883,7 @@
 
         <!-- Left Column: Badge (Fixed 644px column width on 1920 desktop) -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[160px] reveal-badge">
+          <div class="section-badge w-[160px] reveal-badge magnetic-target scramble-trigger" data-original="ABOUT">
             ABOUT
           </div>
         </div>
@@ -672,7 +895,7 @@
           <!-- Column 1 -->
           <div class="w-full md:w-[520px] flex-shrink-0">
             <p class="mb-7">
-              Alkemist (aka. <a href="#work" class="ref-link font-medium text-white">Alex Morgan</a>) is a principal
+              Alkemist (aka. <a href="#work" class="ref-link font-medium text-white hover:text-[#ea8676]">Alex Morgan</a>) is a principal
               UX/UI designer and design systems architect, crafting digital surfaces that feel natural, tactile, and
               effortless — work that's everywhere in the product and, by design, mostly unnoticed. Craft is the
               through-line. He sets a high bar, holds it, and pulls the work around him up to meet it.
@@ -711,7 +934,7 @@
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-6 lg:mb-0">
-          <div class="section-badge w-[146px] reveal-badge">
+          <div class="section-badge w-[146px] reveal-badge magnetic-target scramble-trigger" data-original="LINKS">
             LINKS
           </div>
         </div>
@@ -719,15 +942,15 @@
         <!-- Right Content: Horizontal List of Links -->
         <div
           class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-2 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
-          <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link link-pill">Twitter/X</a>
+          <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Twitter/X</a>
           <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link link-pill">Instagram</a>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Instagram</a>
           <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://bsky.app" target="_blank" rel="noreferrer" class="ref-link link-pill">Bluesky</a>
+          <a href="https://bsky.app" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Bluesky</a>
           <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://threads.net" target="_blank" rel="noreferrer" class="ref-link link-pill">Threads</a>
+          <a href="https://threads.net" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Threads</a>
           <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="ref-link link-pill">LinkedIn</a>
+          <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">LinkedIn</a>
         </div>
 
       </div>
@@ -740,7 +963,7 @@
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[148px] reveal-badge">
+          <div class="section-badge w-[148px] reveal-badge magnetic-target scramble-trigger" data-original="WORK">
             WORK
           </div>
         </div>
@@ -752,26 +975,26 @@
           <div class="work-row group pb-[54px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">Figma</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="Figma">Figma</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2023–Current</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Figma"
                 data-year="2024"
-                data-title="UI3 Canvas & Toolbar"
+                data-title="UI3 Canvas & Toolbar Overhaul"
                 data-desc="Next-generation overhaul of Figma's canvas, floating toolbar, and modern dark inspector."
                 data-tag="Core Architecture • Design System">UI3</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Figma"
                 data-year="2024"
-                data-title="Icons & Rebrand"
+                data-title="Icons & Rebrand System"
                 data-desc="Comprehensive iconographic system designed for optical clarity across retina displays."
                 data-tag="Iconography • Systems">Icons/rebrand</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Figma"
                 data-year="2025"
                 data-title="Figma Draw Suite"
@@ -784,14 +1007,14 @@
           <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">Gowalla †</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2021–2023</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Gowalla †"
                 data-year="2022"
                 data-title="Gowalla 2.0 Passport"
@@ -804,38 +1027,38 @@
           <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">Abstract †</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="Abstract †">Abstract †</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2016–2021</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer, first employee</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Abstract †"
                 data-year="2016"
                 data-title="Abstract Alpha Engine"
                 data-desc="Foundational Git-based version control UI built specifically for Sketch & design teams."
                 data-tag="Version Control • Desktop">Alpha</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Abstract †"
                 data-year="2017"
                 data-title="Abstract Public Beta"
                 data-desc="Branching, merging, and visual commit flows scaled to thousands of design organizations."
                 data-tag="Product Growth • Core UX">Beta</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Abstract †"
                 data-year="2018"
                 data-title="Sketch Libraries Sync"
                 data-desc="Centralized distributed design library distribution with dependency resolution."
                 data-tag="Design Ops • Infrastructure">Sketch Libraries</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Abstract †"
                 data-year="2019"
                 data-title="Visual Compare Mode"
                 data-desc="Side-by-side and onion-skin differential inspectors for graphic revisions."
                 data-tag="Inspection UX • Diffing">Compare mode</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Abstract †"
                 data-year="2020"
                 data-title="Dark Mode Experience"
@@ -849,38 +1072,38 @@
           <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">Dropbox</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="Dropbox">Dropbox</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2013–2015</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Dropbox"
                 data-year="2013"
                 data-title="iOS 7 Complete Redesign"
                 data-desc="Ground-up architectural redesign embracing fluid gestures and typography hierarchy."
                 data-tag="Mobile Platform • iOS">iOS 7 redesign</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Dropbox"
                 data-year="2014"
                 data-title="Suite App Icons"
                 data-desc="Tactile glyphs and grid alignment across all Dropbox ecosystem applications."
                 data-tag="Brand Design • Glyphs">App icons</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Dropbox"
                 data-year="2014"
                 data-title="Carousel Photo Timeline"
                 data-desc="Chronological photo stream app designed for seamless infinite scrolling memories."
                 data-tag="Consumer App • Media">Carousel</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Dropbox"
                 data-year="2014"
                 data-title="Mailbox for iOS"
                 data-desc="Pioneering swipe-to-archive gesture interactions that defined modern inbox zero."
                 data-tag="Micro-interactions • Gestures">Mailbox for iOS</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Dropbox"
                 data-year="2015"
                 data-title="Mailbox for macOS"
@@ -893,38 +1116,38 @@
           <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">Instagram</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="Instagram">Instagram</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2012–2013</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Instagram"
                 data-year="2012"
                 data-title="Redesigned Navigation"
                 data-desc="Bottom navigation architecture tailored for one-thumb smartphone usability."
                 data-tag="Ergonomics • Information Architecture">Redesigned navigation</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Instagram"
                 data-year="2012"
                 data-title="Photo Maps & Profile"
                 data-desc="Clustered geotagged photo discovery on interactive world maps."
                 data-tag="Data Visualization • Mapping">Full redesign & photo maps</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Instagram"
                 data-year="2012"
                 data-title="Instagram for Android"
                 data-desc="Bringing Instagram's signature camera and social feed to millions of Android devices."
                 data-tag="Platform Design • Android">Android app</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Instagram"
                 data-year="2013"
                 data-title="Instagram Video Capture"
                 data-desc="Intuitive hold-to-record video storytelling mechanics and real-time stabilization."
                 data-tag="Camera UI • Video">Video</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Instagram"
                 data-year="2013"
                 data-title="iOS 7 Design Force"
@@ -937,20 +1160,20 @@
           <div class="work-row group pt-[49px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">Gowalla †</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2010–2011</div>
               <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
             </div>
             <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Gowalla †"
                 data-year="2010"
                 data-title="Web Platform Experience"
                 data-desc="Rich responsive web companion for city explorers and social passport stampers."
                 data-tag="Web UX • Community">Website</a>, 
-              <a href="#" class="ref-link preview-trigger"
+              <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Gowalla †"
                 data-year="2011"
                 data-title="Gowalla iOS Client"
@@ -971,7 +1194,7 @@
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge px-7 reveal-badge">
+          <div class="section-badge px-7 reveal-badge magnetic-target scramble-trigger" data-original="SIDE PROJECTS">
             SIDE PROJECTS
           </div>
         </div>
@@ -983,7 +1206,7 @@
           <div class="work-row group pb-[56px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">Eventication</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="Eventication">Eventication</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2018–Current</div>
@@ -998,7 +1221,7 @@
           <div class="work-row group py-[56px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">MVKB</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="MVKB">MVKB</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
               <div class="text-[17px] text-neutral-400 font-medium">2021–Current</div>
@@ -1012,7 +1235,7 @@
           <div class="work-row group pt-[64px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
             <div class="w-full md:w-[520px] flex-shrink-0">
               <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link">The non-work.</a>
+                <a href="#" class="ref-link scramble-trigger" data-original="The non-work.">The non-work.</a>
                 <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
               </h3>
             </div>
@@ -1033,7 +1256,7 @@
 
         <!-- Left Column: Badge -->
         <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[258px] reveal-badge">
+          <div class="section-badge w-[258px] reveal-badge magnetic-target scramble-trigger" data-original="ELSEWHERE">
             ELSEWHERE
           </div>
         </div>
@@ -1188,8 +1411,20 @@
 
 
     <!-- ==================== FOOTER ==================== -->
-    <footer class="section-divider pt-[70px] pb-24 flex justify-end items-center">
-      <div class="transform -rotate-[3.5deg] transition-transform duration-300 hover:rotate-0 hover:scale-110 cursor-pointer">
+    <footer class="section-divider pt-[70px] pb-24 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+      
+      <!-- Live Ticking Clock & Availability -->
+      <div class="flex items-center gap-3 text-xs font-mono text-neutral-400 tracking-wider">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-900 border border-neutral-700/60">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>AVAILABLE FOR SELECT WORK</span>
+        </span>
+        <span class="hidden md:inline text-neutral-600">|</span>
+        <span id="live-clock" class="hidden md:inline text-neutral-400 font-mono">MADRID, ES — --:--:-- UTC+1</span>
+      </div>
+
+      <!-- Copyright Stamp -->
+      <div class="transform -rotate-[3.5deg] transition-transform duration-300 hover:rotate-0 hover:scale-110 cursor-pointer magnetic-target">
         <span class="font-marker text-[#ea8676] text-[34px] tracking-wide inline-block drop-shadow-sm select-none">
           © ALKEMIST 2026
         </span>
@@ -1215,13 +1450,83 @@
         }
       }, { passive: true });
 
-      // 2. AMBIENT MOUSE GLOW
+      // 2. AMBIENT MOUSE GLOW & CUSTOM ELASTIC CURSOR
+      const cursorFollower = document.getElementById('cursor-follower');
+      const cursorDot = document.getElementById('cursor-dot');
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let followerX = mouseX;
+      let followerY = mouseY;
+
       window.addEventListener('pointermove', (e) => {
-        document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
-        document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        document.documentElement.style.setProperty('--mouse-x', mouseX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', mouseY + 'px');
+        if (cursorDot) {
+          cursorDot.style.left = mouseX + 'px';
+          cursorDot.style.top = mouseY + 'px';
+        }
       }, { passive: true });
 
-      // 3. 3D HERO TILT & DOODLE PARALLAX
+      // Smooth Lerp loop for custom cursor follower
+      function animateCursor() {
+        followerX += (mouseX - followerX) * 0.18;
+        followerY += (mouseY - followerY) * 0.18;
+        if (cursorFollower) {
+          cursorFollower.style.left = followerX + 'px';
+          cursorFollower.style.top = followerY + 'px';
+        }
+        requestAnimationFrame(animateCursor);
+      }
+      requestAnimationFrame(animateCursor);
+
+      // Expand cursor on hover over interactive targets
+      const interactiveTargets = document.querySelectorAll('a, button, .section-badge, .marker-stamp, .preview-trigger, .work-row');
+      interactiveTargets.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorFollower && cursorFollower.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => cursorFollower && cursorFollower.classList.remove('cursor-hover'));
+      });
+
+      // 3. MAGNETIC ELEMENTS PULL
+      const magneticTargets = document.querySelectorAll('.magnetic-target');
+      magneticTargets.forEach(target => {
+        target.addEventListener('mousemove', (e) => {
+          const rect = target.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const deltaX = (e.clientX - centerX) * 0.28;
+          const deltaY = (e.clientY - centerY) * 0.28;
+          target.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.03)`;
+        });
+        target.addEventListener('mouseleave', () => {
+          target.style.transform = '';
+        });
+      });
+
+      // 4. CIPHER / TEXT SCRAMBLE ON HOVER
+      const scrambleTriggers = document.querySelectorAll('.scramble-trigger');
+      const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+      scrambleTriggers.forEach(el => {
+        const originalText = el.dataset.original || el.textContent.trim();
+        el.addEventListener('mouseenter', () => {
+          let iteration = 0;
+          clearInterval(el.scrambleInterval);
+          el.scrambleInterval = setInterval(() => {
+            el.textContent = originalText.split('').map((char, index) => {
+              if (index < iteration || char === ' ' || char === '†' || char === '.') return originalText[index];
+              return glyphs[Math.floor(Math.random() * glyphs.length)];
+            }).join('');
+            if (iteration >= originalText.length) {
+              clearInterval(el.scrambleInterval);
+              el.textContent = originalText;
+            }
+            iteration += 1 / 2;
+          }, 25);
+        });
+      });
+
+      // 5. 3D HERO TILT & DOODLE PARALLAX
       const heroCard = document.getElementById('hero-tilt-card');
       const doodles = document.getElementById('hero-doodles');
       if (heroCard) {
@@ -1257,7 +1562,7 @@
           }
         });
 
-        // 4. INTERACTIVE CLICK BURST SPARKLE ON HERO
+        // Click Burst Sparkle on Hero
         heroCard.addEventListener('click', (e) => {
           createBurst(e.clientX, e.clientY);
         });
@@ -1277,7 +1582,7 @@
         setTimeout(() => star.remove(), 700);
       }
 
-      // 5. FLOATING PROJECT PREVIEW CARD
+      // 6. FLOATING PROJECT PREVIEW CARD
       const previewCard = document.getElementById('project-preview-card');
       const previewTitle = document.getElementById('preview-title');
       const previewCompany = document.getElementById('preview-company');
@@ -1314,7 +1619,6 @@
         let left = e.clientX + offset;
         let top = e.clientY - 120;
 
-        // Prevent offscreen overflow
         if (left + 320 > window.innerWidth) {
           left = e.clientX - 320;
         }
@@ -1326,7 +1630,127 @@
         previewCard.style.top = top + 'px';
       }
 
-      // 6. SCROLL REVEAL OBSERVER
+      // 7. INTERACTIVE CASE STUDY MODAL DRAWER
+      const modal = document.getElementById('case-study-modal');
+      const modalCloseBtn = document.getElementById('modal-close-btn');
+      const modalTitle = document.getElementById('modal-title');
+      const modalCompanyBadge = document.getElementById('modal-company-badge');
+      const modalYear = document.getElementById('modal-year');
+      const modalDesc = document.getElementById('modal-desc');
+      const modalTriggers = document.querySelectorAll('.modal-trigger');
+
+      function openModal(data) {
+        if (!modal) return;
+        modalTitle.textContent = data.title || 'Selected Project';
+        modalCompanyBadge.textContent = data.company || 'STUDY';
+        modalYear.textContent = data.year || '2024';
+        modalDesc.textContent = data.desc || 'Comprehensive overview of UX architecture, research, and tactile product solutions.';
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          openModal(trigger.dataset);
+        });
+      });
+
+      if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
+          closeModal();
+        }
+      });
+
+      // 8. INTERACTIVE DOODLE MODE CANVAS (Draw directly on screen)
+      const doodleCanvas = document.getElementById('doodle-canvas');
+      const doodleToggleBtn = document.getElementById('doodle-toggle-btn');
+      const doodleStatusText = document.getElementById('doodle-status-text');
+      const clearDoodleBtn = document.getElementById('clear-doodle-btn');
+      let isDoodleMode = false;
+      let isDrawing = false;
+      let ctx = null;
+
+      if (doodleCanvas) {
+        ctx = doodleCanvas.getContext('2d');
+        function resizeCanvas() {
+          doodleCanvas.width = window.innerWidth;
+          doodleCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        doodleToggleBtn.addEventListener('click', () => {
+          isDoodleMode = !isDoodleMode;
+          doodleCanvas.classList.toggle('active', isDoodleMode);
+          if (isDoodleMode) {
+            doodleStatusText.textContent = 'DOODLE MODE: ON';
+            doodleToggleBtn.classList.add('bg-[#ea8676]', 'text-black', 'border-[#ea8676]');
+            clearDoodleBtn.classList.remove('hidden');
+          } else {
+            doodleStatusText.textContent = 'DOODLE MODE: OFF';
+            doodleToggleBtn.classList.remove('bg-[#ea8676]', 'text-black', 'border-[#ea8676]');
+            clearDoodleBtn.classList.add('hidden');
+          }
+        });
+
+        clearDoodleBtn.addEventListener('click', () => {
+          ctx.clearRect(0, 0, doodleCanvas.width, doodleCanvas.height);
+        });
+
+        doodleCanvas.addEventListener('mousedown', (e) => {
+          if (!isDoodleMode) return;
+          isDrawing = true;
+          ctx.beginPath();
+          ctx.moveTo(e.clientX, e.clientY);
+          ctx.strokeStyle = '#ea8676';
+          ctx.lineWidth = 4;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+        });
+
+        doodleCanvas.addEventListener('mousemove', (e) => {
+          if (!isDoodleMode || !isDrawing) return;
+          ctx.lineTo(e.clientX, e.clientY);
+          ctx.stroke();
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (isDrawing) {
+            isDrawing = false;
+            ctx.closePath();
+          }
+        });
+      }
+
+      // 9. LIVE TICKING CLOCK IN FOOTER
+      const liveClock = document.getElementById('live-clock');
+      function updateClock() {
+        if (!liveClock) return;
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        liveClock.textContent = `MADRID, ES — ${hours}:${minutes}:${seconds} UTC+1`;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // 10. SCROLL REVEAL OBSERVER
       const revealSections = document.querySelectorAll('.reveal-section');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
