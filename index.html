@@ -60,6 +60,13 @@
       background-size: 24px 24px, 100% 100%;
     }
 
+    /* Scroll Velocity Kinetic Skew Container */
+    #scroll-skew-container {
+      will-change: transform;
+      transform-origin: center center;
+      transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
     /* Subtle cursor ambient glow that tracks the pointer */
     .ambient-glow {
       position: fixed;
@@ -90,9 +97,9 @@
     }
 
     #cursor-follower.cursor-hover {
-      width: 56px;
-      height: 56px;
-      background-color: rgba(234, 134, 118, 0.12);
+      width: 58px;
+      height: 58px;
+      background-color: rgba(234, 134, 118, 0.14);
       border-color: #ea8676;
     }
 
@@ -117,7 +124,7 @@
       height: 3px;
       background: linear-gradient(90deg, #ea8676, #ffaba0, #ea8676);
       z-index: 999;
-      box-shadow: 0 0 12px rgba(234, 134, 118, 0.75);
+      box-shadow: 0 0 14px rgba(234, 134, 118, 0.85);
       transition: width 0.1s ease-out;
       width: 0%;
     }
@@ -201,7 +208,7 @@
     }
 
     .squiggle-alive {
-      animation: squigglevision 0.4s steps(1) infinite;
+      animation: squigglevision 0.38s steps(1) infinite;
     }
 
     /* Wagging devil tail */
@@ -341,6 +348,18 @@
       transform: scale(1.02);
     }
 
+    /* Draggable Doodles in Hero */
+    .draggable-doodle {
+      cursor: grab;
+      pointer-events: auto !important;
+      transition: filter 0.2s ease;
+    }
+
+    .draggable-doodle:active {
+      cursor: grabbing;
+      filter: drop-shadow(0 0 16px rgba(234, 134, 118, 0.95));
+    }
+
     /* ALKEMIST Outline Draw-in Animation on load */
     @keyframes strokeDraw {
       0% {
@@ -400,6 +419,26 @@
     .marker-stamp:hover {
       transform: rotate(-1.5deg) scale(1.05) translateY(-4px);
       filter: drop-shadow(0 10px 24px rgba(234, 134, 118, 0.5));
+    }
+
+    /* Kinetic Infinite Marquee */
+    @keyframes marqueeScroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 25s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
     }
 
     /* Work and Project Rows Interactive Highlighting */
@@ -525,6 +564,29 @@
       }
     }
 
+    /* Moving Cursor Sparkle/Ink Droplets */
+    .ink-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      border-radius: 50%;
+      background: #ea8676;
+      opacity: 0.8;
+      transform: translate(-50%, -50%) scale(1);
+      animation: inkFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes inkFade {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(0) translateY(14px);
+        opacity: 0;
+      }
+    }
+
     /* Interactive Doodle Drawing Canvas Overlay */
     #doodle-canvas {
       position: fixed;
@@ -588,11 +650,11 @@
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
       }
-      .reveal-section, .reveal-badge {
+      .reveal-section, .reveal-badge, #scroll-skew-container {
         opacity: 1 !important;
         transform: none !important;
       }
-      .squiggle-alive {
+      .squiggle-alive, .marquee-track {
         animation: none !important;
       }
     }
@@ -632,6 +694,20 @@
 
   <!-- Ambient Cursor Glow Follower -->
   <div id="ambient-glow" class="ambient-glow"></div>
+
+  <!-- Top Bar: Floating Live HUD & Sound FX Toggle -->
+  <div class="fixed top-4 right-6 z-50 flex items-center gap-2 text-[11px] font-mono tracking-wider">
+    <div class="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900/90 border border-neutral-700/60 backdrop-blur-md text-neutral-400">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span id="hud-fps">60 FPS</span>
+      <span class="text-neutral-600">•</span>
+      <span id="hud-scroll">0%</span>
+    </div>
+    <button id="sound-toggle-btn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-neutral-900/90 border border-neutral-700/60 hover:border-[#ea8676] text-neutral-300 hover:text-white backdrop-blur-md transition-all cursor-pointer select-none">
+      <span id="sound-icon">🔇</span>
+      <span id="sound-label">FX: OFF</span>
+    </button>
+  </div>
 
   <!-- Fullscreen Interactive Doodle Canvas -->
   <canvas id="doodle-canvas"></canvas>
@@ -731,404 +807,415 @@
     </div>
   </div>
 
-  <main class="w-full max-w-[1920px] mx-auto px-6 sm:px-12 md:px-16 lg:px-[76px] pt-0 pb-16 relative z-10">
+  <!-- SKEW CONTAINER: Tilts smoothly with scroll velocity -->
+  <div id="scroll-skew-container">
 
-    <!-- ==================== HERO SECTION (Height exact 1831px to first divider) ==================== -->
-    <header class="w-full relative mb-[335px]">
+    <main class="w-full max-w-[1920px] mx-auto px-6 sm:px-12 md:px-16 lg:px-[76px] pt-0 pb-16 relative z-10">
 
-      <!-- HERO IMAGE CONTAINER (1768px x 1095px with 3D Tilt interaction) -->
-      <div id="hero-tilt-card"
-        class="relative w-full h-[1095px] overflow-hidden rounded-[2px] transform -rotate-[0.6deg] bg-[#111111] shadow-2xl border border-white/5 mt-0 mb-16 cursor-crosshair transition-transform duration-300 ease-out">
+      <!-- ==================== HERO SECTION (Height exact 1831px to first divider) ==================== -->
+      <header class="w-full relative mb-16">
 
-        <!-- Placeholder Photo / Stage Graphic -->
-        <div class="absolute inset-0 w-full h-full bg-[#141414] overflow-hidden">
-          <svg class="w-full h-full object-cover opacity-90" viewBox="0 0 1768 1095" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="stageGlow" cx="50%" cy="30%" r="60%">
-                <stop offset="0%" stop-color="#3a3a3a" />
-                <stop offset="60%" stop-color="#181818" />
-                <stop offset="100%" stop-color="#0e0e0e" />
-              </radialGradient>
-              <pattern id="dotPattern" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                <circle cx="6" cy="6" r="1.5" fill="#ffffff" fill-opacity="0.08" />
-              </pattern>
-            </defs>
-            <rect width="1768" height="1095" fill="url(#stageGlow)" />
-            <rect width="1768" height="1095" fill="url(#dotPattern)" />
+        <!-- HERO IMAGE CONTAINER (1768px x 1095px with 3D Tilt interaction) -->
+        <div id="hero-tilt-card"
+          class="relative w-full h-[1095px] overflow-hidden rounded-[2px] transform -rotate-[0.6deg] bg-[#111111] shadow-2xl border border-white/5 mt-0 mb-16 cursor-crosshair transition-transform duration-300 ease-out">
 
-            <!-- Large circular logo on presentation screen behind presenter -->
-            <circle cx="620" cy="240" r="280" stroke="#ffffff" stroke-opacity="0.25" stroke-width="14" fill="#181818"
-              fill-opacity="0.8" />
-            <circle cx="620" cy="240" r="240" stroke="#ffffff" stroke-opacity="0.35" stroke-width="8"
-              stroke-dasharray="8 8" />
-            <path d="M620 110 L620 370 M490 240 L750 240" stroke="#ffffff" stroke-opacity="0.2" stroke-width="6" />
+          <!-- Placeholder Photo / Stage Graphic -->
+          <div class="absolute inset-0 w-full h-full bg-[#141414] overflow-hidden">
+            <svg class="w-full h-full object-cover opacity-90" viewBox="0 0 1768 1095" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="stageGlow" cx="50%" cy="30%" r="60%">
+                  <stop offset="0%" stop-color="#3a3a3a" />
+                  <stop offset="60%" stop-color="#181818" />
+                  <stop offset="100%" stop-color="#0e0e0e" />
+                </radialGradient>
+                <pattern id="dotPattern" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+                  <circle cx="6" cy="6" r="1.5" fill="#ffffff" fill-opacity="0.08" />
+                </pattern>
+              </defs>
+              <rect width="1768" height="1095" fill="url(#stageGlow)" />
+              <rect width="1768" height="1095" fill="url(#dotPattern)" />
 
-            <!-- Stage text on backdrop screen -->
-            <text x="380" y="540" font-family="'Inter', sans-serif" font-weight="900" font-size="64" fill="#ffffff"
-              fill-opacity="0.35" letter-spacing="2">Alkemist Live</text>
-            <text x="490" y="600" font-family="'Inter', sans-serif" font-weight="700" font-size="34" fill="#ffffff"
-              fill-opacity="0.2" letter-spacing="1">Config 2026</text>
+              <!-- Large circular logo on presentation screen behind presenter -->
+              <circle cx="620" cy="240" r="280" stroke="#ffffff" stroke-opacity="0.25" stroke-width="14" fill="#181818"
+                fill-opacity="0.8" />
+              <circle cx="620" cy="240" r="240" stroke="#ffffff" stroke-opacity="0.35" stroke-width="8"
+                stroke-dasharray="8 8" />
+              <path d="M620 110 L620 370 M490 240 L750 240" stroke="#ffffff" stroke-opacity="0.2" stroke-width="6" />
 
-            <!-- Presenter Silhouette & Laptop Podium -->
-            <path
-              d="M1020 1095 C1030 890, 1080 760, 1160 660 C1200 610, 1260 600, 1310 600 C1370 600, 1420 620, 1460 670 C1550 780, 1600 920, 1630 1095 Z"
-              fill="#2c2d30" />
-            <path d="M1160 660 C1200 740, 1240 890, 1260 1095 L1400 1095 C1410 920, 1430 760, 1460 670 Z"
-              fill="#383a3f" />
-            <ellipse cx="1300" cy="490" rx="90" ry="110" fill="#4a4b50" />
-            <!-- Baseball Cap -->
-            <path d="M1200 460 C1210 360, 1390 360, 1400 460 Z" fill="#d0d0d2" />
-            <path d="M1170 460 C1220 440, 1370 440, 1420 460 C1380 485, 1210 485, 1170 460 Z" fill="#1c1c1e" />
-            <rect x="1275" y="385" width="50" height="35" rx="4" fill="#222224" stroke="#ffffff" stroke-width="2" />
-            <!-- Headset mic -->
-            <path d="M1380 500 Q1350 550 1320 560" stroke="#111111" stroke-width="4" fill="none" />
-            <circle cx="1320" cy="560" r="6" fill="#111111" />
+              <!-- Stage text on backdrop screen -->
+              <text x="380" y="540" font-family="'Inter', sans-serif" font-weight="900" font-size="64" fill="#ffffff"
+                fill-opacity="0.35" letter-spacing="2">Alkemist Live</text>
+              <text x="490" y="600" font-family="'Inter', sans-serif" font-weight="700" font-size="34" fill="#ffffff"
+                fill-opacity="0.2" letter-spacing="1">Config 2026</text>
 
-            <!-- Presenter Laptop & Podium -->
-            <polygon points="980,860 1340,820 1360,1095 960,1095" fill="#26272b" stroke="#333336" stroke-width="3" />
-            <polygon points="970,860 1320,810 1300,1010 950,1060" fill="#e8e8ea" stroke="#ffffff" stroke-width="4" />
-            <!-- Laptop stickers -->
-            <rect x="1000" y="880" width="60" height="24" rx="3" fill="#333333" />
-            <circle cx="1230" cy="880" r="18" fill="#333333" />
-            <circle cx="1120" cy="930" r="22" fill="#555555" />
-            <rect x="1170" y="920" width="80" height="30" rx="4" fill="#333333" />
-
-            <!-- Placeholder label in bottom left of hero -->
-            <rect x="80" y="980" width="340" height="48" rx="4" fill="#000000" fill-opacity="0.65" />
-            <text x="96" y="1012" font-family="'Inter', sans-serif" font-weight="600" font-size="18" fill="#a0a0a0"
-              letter-spacing="1">PLACEHOLDER HERO IMAGE</text>
-          </svg>
-
-          <!-- DOODLES OVERLAY MATCHING REFERENCE (With organic Squigglevision vibration) -->
-          <svg id="hero-doodles" class="absolute inset-0 w-full h-full pointer-events-none transition-transform duration-200 ease-out squiggle-alive" viewBox="0 0 1768 1095" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            
-            <!-- Devil Horns on baseball cap (with twitch animation) -->
-            <path class="doodle-horn-l" d="M1215 360 C1200 280, 1225 220, 1265 250 C1245 280, 1240 310, 1248 355" stroke="#ea8676"
-              stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
-            <path class="doodle-horn-r" d="M1365 355 C1385 280, 1430 240, 1395 300 C1380 325, 1370 340, 1350 375" stroke="#ea8676"
-              stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
-
-            <!-- Devil Face Features (Glasses, mustache, goatee) -->
-            <g class="doodle-face">
-              <!-- Devil Glasses -->
-              <circle cx="1260" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-              <circle cx="1350" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-              <path d="M1306 495 Q1315 480 1324 495" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-
-              <!-- Curled Handlebar Mustache -->
+              <!-- Presenter Silhouette & Laptop Podium -->
               <path
-                d="M1230 555 C1250 515, 1295 555, 1308 545 C1320 555, 1365 515, 1385 555 C1350 575, 1308 560, 1308 560 C1308 560, 1265 575, 1230 555 Z"
-                fill="#ea8676" />
+                d="M1020 1095 C1030 890, 1080 760, 1160 660 C1200 610, 1260 600, 1310 600 C1370 600, 1420 620, 1460 670 C1550 780, 1600 920, 1630 1095 Z"
+                fill="#2c2d30" />
+              <path d="M1160 660 C1200 740, 1240 890, 1260 1095 L1400 1095 C1410 920, 1430 760, 1460 670 Z"
+                fill="#383a3f" />
+              <ellipse cx="1300" cy="490" rx="90" ry="110" fill="#4a4b50" />
+              <!-- Baseball Cap -->
+              <path d="M1200 460 C1210 360, 1390 360, 1400 460 Z" fill="#d0d0d2" />
+              <path d="M1170 460 C1220 440, 1370 440, 1420 460 C1380 485, 1210 485, 1170 460 Z" fill="#1c1c1e" />
+              <rect x="1275" y="385" width="50" height="35" rx="4" fill="#222224" stroke="#ffffff" stroke-width="2" />
+              <!-- Headset mic -->
+              <path d="M1380 500 Q1350 550 1320 560" stroke="#111111" stroke-width="4" fill="none" />
+              <circle cx="1320" cy="560" r="6" fill="#111111" />
 
-              <!-- Pointed Goatee / Beard -->
-              <polygon points="1295,610 1308,680 1322,610" fill="#ea8676" />
-            </g>
+              <!-- Presenter Laptop & Podium -->
+              <polygon points="980,860 1340,820 1360,1095 960,1095" fill="#26272b" stroke="#333336" stroke-width="3" />
+              <polygon points="970,860 1320,810 1300,1010 950,1060" fill="#e8e8ea" stroke="#ffffff" stroke-width="4" />
+              <!-- Laptop stickers -->
+              <rect x="1000" y="880" width="60" height="24" rx="3" fill="#333333" />
+              <circle cx="1230" cy="880" r="18" fill="#333333" />
+              <circle cx="1120" cy="930" r="22" fill="#555555" />
+              <rect x="1170" y="920" width="80" height="30" rx="4" fill="#333333" />
 
-            <!-- Devil Tail on Right (with smooth rhythmic wagging) -->
-            <g class="doodle-tail">
-              <path d="M1500 820 C1590 770, 1680 530, 1620 370 C1595 320, 1575 370, 1585 405" stroke="#ea8676"
-                stroke-width="9" stroke-linecap="round" />
-              <polygon points="1620,365 1665,310 1600,330" fill="#ea8676" />
-            </g>
+              <!-- Placeholder label in bottom left of hero -->
+              <rect x="80" y="980" width="340" height="48" rx="4" fill="#000000" fill-opacity="0.65" />
+              <text x="96" y="1012" font-family="'Inter', sans-serif" font-weight="600" font-size="18" fill="#a0a0a0"
+                letter-spacing="1">PLACEHOLDER HERO IMAGE</text>
+            </svg>
 
-            <!-- Radiating Idea Sparks / Rays above laptop (with pulsing energy) -->
-            <line class="doodle-ray-1" x1="840" y1="800" x2="770" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line class="doodle-ray-2" x1="910" y1="750" x2="860" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line class="doodle-ray-3" x1="1000" y1="720" x2="980" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line class="doodle-ray-4" x1="1090" y1="750" x2="1140" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+            <!-- DOODLES OVERLAY MATCHING REFERENCE (With organic Squigglevision vibration & Draggable physics) -->
+            <svg id="hero-doodles" class="absolute inset-0 w-full h-full pointer-events-none transition-transform duration-200 ease-out squiggle-alive" viewBox="0 0 1768 1095" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              
+              <!-- Devil Horns on baseball cap (with twitch animation & draggable) -->
+              <path class="doodle-horn-l draggable-doodle" d="M1215 360 C1200 280, 1225 220, 1265 250 C1245 280, 1240 310, 1248 355" stroke="#ea8676"
+                stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+              <path class="doodle-horn-r draggable-doodle" d="M1365 355 C1385 280, 1430 240, 1395 300 C1380 325, 1370 340, 1350 375" stroke="#ea8676"
+                stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
 
-            <!-- Horizontal Energy Marks next to laptop -->
-            <line class="doodle-energy-1" x1="720" y1="920" x2="820" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            <line class="doodle-energy-2" x1="730" y1="985" x2="845" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <!-- Devil Face Features (Glasses, mustache, goatee - draggable) -->
+              <g class="doodle-face draggable-doodle">
+                <!-- Devil Glasses -->
+                <circle cx="1260" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+                <circle cx="1350" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+                <path d="M1306 495 Q1315 480 1324 495" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
 
-            <!-- Mouse Pointer & Sparkles on top right (floating bob animation) -->
-            <g class="doodle-sparkle">
-              <path d="M1570 90 C1545 115, 1590 165, 1635 125 C1655 100, 1610 70, 1570 90 Z" stroke="#ea8676"
-                stroke-width="8" stroke-linecap="round" />
-              <line x1="1635" y1="125" x2="1695" y2="175" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-            </g>
-          </svg>
+                <!-- Curled Handlebar Mustache -->
+                <path
+                  d="M1230 555 C1250 515, 1295 555, 1308 545 C1320 555, 1365 515, 1385 555 C1350 575, 1308 560, 1308 560 C1308 560, 1265 575, 1230 555 Z"
+                  fill="#ea8676" />
+
+                <!-- Pointed Goatee / Beard -->
+                <polygon points="1295,610 1308,680 1322,610" fill="#ea8676" />
+              </g>
+
+              <!-- Devil Tail on Right (with smooth rhythmic wagging - draggable) -->
+              <g class="doodle-tail draggable-doodle">
+                <path d="M1500 820 C1590 770, 1680 530, 1620 370 C1595 320, 1575 370, 1585 405" stroke="#ea8676"
+                  stroke-width="9" stroke-linecap="round" />
+                <polygon points="1620,365 1665,310 1600,330" fill="#ea8676" />
+              </g>
+
+              <!-- Radiating Idea Sparks / Rays above laptop (with pulsing energy) -->
+              <line class="doodle-ray-1" x1="840" y1="800" x2="770" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-ray-2" x1="910" y1="750" x2="860" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-ray-3" x1="1000" y1="720" x2="980" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-ray-4" x1="1090" y1="750" x2="1140" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+
+              <!-- Horizontal Energy Marks next to laptop -->
+              <line class="doodle-energy-1" x1="720" y1="920" x2="820" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-energy-2" x1="730" y1="985" x2="845" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+
+              <!-- Mouse Pointer & Sparkles on top right (floating bob animation - draggable) -->
+              <g class="doodle-sparkle draggable-doodle">
+                <path d="M1570 90 C1545 115, 1590 165, 1635 125 C1655 100, 1610 70, 1570 90 Z" stroke="#ea8676"
+                  stroke-width="8" stroke-linecap="round" />
+                <line x1="1635" y1="125" x2="1695" y2="175" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              </g>
+            </svg>
+          </div>
+
         </div>
 
-      </div>
+        <!-- MAIN HEADLINE TYPOGRAPHY -->
+        <div class="relative z-10 select-none pt-4 pb-6">
+          <!-- Giant Stroked Tube Outline Heading with draw-in animation -->
+          <div class="w-full">
+            <svg viewBox="0 0 1768 250" class="w-full h-auto overflow-visible block" xmlns="http://www.w3.org/2000/svg">
+              <text x="0" y="215" font-family="'Bebas Neue', sans-serif" font-size="265" font-weight="900" fill="none"
+                stroke="#e2e2e2" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"
+                letter-spacing="6" class="alkemist-title-stroke">ALKEMIST</text>
+            </svg>
+          </div>
 
-      <!-- MAIN HEADLINE TYPOGRAPHY -->
-      <div class="relative z-10 select-none pt-4 pb-6">
-        <!-- Giant Stroked Tube Outline Heading with draw-in animation -->
-        <div class="w-full">
-          <svg viewBox="0 0 1768 250" class="w-full h-auto overflow-visible block" xmlns="http://www.w3.org/2000/svg">
-            <text x="0" y="215" font-family="'Bebas Neue', sans-serif" font-size="265" font-weight="900" fill="none"
-              stroke="#e2e2e2" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"
-              letter-spacing="6" class="alkemist-title-stroke">ALKEMIST</text>
-          </svg>
-        </div>
-
-        <!-- Hand-drawn Marker Moniker / Subtitle tilted & overlapping with stamp-in animation -->
-        <div class="transform -rotate-[3.5deg] -mt-12 sm:-mt-20 md:-mt-28 lg:-mt-32 ml-8 sm:ml-20 md:ml-36 lg:ml-48">
-          <span
-            class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg marker-stamp magnetic-target">
-            UX/UI DESIGN
-          </span>
-        </div>
-      </div>
-
-    </header>
-
-
-    <!-- ==================== SECTION: ABOUT ==================== -->
-    <section class="section-divider pt-[53px] pb-[98px] reveal-section">
-      <div class="flex flex-col lg:flex-row items-start">
-
-        <!-- Left Column: Badge (Fixed 644px column width on 1920 desktop) -->
-        <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[160px] reveal-badge magnetic-target scramble-trigger" data-original="ABOUT">
-            ABOUT
+          <!-- Hand-drawn Marker Moniker / Subtitle tilted & overlapping with stamp-in animation -->
+          <div class="transform -rotate-[3.5deg] -mt-12 sm:-mt-20 md:-mt-28 lg:-mt-32 ml-8 sm:ml-20 md:ml-36 lg:ml-48">
+            <span
+              class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg marker-stamp magnetic-target">
+              UX/UI DESIGN
+            </span>
           </div>
         </div>
 
-        <!-- Right Content: 2 Columns of Body Text -->
-        <div
-          class="w-full lg:w-[1124px] flex flex-col md:flex-row gap-12 lg:gap-[66px] text-[23px] leading-[40px] text-[#e0e0e0] font-normal">
+      </header>
 
-          <!-- Column 1 -->
-          <div class="w-full md:w-[520px] flex-shrink-0">
-            <p class="mb-7">
-              Alkemist (aka. <a href="#work" class="ref-link font-medium text-white hover:text-[#ea8676]">Alex Morgan</a>) is a principal
-              UX/UI designer and design systems architect, crafting digital surfaces that feel natural, tactile, and
-              effortless — work that's everywhere in the product and, by design, mostly unnoticed. Craft is the
-              through-line. He sets a high bar, holds it, and pulls the work around him up to meet it.
-            </p>
-            <p>
-              He's also a connector. He jams readily, prototypes to think, and makes a habit of asking
-            </p>
+      <!-- KINETIC INFINITE TICKER MARQUEE -->
+      <div class="overflow-hidden py-3.5 -mx-6 sm:-mx-12 md:-mx-16 lg:-mx-[76px] mb-28 border-y border-white/10 bg-white/[0.015] select-none pointer-events-none">
+        <div class="marquee-track flex whitespace-nowrap text-xs sm:text-sm font-mono tracking-[0.3em] uppercase text-neutral-400">
+          <span>✦ SPATIAL COMPUTING &nbsp;•&nbsp; DESIGN SYSTEMS &nbsp;•&nbsp; 120 FPS FLUID MOTION &nbsp;•&nbsp; TACTILE UX SURFACES &nbsp;•&nbsp; RAPID PROTOTYPING &nbsp;•&nbsp; FIGMA ARCHITECTURE &nbsp;•&nbsp; ACCESSIBLE TOKENS &nbsp;•&nbsp; INTERACTION DESIGN &nbsp;•&nbsp;</span>
+          <span>✦ SPATIAL COMPUTING &nbsp;•&nbsp; DESIGN SYSTEMS &nbsp;•&nbsp; 120 FPS FLUID MOTION &nbsp;•&nbsp; TACTILE UX SURFACES &nbsp;•&nbsp; RAPID PROTOTYPING &nbsp;•&nbsp; FIGMA ARCHITECTURE &nbsp;•&nbsp; ACCESSIBLE TOKENS &nbsp;•&nbsp; INTERACTION DESIGN &nbsp;•&nbsp;</span>
+        </div>
+      </div>
+
+
+      <!-- ==================== SECTION: ABOUT ==================== -->
+      <section class="section-divider pt-[53px] pb-[98px] reveal-section">
+        <div class="flex flex-col lg:flex-row items-start">
+
+          <!-- Left Column: Badge (Fixed 644px column width on 1920 desktop) -->
+          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+            <div class="section-badge w-[160px] reveal-badge magnetic-target scramble-trigger" data-original="ABOUT">
+              ABOUT
+            </div>
           </div>
 
-          <!-- Column 2 -->
-          <div class="w-full md:w-[538px] flex-shrink-0">
-            <p class="mb-9">
-              the obvious question nobody else wants to raise. He builds community as seriously as he builds systems —
-              from accessible tokens to the tools designers actually want to use — and has a reputation for making the
-              people around him better without needing credit for it.
-            </p>
+          <!-- Right Content: 2 Columns of Body Text -->
+          <div
+            class="w-full lg:w-[1124px] flex flex-col md:flex-row gap-12 lg:gap-[66px] text-[23px] leading-[40px] text-[#e0e0e0] font-normal">
 
-            <!-- Dotted line & Editor's Note -->
-            <div class="border-t border-dotted border-neutral-600/80 pt-6 mt-10">
-              <p class="text-[14px] tracking-wider text-neutral-400 font-medium uppercase leading-[22px]">
-                <span class="font-bold text-neutral-200">ED. NOTE</span> — Synthesized from colleagues' notes &
-                retrospectives; my impostor syndrome would never let me write this.
+            <!-- Column 1 -->
+            <div class="w-full md:w-[520px] flex-shrink-0">
+              <p class="mb-7">
+                Alkemist (aka. <a href="#work" class="ref-link font-medium text-white hover:text-[#ea8676]">Alex Morgan</a>) is a principal
+                UX/UI designer and design systems architect, crafting digital surfaces that feel natural, tactile, and
+                effortless — work that's everywhere in the product and, by design, mostly unnoticed. Craft is the
+                through-line. He sets a high bar, holds it, and pulls the work around him up to meet it.
+              </p>
+              <p>
+                He's also a connector. He jams readily, prototypes to think, and makes a habit of asking
               </p>
             </div>
+
+            <!-- Column 2 -->
+            <div class="w-full md:w-[538px] flex-shrink-0">
+              <p class="mb-9">
+                the obvious question nobody else wants to raise. He builds community as seriously as he builds systems —
+                from accessible tokens to the tools designers actually want to use — and has a reputation for making the
+                people around him better without needing credit for it.
+              </p>
+
+              <!-- Dotted line & Editor's Note -->
+              <div class="border-t border-dotted border-neutral-600/80 pt-6 mt-10">
+                <p class="text-[14px] tracking-wider text-neutral-400 font-medium uppercase leading-[22px]">
+                  <span class="font-bold text-neutral-200">ED. NOTE</span> — Synthesized from colleagues' notes &
+                  retrospectives; my impostor syndrome would never let me write this.
+                </p>
+              </div>
+            </div>
+
           </div>
 
         </div>
-
-      </div>
-    </section>
+      </section>
 
 
-    <!-- ==================== SECTION: LINKS ==================== -->
-    <section class="section-divider pt-[53px] pb-[68px] reveal-section">
-      <div class="flex flex-col lg:flex-row items-center">
+      <!-- ==================== SECTION: LINKS ==================== -->
+      <section class="section-divider pt-[53px] pb-[68px] reveal-section">
+        <div class="flex flex-col lg:flex-row items-center">
 
-        <!-- Left Column: Badge -->
-        <div class="w-full lg:w-[644px] flex-shrink-0 mb-6 lg:mb-0">
-          <div class="section-badge w-[146px] reveal-badge magnetic-target scramble-trigger" data-original="LINKS">
-            LINKS
+          <!-- Left Column: Badge -->
+          <div class="w-full lg:w-[644px] flex-shrink-0 mb-6 lg:mb-0">
+            <div class="section-badge w-[146px] reveal-badge magnetic-target scramble-trigger" data-original="LINKS">
+              LINKS
+            </div>
           </div>
+
+          <!-- Right Content: Horizontal List of Links -->
+          <div
+            class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-2 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Twitter/X</a>
+            <span class="text-neutral-500 mx-1">•</span>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Instagram</a>
+            <span class="text-neutral-500 mx-1">•</span>
+            <a href="https://bsky.app" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Bluesky</a>
+            <span class="text-neutral-500 mx-1">•</span>
+            <a href="https://threads.net" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Threads</a>
+            <span class="text-neutral-500 mx-1">•</span>
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">LinkedIn</a>
+          </div>
+
         </div>
-
-        <!-- Right Content: Horizontal List of Links -->
-        <div
-          class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-2 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
-          <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Twitter/X</a>
-          <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Instagram</a>
-          <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://bsky.app" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Bluesky</a>
-          <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://threads.net" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Threads</a>
-          <span class="text-neutral-500 mx-1">•</span>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">LinkedIn</a>
-        </div>
-
-      </div>
-    </section>
+      </section>
 
 
-    <!-- ==================== SECTION: WORK ==================== -->
-    <section id="work" class="section-divider pt-[53px] pb-[72px] reveal-section">
-      <div class="flex flex-col lg:flex-row items-start">
+      <!-- ==================== SECTION: WORK ==================== -->
+      <section id="work" class="section-divider pt-[53px] pb-[72px] reveal-section">
+        <div class="flex flex-col lg:flex-row items-start">
 
-        <!-- Left Column: Badge -->
-        <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[148px] reveal-badge magnetic-target scramble-trigger" data-original="WORK">
-            WORK
-          </div>
-        </div>
-
-        <!-- Right Content: List of Roles -->
-        <div class="w-full lg:w-[1124px]">
-
-          <!-- WORK ITEM 1 -->
-          <div class="work-row group pb-[54px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="Figma">Figma</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2023–Current</div>
-              <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
-            </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Figma"
-                data-year="2024"
-                data-title="UI3 Canvas & Toolbar Overhaul"
-                data-desc="Next-generation overhaul of Figma's canvas, floating toolbar, and modern dark inspector."
-                data-tag="Core Architecture • Design System">UI3</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Figma"
-                data-year="2024"
-                data-title="Icons & Rebrand System"
-                data-desc="Comprehensive iconographic system designed for optical clarity across retina displays."
-                data-tag="Iconography • Systems">Icons/rebrand</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Figma"
-                data-year="2025"
-                data-title="Figma Draw Suite"
-                data-desc="Expressive freehand vector tools and organic bezier pen engines for illustrators."
-                data-tag="Vector Engine • Tooling">Draw</a>
+          <!-- Left Column: Badge -->
+          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+            <div class="section-badge w-[148px] reveal-badge magnetic-target scramble-trigger" data-original="WORK">
+              WORK
             </div>
           </div>
 
-          <!-- WORK ITEM 2 -->
-          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2021–2023</div>
-              <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
-            </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Gowalla †"
-                data-year="2022"
-                data-title="Gowalla 2.0 Passport"
-                data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
-                data-tag="Spatial UX • Mobile iOS">Gowalla 2.0</a>
-            </div>
-          </div>
+          <!-- Right Content: List of Roles -->
+          <div class="w-full lg:w-[1124px]">
 
-          <!-- WORK ITEM 3 -->
-          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="Abstract †">Abstract †</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2016–2021</div>
-              <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer, first employee</div>
+            <!-- WORK ITEM 1 -->
+            <div class="work-row group pb-[54px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="Figma">Figma</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2023–Current</div>
+                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Figma"
+                  data-year="2024"
+                  data-title="UI3 Canvas & Toolbar Overhaul"
+                  data-desc="Next-generation overhaul of Figma's canvas, floating toolbar, and modern dark inspector."
+                  data-tag="Core Architecture • Design System">UI3</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Figma"
+                  data-year="2024"
+                  data-title="Icons & Rebrand System"
+                  data-desc="Comprehensive iconographic system designed for optical clarity across retina displays."
+                  data-tag="Iconography • Systems">Icons/rebrand</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Figma"
+                  data-year="2025"
+                  data-title="Figma Draw Suite"
+                  data-desc="Expressive freehand vector tools and organic bezier pen engines for illustrators."
+                  data-tag="Vector Engine • Tooling">Draw</a>
+              </div>
             </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Abstract †"
-                data-year="2016"
-                data-title="Abstract Alpha Engine"
-                data-desc="Foundational Git-based version control UI built specifically for Sketch & design teams."
-                data-tag="Version Control • Desktop">Alpha</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Abstract †"
-                data-year="2017"
-                data-title="Abstract Public Beta"
-                data-desc="Branching, merging, and visual commit flows scaled to thousands of design organizations."
-                data-tag="Product Growth • Core UX">Beta</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Abstract †"
-                data-year="2018"
-                data-title="Sketch Libraries Sync"
-                data-desc="Centralized distributed design library distribution with dependency resolution."
-                data-tag="Design Ops • Infrastructure">Sketch Libraries</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Abstract †"
-                data-year="2019"
-                data-title="Visual Compare Mode"
-                data-desc="Side-by-side and onion-skin differential inspectors for graphic revisions."
-                data-tag="Inspection UX • Diffing">Compare mode</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Abstract †"
-                data-year="2020"
-                data-title="Dark Mode Experience"
-                data-desc="Ergonomic dark theme crafted for deep-work focus and low-glare environments."
-                data-tag="Design Tokens • Theming">Dark mode</a>, 
-              <span class="text-neutral-400">...</span>
-            </div>
-          </div>
 
-          <!-- WORK ITEM 4 -->
-          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="Dropbox">Dropbox</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2013–2015</div>
-              <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+            <!-- WORK ITEM 2 -->
+            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2021–2023</div>
+                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Gowalla †"
+                  data-year="2022"
+                  data-title="Gowalla 2.0 Passport"
+                  data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
+                  data-tag="Spatial UX • Mobile iOS">Gowalla 2.0</a>
+              </div>
             </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Dropbox"
-                data-year="2013"
-                data-title="iOS 7 Complete Redesign"
-                data-desc="Ground-up architectural redesign embracing fluid gestures and typography hierarchy."
-                data-tag="Mobile Platform • iOS">iOS 7 redesign</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Dropbox"
-                data-year="2014"
-                data-title="Suite App Icons"
-                data-desc="Tactile glyphs and grid alignment across all Dropbox ecosystem applications."
-                data-tag="Brand Design • Glyphs">App icons</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Dropbox"
-                data-year="2014"
-                data-title="Carousel Photo Timeline"
-                data-desc="Chronological photo stream app designed for seamless infinite scrolling memories."
-                data-tag="Consumer App • Media">Carousel</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Dropbox"
-                data-year="2014"
-                data-title="Mailbox for iOS"
-                data-desc="Pioneering swipe-to-archive gesture interactions that defined modern inbox zero."
-                data-tag="Micro-interactions • Gestures">Mailbox for iOS</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Dropbox"
-                data-year="2015"
-                data-title="Mailbox for macOS"
-                data-desc="Keyboard-first desktop mail client built for rapid keyboard navigation."
-                data-tag="Desktop UX • Productivity">Mailbox for macOS</a>
-            </div>
-          </div>
 
-          <!-- WORK ITEM 5 -->
-          <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="Instagram">Instagram</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2012–2013</div>
-              <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+            <!-- WORK ITEM 3 -->
+            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="Abstract †">Abstract †</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2016–2021</div>
+                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer, first employee</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Abstract †"
+                  data-year="2016"
+                  data-title="Abstract Alpha Engine"
+                  data-desc="Foundational Git-based version control UI built specifically for Sketch & design teams."
+                  data-tag="Version Control • Desktop">Alpha</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Abstract †"
+                  data-year="2017"
+                  data-title="Abstract Public Beta"
+                  data-desc="Branching, merging, and visual commit flows scaled to thousands of design organizations."
+                  data-tag="Product Growth • Core UX">Beta</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Abstract †"
+                  data-year="2018"
+                  data-title="Sketch Libraries Sync"
+                  data-desc="Centralized distributed design library distribution with dependency resolution."
+                  data-tag="Design Ops • Infrastructure">Sketch Libraries</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Abstract †"
+                  data-year="2019"
+                  data-title="Visual Compare Mode"
+                  data-desc="Side-by-side and onion-skin differential inspectors for graphic revisions."
+                  data-tag="Inspection UX • Diffing">Compare mode</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Abstract †"
+                  data-year="2020"
+                  data-title="Dark Mode Experience"
+                  data-desc="Ergonomic dark theme crafted for deep-work focus and low-glare environments."
+                  data-tag="Design Tokens • Theming">Dark mode</a>, 
+                <span class="text-neutral-400">...</span>
+              </div>
             </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Instagram"
-                data-year="2012"
-                data-title="Redesigned Navigation"
-                data-desc="Bottom navigation architecture tailored for one-thumb smartphone usability."
-                data-tag="Ergonomics • Information Architecture">Redesigned navigation</a>, 
+
+            <!-- WORK ITEM 4 -->
+            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="Dropbox">Dropbox</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2013–2015</div>
+                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Dropbox"
+                  data-year="2013"
+                  data-title="iOS 7 Complete Redesign"
+                  data-desc="Ground-up architectural redesign embracing fluid gestures and typography hierarchy."
+                  data-tag="Mobile Platform • iOS">iOS 7 redesign</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Dropbox"
+                  data-year="2014"
+                  data-title="Suite App Icons"
+                  data-desc="Tactile glyphs and grid alignment across all Dropbox ecosystem applications."
+                  data-tag="Brand Design • Glyphs">App icons</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Dropbox"
+                  data-year="2014"
+                  data-title="Carousel Photo Timeline"
+                  data-desc="Chronological photo stream app designed for seamless infinite scrolling memories."
+                  data-tag="Consumer App • Media">Carousel</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Dropbox"
+                  data-year="2014"
+                  data-title="Mailbox for iOS"
+                  data-desc="Pioneering swipe-to-archive gesture interactions that defined modern inbox zero."
+                  data-tag="Micro-interactions • Gestures">Mailbox for iOS</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Dropbox"
+                  data-year="2015"
+                  data-title="Mailbox for macOS"
+                  data-desc="Keyboard-first desktop mail client built for rapid keyboard navigation."
+                  data-tag="Desktop UX • Productivity">Mailbox for macOS</a>
+              </div>
+            </div>
+
+            <!-- WORK ITEM 5 -->
+            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="Instagram">Instagram</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2012–2013</div>
+                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Instagram"
+                  data-year="2012"
+                  data-title="Redesigned Navigation"
+                  data-desc="Bottom navigation architecture tailored for one-thumb smartphone usability."
+                  data-tag="Ergonomics • Information Architecture">Redesigned navigation</a>, 
               <a href="#" class="ref-link preview-trigger modal-trigger"
                 data-company="Instagram"
                 data-year="2012"
@@ -1153,285 +1240,287 @@
                 data-title="iOS 7 Design Force"
                 data-desc="Stripping skeuomorphism in favor of high-contrast photography and clarity."
                 data-tag="Visual Design • Flat UI">iOS 7 Design Force</a>
+              </div>
             </div>
-          </div>
 
-          <!-- WORK ITEM 6 -->
-          <div class="work-row group pt-[49px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2010–2011</div>
-              <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+            <!-- WORK ITEM 6 -->
+            <div class="work-row group pt-[49px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2010–2011</div>
+                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Gowalla †"
+                  data-year="2010"
+                  data-title="Web Platform Experience"
+                  data-desc="Rich responsive web companion for city explorers and social passport stampers."
+                  data-tag="Web UX • Community">Website</a>, 
+                <a href="#" class="ref-link preview-trigger modal-trigger"
+                  data-company="Gowalla †"
+                  data-year="2011"
+                  data-title="Gowalla iOS Client"
+                  data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
+                  data-tag="Native iOS • Checkins">iOS</a>
+              </div>
             </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Gowalla †"
-                data-year="2010"
-                data-title="Web Platform Experience"
-                data-desc="Rich responsive web companion for city explorers and social passport stampers."
-                data-tag="Web UX • Community">Website</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Gowalla †"
-                data-year="2011"
-                data-title="Gowalla iOS Client"
-                data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
-                data-tag="Native iOS • Checkins">iOS</a>
-            </div>
-          </div>
 
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- ==================== SECTION: SIDE PROJECTS ==================== -->
-    <section class="section-divider pt-[53px] pb-[72px] reveal-section">
-      <div class="flex flex-col lg:flex-row items-start">
-
-        <!-- Left Column: Badge -->
-        <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge px-7 reveal-badge magnetic-target scramble-trigger" data-original="SIDE PROJECTS">
-            SIDE PROJECTS
-          </div>
-        </div>
-
-        <!-- Right Content -->
-        <div class="w-full lg:w-[1124px]">
-
-          <!-- Side Project 1 -->
-          <div class="work-row group pb-[56px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="Eventication">Eventication</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2018–Current</div>
-              <div class="text-[18px] text-neutral-300 mt-1 font-normal">Cofounder</div>
-            </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
-              End-to-end event management platform for event organizers.
-            </div>
-          </div>
-
-          <!-- Side Project 2 -->
-          <div class="work-row group py-[56px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="MVKB">MVKB</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-              <div class="text-[17px] text-neutral-400 font-medium">2021–Current</div>
-            </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
-              A keyboard-focused playground and personal workshop, crafting purposeful physical products.
-            </div>
-          </div>
-
-          <!-- Side Project 3 -->
-          <div class="work-row group pt-[64px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-            <div class="w-full md:w-[520px] flex-shrink-0">
-              <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                <a href="#" class="ref-link scramble-trigger" data-original="The non-work.">The non-work.</a>
-                <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-              </h3>
-            </div>
-            <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
-              A collection of non-work projects done on the side for fun.
-            </div>
           </div>
 
         </div>
-
-      </div>
-    </section>
+      </section>
 
 
-    <!-- ==================== SECTION: ELSEWHERE ==================== -->
-    <section class="section-divider pt-[53px] pb-[108px] reveal-section">
-      <div class="flex flex-col lg:flex-row items-start">
+      <!-- ==================== SECTION: SIDE PROJECTS ==================== -->
+      <section class="section-divider pt-[53px] pb-[72px] reveal-section">
+        <div class="flex flex-col lg:flex-row items-start">
 
-        <!-- Left Column: Badge -->
-        <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
-          <div class="section-badge w-[258px] reveal-badge magnetic-target scramble-trigger" data-original="ELSEWHERE">
-            ELSEWHERE
-          </div>
-        </div>
-
-        <!-- Right Content: 14 Items List with precise two-column alignment -->
-        <div class="w-full lg:w-[1124px] space-y-[19px]">
-
-          <!-- Item 1 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Expressive design and illustration in Figma Draw</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2025 &nbsp;•&nbsp; Config
+          <!-- Left Column: Badge -->
+          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+            <div class="section-badge px-7 reveal-badge magnetic-target scramble-trigger" data-original="SIDE PROJECTS">
+              SIDE PROJECTS
             </div>
           </div>
 
-          <!-- Item 2 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Designing Figma's UI3 icons</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2025 &nbsp;•&nbsp; Deep Dive with Jay
-            </div>
-          </div>
+          <!-- Right Content -->
+          <div class="w-full lg:w-[1124px]">
 
-          <!-- Item 3 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Creatives on Creatives (Dutch)</a>
+            <!-- Side Project 1 -->
+            <div class="work-row group pb-[56px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="Eventication">Eventication</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2018–Current</div>
+                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Cofounder</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
+                End-to-end event management platform for event organizers.
+              </div>
             </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2024 &nbsp;•&nbsp; APBC
-            </div>
-          </div>
 
-          <!-- Item 4 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Feature Friday</a>
+            <!-- Side Project 2 -->
+            <div class="work-row group py-[56px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="MVKB">MVKB</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+                <div class="text-[17px] text-neutral-400 font-medium">2021–Current</div>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
+                A keyboard-focused playground and personal workshop, crafting purposeful physical products.
+              </div>
             </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2023 &nbsp;•&nbsp; Cotton Bureau
-            </div>
-          </div>
 
-          <!-- Item 5 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Change is Constant</a>
+            <!-- Side Project 3 -->
+            <div class="work-row group pt-[64px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
+              <div class="w-full md:w-[520px] flex-shrink-0">
+                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
+                  <a href="#" class="ref-link scramble-trigger" data-original="The non-work.">The non-work.</a>
+                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
+                </h3>
+              </div>
+              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
+                A collection of non-work projects done on the side for fun.
+              </div>
             </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2019 &nbsp;•&nbsp; Loupe
-            </div>
-          </div>
 
-          <!-- Item 6 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Dribbble Interview</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2019 &nbsp;•&nbsp; Dribbble
-            </div>
-          </div>
-
-          <!-- Item 7 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">iOS 7 Was Leggings</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2018 &nbsp;•&nbsp; Layout.fm
-            </div>
-          </div>
-
-          <!-- Item 8 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Founder of Abstract</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2016 &nbsp;•&nbsp; Sam Solomon
-            </div>
-          </div>
-
-          <!-- Item 9 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Stop Calling the iPhone a Phone</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2016 &nbsp;•&nbsp; Layout.fm
-            </div>
-          </div>
-
-          <!-- Item 10 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">The Right Look and Feel</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2014 &nbsp;•&nbsp; ZURB Soapbox
-            </div>
-          </div>
-
-          <!-- Item 11 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Working with talented people</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2014 &nbsp;•&nbsp; Creative Bloq
-            </div>
-          </div>
-
-          <!-- Item 12 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Tim Van Damme</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2014 &nbsp;•&nbsp; The Great Discontent
-            </div>
-          </div>
-
-          <!-- Item 13 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Inside the mind of a designer</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2013 &nbsp;•&nbsp; The Next Web
-            </div>
-          </div>
-
-          <!-- Item 14 -->
-          <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-            <div class="w-full sm:w-[520px] flex-shrink-0">
-              <a href="#" class="ref-link text-[22px] font-normal">Van Damme, that's good design</a>
-            </div>
-            <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-              2010 &nbsp;•&nbsp; Jeffrey Zeldman
-            </div>
           </div>
 
         </div>
-
-      </div>
-    </section>
+      </section>
 
 
-    <!-- ==================== FOOTER ==================== -->
-    <footer class="section-divider pt-[70px] pb-24 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-      
-      <!-- Live Ticking Clock & Availability -->
-      <div class="flex items-center gap-3 text-xs font-mono text-neutral-400 tracking-wider">
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-900 border border-neutral-700/60">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>AVAILABLE FOR SELECT WORK</span>
-        </span>
-        <span class="hidden md:inline text-neutral-600">|</span>
-        <span id="live-clock" class="hidden md:inline text-neutral-400 font-mono">MADRID, ES — --:--:-- UTC+1</span>
-      </div>
+      <!-- ==================== SECTION: ELSEWHERE ==================== -->
+      <section class="section-divider pt-[53px] pb-[108px] reveal-section">
+        <div class="flex flex-col lg:flex-row items-start">
 
-      <!-- Copyright Stamp -->
-      <div class="transform -rotate-[3.5deg] transition-transform duration-300 hover:rotate-0 hover:scale-110 cursor-pointer magnetic-target">
-        <span class="font-marker text-[#ea8676] text-[34px] tracking-wide inline-block drop-shadow-sm select-none">
-          © ALKEMIST 2026
-        </span>
-      </div>
-    </footer>
+          <!-- Left Column: Badge -->
+          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+            <div class="section-badge w-[258px] reveal-badge magnetic-target scramble-trigger" data-original="ELSEWHERE">
+              ELSEWHERE
+            </div>
+          </div>
 
-  </main>
+          <!-- Right Content: 14 Items List with precise two-column alignment -->
+          <div class="w-full lg:w-[1124px] space-y-[19px]">
+
+            <!-- Item 1 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Expressive design and illustration in Figma Draw</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2025 &nbsp;•&nbsp; Config
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Designing Figma's UI3 icons</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2025 &nbsp;•&nbsp; Deep Dive with Jay
+              </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Creatives on Creatives (Dutch)</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2024 &nbsp;•&nbsp; APBC
+              </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Feature Friday</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2023 &nbsp;•&nbsp; Cotton Bureau
+              </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Change is Constant</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2019 &nbsp;•&nbsp; Loupe
+              </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Dribbble Interview</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2019 &nbsp;•&nbsp; Dribbble
+              </div>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">iOS 7 Was Leggings</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2018 &nbsp;•&nbsp; Layout.fm
+              </div>
+            </div>
+
+            <!-- Item 8 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Founder of Abstract</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2016 &nbsp;•&nbsp; Sam Solomon
+              </div>
+            </div>
+
+            <!-- Item 9 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Stop Calling the iPhone a Phone</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2016 &nbsp;•&nbsp; Layout.fm
+              </div>
+            </div>
+
+            <!-- Item 10 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">The Right Look and Feel</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2014 &nbsp;•&nbsp; ZURB Soapbox
+              </div>
+            </div>
+
+            <!-- Item 11 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Working with talented people</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2014 &nbsp;•&nbsp; Creative Bloq
+              </div>
+            </div>
+
+            <!-- Item 12 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Tim Van Damme</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2014 &nbsp;•&nbsp; The Great Discontent
+              </div>
+            </div>
+
+            <!-- Item 13 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Inside the mind of a designer</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2013 &nbsp;•&nbsp; The Next Web
+              </div>
+            </div>
+
+            <!-- Item 14 -->
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
+              <div class="w-full sm:w-[520px] flex-shrink-0">
+                <a href="#" class="ref-link text-[22px] font-normal">Van Damme, that's good design</a>
+              </div>
+              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
+                2010 &nbsp;•&nbsp; Jeffrey Zeldman
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ==================== FOOTER ==================== -->
+      <footer class="section-divider pt-[70px] pb-24 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        
+        <!-- Live Ticking Clock & Availability -->
+        <div class="flex items-center gap-3 text-xs font-mono text-neutral-400 tracking-wider">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-900 border border-neutral-700/60">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>AVAILABLE FOR SELECT WORK</span>
+          </span>
+          <span class="hidden md:inline text-neutral-600">|</span>
+          <span id="live-clock" class="hidden md:inline text-neutral-400 font-mono">MADRID, ES — --:--:-- UTC+1</span>
+        </div>
+
+        <!-- Copyright Stamp -->
+        <div class="transform -rotate-[3.5deg] transition-transform duration-300 hover:rotate-0 hover:scale-110 cursor-pointer magnetic-target">
+          <span class="font-marker text-[#ea8676] text-[34px] tracking-wide inline-block drop-shadow-sm select-none">
+            © ALKEMIST 2026
+          </span>
+        </div>
+      </footer>
+
+    </main>
+
+  </div> <!-- End #scroll-skew-container -->
 
   <!-- ========================================================
        INTERACTIVE JAVASCRIPT CONTROLLER
@@ -1439,24 +1528,138 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-      // 1. SCROLL PROGRESS BAR
+      // 1. PROCEDURAL SOUND FX SYNTHESIZER (Web Audio API)
+      let audioCtx = null;
+      let soundEnabled = false;
+      const soundToggleBtn = document.getElementById('sound-toggle-btn');
+      const soundIcon = document.getElementById('sound-icon');
+      const soundLabel = document.getElementById('sound-label');
+
+      function initAudio() {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      }
+
+      function playSound(type) {
+        if (!soundEnabled || !audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'hover') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(780, now + 0.04);
+          gain.gain.setValueAtTime(0.02, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'badge') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.06);
+          gain.gain.setValueAtTime(0.04, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+          osc.start(now);
+          osc.stop(now + 0.06);
+        } else if (type === 'click') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(650, now);
+          osc.frequency.exponentialRampToValueAtTime(120, now + 0.05);
+          gain.gain.setValueAtTime(0.04, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        }
+      }
+
+      if (soundToggleBtn) {
+        soundToggleBtn.addEventListener('click', () => {
+          initAudio();
+          soundEnabled = !soundEnabled;
+          if (soundEnabled) {
+            soundIcon.textContent = '🔊';
+            soundLabel.textContent = 'FX: ON';
+            soundToggleBtn.classList.add('border-[#ea8676]', 'text-[#ea8676]');
+            playSound('click');
+          } else {
+            soundIcon.textContent = '🔇';
+            soundLabel.textContent = 'FX: OFF';
+            soundToggleBtn.classList.remove('border-[#ea8676]', 'text-[#ea8676]');
+          }
+        });
+      }
+
+      // 2. SCROLL PROGRESS & HUD
       const progressBar = document.getElementById('scroll-progress');
+      const hudScroll = document.getElementById('hud-scroll');
+      const hudFps = document.getElementById('hud-fps');
+      
+      let lastFrameTime = performance.now();
+      let frameCount = 0;
+      let fps = 60;
+
+      function updateFps(now) {
+        frameCount++;
+        if (now - lastFrameTime >= 1000) {
+          fps = Math.round((frameCount * 1000) / (now - lastFrameTime));
+          if (hudFps) hudFps.textContent = fps + ' FPS';
+          frameCount = 0;
+          lastFrameTime = now;
+        }
+        requestAnimationFrame(updateFps);
+      }
+      requestAnimationFrame(updateFps);
+
       window.addEventListener('scroll', () => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-        if (progressBar) {
-          progressBar.style.width = progress + '%';
-        }
+        if (progressBar) progressBar.style.width = progress + '%';
+        if (hudScroll) hudScroll.textContent = Math.round(progress) + '%';
       }, { passive: true });
 
-      // 2. AMBIENT MOUSE GLOW & CUSTOM ELASTIC CURSOR
+      // 3. SCROLL VELOCITY KINETIC SKEW
+      let lastScrollY = window.scrollY;
+      let scrollVelocity = 0;
+      let currentSkew = 0;
+      const skewContainer = document.getElementById('scroll-skew-container');
+
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        scrollVelocity = currentScrollY - lastScrollY;
+        lastScrollY = currentScrollY;
+      }, { passive: true });
+
+      function animateScrollSkew() {
+        const targetSkew = Math.max(-1.5, Math.min(1.5, scrollVelocity * 0.04));
+        currentSkew += (targetSkew - currentSkew) * 0.16;
+        scrollVelocity *= 0.88;
+
+        if (skewContainer) {
+          if (Math.abs(currentSkew) > 0.01) {
+            skewContainer.style.transform = `skewY(${currentSkew.toFixed(3)}deg)`;
+          } else {
+            skewContainer.style.transform = 'none';
+          }
+        }
+        requestAnimationFrame(animateScrollSkew);
+      }
+      requestAnimationFrame(animateScrollSkew);
+
+      // 4. AMBIENT MOUSE GLOW & CUSTOM ELASTIC CURSOR WITH INK PARTICLES
       const cursorFollower = document.getElementById('cursor-follower');
       const cursorDot = document.getElementById('cursor-dot');
       let mouseX = window.innerWidth / 2;
       let mouseY = window.innerHeight / 2;
       let followerX = mouseX;
       let followerY = mouseY;
+      let lastTrailTime = 0;
 
       window.addEventListener('pointermove', (e) => {
         mouseX = e.clientX;
@@ -1467,9 +1670,27 @@
           cursorDot.style.left = mouseX + 'px';
           cursorDot.style.top = mouseY + 'px';
         }
+
+        // Spawn delicate micro-droplets on movement
+        const now = performance.now();
+        if (now - lastTrailTime > 38) {
+          lastTrailTime = now;
+          createInkParticle(e.clientX, e.clientY);
+        }
       }, { passive: true });
 
-      // Smooth Lerp loop for custom cursor follower
+      function createInkParticle(x, y) {
+        const p = document.createElement('div');
+        p.className = 'ink-particle';
+        const size = Math.random() * 3 + 2;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = (x + (Math.random() * 8 - 4)) + 'px';
+        p.style.top = (y + (Math.random() * 8 - 4)) + 'px';
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 600);
+      }
+
       function animateCursor() {
         followerX += (mouseX - followerX) * 0.18;
         followerY += (mouseY - followerY) * 0.18;
@@ -1481,30 +1702,38 @@
       }
       requestAnimationFrame(animateCursor);
 
-      // Expand cursor on hover over interactive targets
+      // Expand cursor & sound on hover
       const interactiveTargets = document.querySelectorAll('a, button, .section-badge, .marker-stamp, .preview-trigger, .work-row');
       interactiveTargets.forEach(el => {
-        el.addEventListener('mouseenter', () => cursorFollower && cursorFollower.classList.add('cursor-hover'));
-        el.addEventListener('mouseleave', () => cursorFollower && cursorFollower.classList.remove('cursor-hover'));
+        el.addEventListener('mouseenter', () => {
+          if (cursorFollower) cursorFollower.classList.add('cursor-hover');
+          playSound('hover');
+        });
+        el.addEventListener('mouseleave', () => {
+          if (cursorFollower) cursorFollower.classList.remove('cursor-hover');
+        });
       });
 
-      // 3. MAGNETIC ELEMENTS PULL
+      // 5. MAGNETIC ELEMENTS PULL
       const magneticTargets = document.querySelectorAll('.magnetic-target');
       magneticTargets.forEach(target => {
         target.addEventListener('mousemove', (e) => {
           const rect = target.getBoundingClientRect();
           const centerX = rect.left + rect.width / 2;
           const centerY = rect.top + rect.height / 2;
-          const deltaX = (e.clientX - centerX) * 0.28;
-          const deltaY = (e.clientY - centerY) * 0.28;
+          const deltaX = (e.clientX - centerX) * 0.3;
+          const deltaY = (e.clientY - centerY) * 0.3;
           target.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.03)`;
         });
         target.addEventListener('mouseleave', () => {
           target.style.transform = '';
         });
+        target.addEventListener('click', () => {
+          playSound('badge');
+        });
       });
 
-      // 4. CIPHER / TEXT SCRAMBLE ON HOVER
+      // 6. CIPHER / TEXT SCRAMBLE ON HOVER
       const scrambleTriggers = document.querySelectorAll('.scramble-trigger');
       const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
       scrambleTriggers.forEach(el => {
@@ -1526,7 +1755,7 @@
         });
       });
 
-      // 5. 3D HERO TILT & DOODLE PARALLAX
+      // 7. 3D HERO TILT & DOODLE PARALLAX
       const heroCard = document.getElementById('hero-tilt-card');
       const doodles = document.getElementById('hero-doodles');
       if (heroCard) {
@@ -1565,6 +1794,7 @@
         // Click Burst Sparkle on Hero
         heroCard.addEventListener('click', (e) => {
           createBurst(e.clientX, e.clientY);
+          playSound('click');
         });
       }
 
@@ -1582,7 +1812,41 @@
         setTimeout(() => star.remove(), 700);
       }
 
-      // 6. FLOATING PROJECT PREVIEW CARD
+      // 8. INTERACTIVE DRAGGABLE DOODLES IN HERO
+      const draggables = document.querySelectorAll('.draggable-doodle');
+      let activeDrag = null;
+      let dragStart = { x: 0, y: 0 };
+      let dragCurrent = { x: 0, y: 0 };
+
+      draggables.forEach(item => {
+        item.addEventListener('mousedown', (e) => {
+          activeDrag = item;
+          dragStart.x = e.clientX;
+          dragStart.y = e.clientY;
+          const transform = item.getAttribute('transform') || '';
+          const match = /translate\(([^,]+)[,\s]+([^)]+)\)/.exec(transform);
+          dragCurrent.x = match ? parseFloat(match[1]) : 0;
+          dragCurrent.y = match ? parseFloat(match[2]) : 0;
+          playSound('hover');
+          e.stopPropagation();
+        });
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!activeDrag) return;
+        const dx = e.clientX - dragStart.x;
+        const dy = e.clientY - dragStart.y;
+        activeDrag.setAttribute('transform', `translate(${dragCurrent.x + dx}, ${dragCurrent.y + dy})`);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (activeDrag) {
+          playSound('badge');
+          activeDrag = null;
+        }
+      });
+
+      // 9. FLOATING PROJECT PREVIEW CARD
       const previewCard = document.getElementById('project-preview-card');
       const previewTitle = document.getElementById('preview-title');
       const previewCompany = document.getElementById('preview-company');
@@ -1630,7 +1894,7 @@
         previewCard.style.top = top + 'px';
       }
 
-      // 7. INTERACTIVE CASE STUDY MODAL DRAWER
+      // 10. INTERACTIVE CASE STUDY MODAL DRAWER
       const modal = document.getElementById('case-study-modal');
       const modalCloseBtn = document.getElementById('modal-close-btn');
       const modalTitle = document.getElementById('modal-title');
@@ -1648,6 +1912,7 @@
         modal.classList.add('open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        playSound('click');
       }
 
       function closeModal() {
@@ -1655,6 +1920,7 @@
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        playSound('hover');
       }
 
       modalTriggers.forEach(trigger => {
@@ -1676,7 +1942,7 @@
         }
       });
 
-      // 8. INTERACTIVE DOODLE MODE CANVAS (Draw directly on screen)
+      // 11. INTERACTIVE DOODLE MODE CANVAS (Draw directly on screen)
       const doodleCanvas = document.getElementById('doodle-canvas');
       const doodleToggleBtn = document.getElementById('doodle-toggle-btn');
       const doodleStatusText = document.getElementById('doodle-status-text');
@@ -1697,6 +1963,7 @@
         doodleToggleBtn.addEventListener('click', () => {
           isDoodleMode = !isDoodleMode;
           doodleCanvas.classList.toggle('active', isDoodleMode);
+          playSound('click');
           if (isDoodleMode) {
             doodleStatusText.textContent = 'DOODLE MODE: ON';
             doodleToggleBtn.classList.add('bg-[#ea8676]', 'text-black', 'border-[#ea8676]');
@@ -1710,6 +1977,7 @@
 
         clearDoodleBtn.addEventListener('click', () => {
           ctx.clearRect(0, 0, doodleCanvas.width, doodleCanvas.height);
+          playSound('badge');
         });
 
         doodleCanvas.addEventListener('mousedown', (e) => {
@@ -1737,7 +2005,7 @@
         });
       }
 
-      // 9. LIVE TICKING CLOCK IN FOOTER
+      // 12. LIVE TICKING CLOCK IN FOOTER
       const liveClock = document.getElementById('live-clock');
       function updateClock() {
         if (!liveClock) return;
@@ -1750,7 +2018,7 @@
       setInterval(updateClock, 1000);
       updateClock();
 
-      // 10. SCROLL REVEAL OBSERVER
+      // 13. SCROLL REVEAL OBSERVER
       const revealSections = document.querySelectorAll('.reveal-section');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
