@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="es" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alkemist — UX/UI Design Portfolio</title>
+  <title>alimanog — Alicia | Ilustración, Animación Digital & Diseño</title>
   <meta name="description"
-    content="Portfolio of Alkemist — Senior UX/UI & Product Designer crafting intuitive digital experiences, design systems, and surfaces that elevate digital products.">
+    content="Porfolio de Alicia (alimanog) — Ilustración, animación digital, motion graphics, maquetación editorial y diseño gráfico. Estudiante en la ESI.">
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts: Bebas Neue for outline & badges, Permanent Marker for coral script, Inter for body -->
+  <!-- Google Fonts: Bebas Neue for outline & badges, Permanent Marker for coral script, Inter & DM Mono for body -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&family=DM+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
   <script>
@@ -23,10 +23,12 @@
       theme: {
         extend: {
           colors: {
-            brandDark: '#161616',
+            brandDark: '#111215',
+            brandDarker: '#0c0d0f',
             brandCoral: '#ea8676',
+            brandYellow: '#FFD60A',
             brandBadge: '#d4d4d4',
-            brandLine: '#333333',
+            brandLine: '#2b2d33',
             brandText: '#e5e5e5',
             brandMuted: '#9e9e9e',
           },
@@ -34,6 +36,7 @@
             heading: ['"Bebas Neue"', 'sans-serif'],
             marker: ['"Permanent Marker"', 'cursive'],
             sans: ['"Inter"', 'sans-serif'],
+            mono: ['"DM Mono"', 'monospace'],
           }
         }
       }
@@ -42,7 +45,7 @@
 
   <style>
     body {
-      background-color: #161616;
+      background-color: #111215;
       color: #e5e5e5;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0;
@@ -53,21 +56,21 @@
 
     /* Textured tactile background */
     .noise-bg {
-      background-color: #161616;
+      background-color: #111215;
       background-image:
-        radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 0),
-        linear-gradient(to bottom, rgba(22, 22, 22, 0.98), #161616);
+        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0),
+        linear-gradient(to bottom, rgba(17, 18, 21, 0.98), #111215);
       background-size: 24px 24px, 100% 100%;
     }
 
-    /* Scroll Velocity Kinetic Skew Container */
+    /* Kinetic skew container */
     #scroll-skew-container {
       will-change: transform;
       transform-origin: center center;
       transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Subtle cursor ambient glow that tracks the pointer */
+    /* Ambient cursor glow */
     .ambient-glow {
       position: fixed;
       top: 0;
@@ -76,7 +79,7 @@
       height: 100vh;
       pointer-events: none;
       z-index: 1;
-      background: radial-gradient(750px circle at var(--mouse-x, 50vw) var(--mouse-y, 35vh), rgba(234, 134, 118, 0.05), transparent 75%);
+      background: radial-gradient(700px circle at var(--mouse-x, 50vw) var(--mouse-y, 35vh), rgba(234, 134, 118, 0.06), transparent 75%);
       transition: opacity 0.4s ease;
     }
 
@@ -87,7 +90,7 @@
       left: 0;
       width: 32px;
       height: 32px;
-      border: 1.5px solid rgba(234, 134, 118, 0.65);
+      border: 1.5px solid rgba(234, 134, 118, 0.7);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
@@ -99,7 +102,7 @@
     #cursor-follower.cursor-hover {
       width: 58px;
       height: 58px;
-      background-color: rgba(234, 134, 118, 0.14);
+      background-color: rgba(234, 134, 118, 0.15);
       border-color: #ea8676;
     }
 
@@ -122,19 +125,19 @@
       top: 0;
       left: 0;
       height: 3px;
-      background: linear-gradient(90deg, #ea8676, #ffaba0, #ea8676);
+      background: linear-gradient(90deg, #ea8676, #FFD60A, #ea8676);
       z-index: 999;
       box-shadow: 0 0 14px rgba(234, 134, 118, 0.85);
       transition: width 0.1s ease-out;
       width: 0%;
     }
 
-    /* Section Badges: 84px tall, 6px radius, Bebas Neue 54px */
+    /* Section Badges: exact brutalist proportions */
     .section-badge {
       background-color: #d4d4d4;
-      color: #161616;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 54px;
+      color: #111215;
+      font-family: 'Bebas Neue', 'Impact', sans-serif;
+      font-size: 52px;
       font-weight: 900;
       letter-spacing: 0.04em;
       line-height: 1;
@@ -157,13 +160,99 @@
       box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(234, 134, 118, 0.5);
     }
 
+    /* Core Editorial Grid Layout (matches reference.png independently of CDN) */
+    .editorial-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+      .editorial-grid {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .badge-col {
+        width: 540px !important;
+        flex-shrink: 0;
+        margin-bottom: 0 !important;
+      }
+      .content-col {
+        flex: 1;
+        max-width: 1140px;
+      }
+    }
+
+    .two-col-text {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      font-size: 21px;
+      line-height: 38px;
+      color: #dedede;
+    }
+
+    @media (min-width: 768px) {
+      .two-col-text {
+        flex-direction: row;
+        gap: 56px;
+      }
+      .two-col-text > div {
+        flex: 1;
+      }
+    }
+
+    .editorial-table-row {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 28px 12px;
+      border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    @media (min-width: 768px) {
+      .editorial-table-row {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 56px;
+      }
+      .editorial-row-left {
+        width: 440px !important;
+        flex-shrink: 0;
+      }
+      .editorial-row-right {
+        flex: 1;
+      }
+    }
+
+    .editorial-table-row:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+      transform: translateX(6px);
+    }
+
+    .marker-alicia {
+      font-family: 'Permanent Marker', 'Brush Script MT', 'Comic Sans MS', cursive, sans-serif;
+      color: #ea8676;
+      font-size: clamp(68px, 9vw, 160px);
+      line-height: 0.9;
+      letter-spacing: 0.04em;
+      display: inline-block;
+      transform: rotate(-3.5deg);
+      margin-top: -30px;
+      margin-left: 50px;
+      filter: drop-shadow(0 8px 18px rgba(234, 134, 118, 0.45));
+    }
+
     /* Links & Underlines */
     .ref-link {
       color: #e5e5e5;
       text-decoration: underline;
       text-underline-offset: 6px;
       text-decoration-thickness: 1.5px;
-      text-decoration-color: #8c8c8c;
+      text-decoration-color: #737373;
       transition: text-decoration-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
       display: inline-block;
     }
@@ -174,243 +263,104 @@
       transform: translateY(-1px);
     }
 
-    /* Subtle dotted line separator between work & project items */
+    /* Dotted line separator */
     .dotted-separator {
-      border-bottom: 1px dotted rgba(255, 255, 255, 0.22);
+      border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
     }
 
     /* Solid divider lines */
     .section-divider {
-      border-top: 1.5px solid rgba(255, 255, 255, 0.18);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.16);
     }
 
-    /* ========================================================
-       KEYFRAME ANIMATIONS & SQUIGGLEVISION FILTER
-       ======================================================== */
-
-    /* Organic Hand-Drawn Squigglevision (cartoon frame vibration) */
+    /* Organic Hand-Drawn Squigglevision */
     @keyframes squigglevision {
-      0% {
-        filter: url(#squiggle-0);
-      }
-      25% {
-        filter: url(#squiggle-1);
-      }
-      50% {
-        filter: url(#squiggle-2);
-      }
-      75% {
-        filter: url(#squiggle-3);
-      }
-      100% {
-        filter: url(#squiggle-0);
-      }
+      0% { filter: url(#squiggle-0); }
+      25% { filter: url(#squiggle-1); }
+      50% { filter: url(#squiggle-2); }
+      75% { filter: url(#squiggle-3); }
+      100% { filter: url(#squiggle-0); }
     }
 
     .squiggle-alive {
       animation: squigglevision 0.38s steps(1) infinite;
     }
 
-    /* Wagging devil tail */
+    /* Devil tail wag */
     @keyframes tailWag {
-      0%, 100% {
-        transform: rotate(0deg);
-      }
-      25% {
-        transform: rotate(3deg) translateY(-2px);
-      }
-      75% {
-        transform: rotate(-3.5deg) translateY(2px);
-      }
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(3deg) translateY(-2px); }
+      75% { transform: rotate(-3.5deg) translateY(2px); }
     }
 
     .doodle-tail {
-      transform-origin: 1500px 820px;
+      transform-origin: 1480px 800px;
       animation: tailWag 3.2s ease-in-out infinite;
-      transition: filter 0.3s ease;
     }
 
-    .doodle-tail:hover {
-      filter: drop-shadow(0 0 10px rgba(234, 134, 118, 0.9));
-    }
-
-    /* Radiating Idea Sparks / Rays */
+    /* Radiating Idea Sparks */
     @keyframes rayPulse {
-      0%, 100% {
-        opacity: 0.35;
-        transform: scale(0.96);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
+      0%, 100% { opacity: 0.35; transform: scale(0.96); }
+      50% { opacity: 1; transform: scale(1.05); }
     }
 
-    .doodle-ray-1 {
-      transform-origin: 805px 780px;
-      animation: rayPulse 2.1s ease-in-out infinite;
-    }
+    .doodle-ray-1 { transform-origin: 805px 780px; animation: rayPulse 2.1s ease-in-out infinite; }
+    .doodle-ray-2 { transform-origin: 885px 720px; animation: rayPulse 2.4s ease-in-out 0.4s infinite; }
+    .doodle-ray-3 { transform-origin: 990px 685px; animation: rayPulse 1.9s ease-in-out 0.8s infinite; }
+    .doodle-ray-4 { transform-origin: 1115px 710px; animation: rayPulse 2.3s ease-in-out 1.2s infinite; }
 
-    .doodle-ray-2 {
-      transform-origin: 885px 720px;
-      animation: rayPulse 2.4s ease-in-out 0.4s infinite;
-    }
-
-    .doodle-ray-3 {
-      transform-origin: 990px 685px;
-      animation: rayPulse 1.9s ease-in-out 0.8s infinite;
-    }
-
-    .doodle-ray-4 {
-      transform-origin: 1115px 710px;
-      animation: rayPulse 2.3s ease-in-out 1.2s infinite;
-    }
-
-    /* Horizontal Energy Marks next to laptop */
+    /* Energy marks */
     @keyframes energyHum {
-      0%, 100% {
-        opacity: 0.4;
-        stroke-dashoffset: 0;
-        transform: translateX(0);
-      }
-      50% {
-        opacity: 1;
-        stroke-dashoffset: 8;
-        transform: translateX(3px);
-      }
+      0%, 100% { opacity: 0.4; transform: translateX(0); }
+      50% { opacity: 1; transform: translateX(4px); }
     }
+    .doodle-energy-1 { animation: energyHum 1.8s ease-in-out infinite; }
+    .doodle-energy-2 { animation: energyHum 1.8s ease-in-out 0.5s infinite; }
 
-    .doodle-energy-1 {
-      animation: energyHum 1.8s ease-in-out infinite;
-    }
-
-    .doodle-energy-2 {
-      animation: energyHum 1.8s ease-in-out 0.5s infinite;
-    }
-
-    /* Gentle floating sparkle & cursor */
+    /* Floating Bob */
     @keyframes floatBob {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-9px) rotate(3deg);
-      }
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(3deg); }
     }
+    .doodle-sparkle { transform-origin: 1600px 130px; animation: floatBob 3.8s ease-in-out infinite; }
 
-    .doodle-sparkle {
-      transform-origin: 1600px 130px;
-      animation: floatBob 3.8s ease-in-out infinite;
-    }
+    /* Horn Twitch */
+    @keyframes hornTwitchL { 0%, 88%, 100% { transform: rotate(0deg); } 92% { transform: rotate(-4deg); } 96% { transform: rotate(2deg); } }
+    @keyframes hornTwitchR { 0%, 88%, 100% { transform: rotate(0deg); } 92% { transform: rotate(4deg); } 96% { transform: rotate(-2deg); } }
+    .doodle-horn-l { transform-origin: 1220px 330px; animation: hornTwitchL 6s ease-in-out infinite; }
+    .doodle-horn-r { transform-origin: 1360px 350px; animation: hornTwitchR 6s ease-in-out 0.4s infinite; }
 
-    /* Subtle horn twitch */
-    @keyframes hornTwitchL {
-      0%, 88%, 100% {
-        transform: rotate(0deg);
-      }
-      92% {
-        transform: rotate(-4deg);
-      }
-      96% {
-        transform: rotate(2deg);
-      }
-    }
-
-    @keyframes hornTwitchR {
-      0%, 88%, 100% {
-        transform: rotate(0deg);
-      }
-      92% {
-        transform: rotate(4deg);
-      }
-      96% {
-        transform: rotate(-2deg);
-      }
-    }
-
-    .doodle-horn-l {
-      transform-origin: 1248px 355px;
-      animation: hornTwitchL 6s ease-in-out infinite;
-    }
-
-    .doodle-horn-r {
-      transform-origin: 1350px 375px;
-      animation: hornTwitchR 6s ease-in-out 0.4s infinite;
-    }
-
-    /* Interactive Face Doodles Hover Shake */
-    .doodle-face {
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      transform-origin: 1300px 520px;
-    }
-
-    #hero-tilt-card:hover .doodle-face {
-      transform: scale(1.02);
-    }
-
-    /* Draggable Doodles in Hero */
-    .draggable-doodle {
-      cursor: grab;
-      pointer-events: auto !important;
-      transition: filter 0.2s ease;
-    }
-
-    .draggable-doodle:active {
-      cursor: grabbing;
-      filter: drop-shadow(0 0 16px rgba(234, 134, 118, 0.95));
-    }
-
-    /* ALKEMIST Outline Draw-in Animation on load */
+    /* Stroked Tube Outline Draw-in */
     @keyframes strokeDraw {
-      0% {
-        stroke-dasharray: 1400;
-        stroke-dashoffset: 1400;
-        fill: transparent;
-      }
-      75% {
-        stroke-dasharray: 1400;
-        stroke-dashoffset: 0;
-        fill: transparent;
-      }
-      100% {
-        stroke-dasharray: 1400;
-        stroke-dashoffset: 0;
-        fill: rgba(226, 226, 226, 0.04);
-      }
+      0% { stroke-dasharray: 1400; stroke-dashoffset: 1400; fill: transparent; }
+      75% { stroke-dasharray: 1400; stroke-dashoffset: 0; fill: transparent; }
+      100% { stroke-dasharray: 1400; stroke-dashoffset: 0; fill: rgba(229, 229, 229, 0.04); }
     }
 
-    .alkemist-title-stroke {
+    .alimanog-title-stroke {
       stroke-dasharray: 1400;
       stroke-dashoffset: 0;
       animation: strokeDraw 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       transition: stroke 0.3s ease, filter 0.3s ease, fill 0.3s ease;
     }
 
-    .alkemist-title-stroke:hover {
+    .alimanog-title-stroke:hover {
       stroke: #ffffff;
-      fill: rgba(234, 134, 118, 0.08);
-      filter: drop-shadow(0 0 20px rgba(234, 134, 118, 0.35));
+      fill: rgba(234, 134, 118, 0.1);
+      filter: drop-shadow(0 0 24px rgba(234, 134, 118, 0.4));
       cursor: default;
     }
 
-    /* UX/UI DESIGN Marker Stamp entrance */
+    /* Marker stamp entrance */
     @keyframes stampIn {
-      0% {
-        opacity: 0;
-        transform: rotate(-3.5deg) scale(0.85);
-      }
-      70% {
-        opacity: 1;
-        transform: rotate(-2deg) scale(1.06);
-      }
-      100% {
-        opacity: 1;
-        transform: rotate(-3.5deg) scale(1);
-      }
+      0% { opacity: 0.8; transform: rotate(-3.5deg) scale(0.92); }
+      70% { opacity: 1; transform: rotate(-2deg) scale(1.04); }
+      100% { opacity: 1; transform: rotate(-3.5deg) scale(1); }
     }
 
     .marker-stamp {
-      animation: stampIn 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s backwards;
+      opacity: 1 !important;
+      animation: stampIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
       display: inline-block;
       cursor: pointer;
@@ -421,27 +371,21 @@
       filter: drop-shadow(0 10px 24px rgba(234, 134, 118, 0.5));
     }
 
-    /* Kinetic Infinite Marquee */
+    /* Ticker Marquee */
     @keyframes marqueeScroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
     .marquee-track {
       display: flex;
       width: max-content;
-      animation: marqueeScroll 25s linear infinite;
+      animation: marqueeScroll 26s linear infinite;
     }
 
-    .marquee-track:hover {
-      animation-play-state: paused;
-    }
+    .marquee-track:hover { animation-play-state: paused; }
 
-    /* Work and Project Rows Interactive Highlighting */
+    /* Work Rows Highlighting */
     .work-row {
       border-radius: 8px;
       transition: background-color 0.25s ease, padding 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -463,7 +407,6 @@
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    /* Links Section pill hover style */
     .link-pill {
       display: inline-flex;
       align-items: center;
@@ -477,7 +420,6 @@
       transform: translateY(-2px);
     }
 
-    /* Elsewhere rows hover */
     .elsewhere-row {
       border-radius: 6px;
       transition: background-color 0.2s ease, transform 0.2s ease;
@@ -491,43 +433,32 @@
       transform: translateX(4px);
     }
 
-    /* Scroll Reveal animations */
+    /* Scroll Reveal with robust progressive fallback */
     .reveal-section {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
-    }
-
-    .reveal-section.is-visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: none;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .reveal-badge {
-      opacity: 0;
-      transform: scale(0.92) translateX(-16px);
-      transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .reveal-section.is-visible .reveal-badge {
       opacity: 1;
-      transform: scale(1) translateX(0);
+      transform: none;
+      transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    /* Floating Project Preview Popover Card */
+    /* Floating Project Preview Popover */
     #project-preview-card {
       position: fixed;
       pointer-events: none;
       z-index: 1000;
-      width: 300px;
-      background: rgba(24, 24, 27, 0.94);
+      width: 320px;
+      background: rgba(20, 21, 25, 0.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(234, 134, 118, 0.35);
-      padding: 16px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(234, 134, 118, 0.35);
+      padding: 14px;
       opacity: 0;
       transform: scale(0.9) translateY(12px);
       transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -538,77 +469,24 @@
       transform: scale(1) translateY(0);
     }
 
-    /* Interactive click burst particle on hero */
-    .burst-particle {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      width: 24px;
-      height: 24px;
-      transform: translate(-50%, -50%) scale(0);
-      animation: burstPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    /* Halftone Portrait effect */
+    .halftone-portrait {
+      filter: grayscale(100%) contrast(125%) brightness(95%);
+      mix-blend-mode: luminosity;
+      transition: filter 0.4s ease, transform 0.4s ease;
     }
 
-    @keyframes burstPop {
-      0% {
-        transform: translate(-50%, -50%) scale(0) rotate(0deg);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.6) rotate(90deg);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(2.2) rotate(180deg);
-        opacity: 0;
-      }
+    #hero-tilt-card:hover .halftone-portrait {
+      filter: grayscale(80%) contrast(135%) brightness(102%);
+      transform: scale(1.02);
     }
 
-    /* Moving Cursor Sparkle/Ink Droplets */
-    .ink-particle {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9998;
-      border-radius: 50%;
-      background: #ea8676;
-      opacity: 0.8;
-      transform: translate(-50%, -50%) scale(1);
-      animation: inkFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes inkFade {
-      0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(0) translateY(14px);
-        opacity: 0;
-      }
-    }
-
-    /* Interactive Doodle Drawing Canvas Overlay */
-    #doodle-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 40;
-      pointer-events: none;
-      cursor: crosshair;
-    }
-
-    #doodle-canvas.active {
-      pointer-events: auto;
-    }
-
-    /* Interactive Case Study Drawer Modal */
+    /* Modal styles */
     #case-study-modal {
       position: fixed;
       inset: 0;
       z-index: 2000;
-      background: rgba(10, 10, 12, 0.82);
+      background: rgba(10, 10, 12, 0.85);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       display: flex;
@@ -626,14 +504,14 @@
 
     #case-study-content {
       width: 100%;
-      max-width: 900px;
-      max-height: 85vh;
+      max-width: 960px;
+      max-height: 88vh;
       overflow-y: auto;
-      background: #18191c;
+      background: #15161a;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 20px 20px 0 0;
-      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(234, 134, 118, 0.3);
-      padding: 36px 40px;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(234, 134, 118, 0.3);
+      padding: 32px 36px;
       transform: translateY(100%);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -642,7 +520,26 @@
       transform: translateY(0);
     }
 
-    /* Accessibility: Respect Reduced Motion */
+    /* Interactive typewriter box for Würfel font */
+    .wuerfel-box {
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: #0f1013;
+      border: 1px solid #2b2d33;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 120px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .wuerfel-box:focus {
+      border-color: #FFD60A;
+      box-shadow: 0 0 0 2px rgba(255, 214, 10, 0.25);
+    }
+
+    /* Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
       *, ::before, ::after {
         animation-duration: 0.01ms !important;
@@ -663,7 +560,7 @@
 
 <body class="noise-bg selection:bg-[#ea8676] selection:text-black relative">
 
-  <!-- SVG Squigglevision Filters for Alive Hand-Drawn Wiggle -->
+  <!-- SVG Filters for alive squigglevision -->
   <svg class="hidden" width="0" height="0">
     <defs>
       <filter id="squiggle-0">
@@ -688,14 +585,12 @@
   <!-- Reading Progress Bar -->
   <div id="scroll-progress"></div>
 
-  <!-- Custom Elastic Cursor Follower & Dot -->
+  <!-- Custom Cursor Elements -->
   <div id="cursor-follower" class="hidden md:block"></div>
   <div id="cursor-dot" class="hidden md:block"></div>
-
-  <!-- Ambient Cursor Glow Follower -->
   <div id="ambient-glow" class="ambient-glow"></div>
 
-  <!-- Top Bar: Floating Live HUD & Sound FX Toggle -->
+  <!-- Top Floating HUD -->
   <div class="fixed top-4 right-6 z-50 flex items-center gap-2 text-[11px] font-mono tracking-wider">
     <div class="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900/90 border border-neutral-700/60 backdrop-blur-md text-neutral-400">
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -709,44 +604,32 @@
     </button>
   </div>
 
-  <!-- Fullscreen Interactive Doodle Canvas -->
-  <canvas id="doodle-canvas"></canvas>
-
-  <!-- Floating Controls (Doodle Mode & Canvas Clear) -->
-  <div class="fixed bottom-6 right-6 z-50 flex items-center gap-2">
-    <button id="clear-doodle-btn" class="hidden px-3.5 py-2 rounded-full bg-neutral-800/90 border border-neutral-600/80 text-neutral-300 font-mono text-xs uppercase hover:bg-red-500/20 hover:text-red-300 transition-all shadow-lg backdrop-blur-md">
-      Clear ↺
-    </button>
-    <button id="doodle-toggle-btn" class="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#18181b]/90 border border-neutral-700/80 text-white font-mono text-xs tracking-wider uppercase shadow-2xl hover:bg-[#ea8676] hover:text-black hover:border-[#ea8676] transition-all backdrop-blur-md cursor-pointer select-none">
-      <span class="animate-bounce">✏️</span>
-      <span id="doodle-status-text">DOODLE MODE: OFF</span>
-    </button>
-  </div>
-
   <!-- Interactive Floating Project Preview Card -->
   <div id="project-preview-card">
-    <div class="flex items-center justify-between mb-2">
-      <span id="preview-company" class="text-[12px] font-mono uppercase tracking-wider text-[#ea8676] font-semibold">COMPANY</span>
-      <span id="preview-year" class="text-[11px] font-mono text-neutral-400">YEAR</span>
+    <div class="relative w-full h-36 rounded-lg overflow-hidden mb-2.5 bg-neutral-900 border border-white/10">
+      <img id="preview-img" src="images/storyboard/scene-01.jpg" alt="Vista previa del proyecto" class="w-full h-full object-cover">
+      <span id="preview-badge" class="absolute top-2 right-2 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#ea8676] text-black uppercase">2026</span>
     </div>
-    <h4 id="preview-title" class="text-[18px] font-bold text-white mb-1.5 leading-snug">Project Name</h4>
-    <p id="preview-desc" class="text-[13px] text-neutral-300 leading-relaxed mb-3">Product design and user experience craftsmanship.</p>
+    <div class="flex items-center justify-between mb-1">
+      <span id="preview-company" class="text-[12px] font-mono uppercase tracking-wider text-[#ea8676] font-semibold">ILUSTRACIÓN</span>
+      <span id="preview-year" class="text-[11px] font-mono text-neutral-400">2026</span>
+    </div>
+    <h4 id="preview-title" class="text-[17px] font-bold text-white mb-1 leading-snug">Visor de Storyboard</h4>
+    <p id="preview-desc" class="text-[12px] text-neutral-300 leading-relaxed mb-2">Cómic y narrativa en blanco y negro.</p>
     <div class="flex items-center justify-between pt-2 border-t border-neutral-700/60 text-[11px] font-mono text-neutral-400">
-      <span class="flex items-center gap-1.5">
-        <span class="inline-block w-2 h-2 rounded-full bg-[#ea8676] animate-pulse"></span>
-        <span id="preview-tag">UX Systems • Prototyping</span>
-      </span>
-      <span class="text-[#ea8676] font-semibold">Click to view ↗</span>
+      <span id="preview-tag" class="text-[#FFD60A]">★ Mi foco</span>
+      <span class="text-[#ea8676] font-semibold">Ver caso ↗</span>
     </div>
   </div>
 
   <!-- Interactive Case Study Drawer Modal -->
   <div id="case-study-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div id="case-study-content">
-      <div class="flex items-center justify-between pb-6 border-b border-neutral-800">
-        <div>
-          <span id="modal-company-badge" class="px-2.5 py-1 rounded bg-[#ea8676]/20 text-[#ea8676] font-mono text-xs uppercase tracking-wider font-semibold">FIGMA</span>
-          <span id="modal-year" class="text-neutral-400 font-mono text-xs ml-3">2024</span>
+      <div class="flex items-center justify-between pb-5 border-b border-neutral-800">
+        <div class="flex items-center gap-3">
+          <span id="modal-category-badge" class="px-2.5 py-1 rounded bg-[#ea8676]/20 text-[#ea8676] font-mono text-xs uppercase tracking-wider font-semibold">ILUSTRACIÓN</span>
+          <span id="modal-year" class="text-neutral-400 font-mono text-xs">2026</span>
+          <span id="modal-software" class="hidden sm:inline-flex px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 font-mono text-xs">Ai • Ps</span>
         </div>
         <button id="modal-close-btn" class="w-9 h-9 rounded-full bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700 flex items-center justify-center font-mono text-sm transition-colors cursor-pointer">
           ✕
@@ -754,54 +637,30 @@
       </div>
 
       <div class="py-6">
-        <h2 id="modal-title" class="text-3xl sm:text-4xl font-heading font-black tracking-wide text-white mb-3">UI3 Canvas & Toolbar Overhaul</h2>
-        <p id="modal-desc" class="text-lg text-neutral-300 leading-relaxed mb-6 font-normal">
-          A systematic transformation of Figma's desktop workspace, introducing ergonomics for spatial canvas computing, dynamic floating panels, and tactile tokens.
+        <h2 id="modal-title" class="text-3xl sm:text-4xl font-heading font-black tracking-wide text-white mb-2">Visor de Storyboard</h2>
+        <p id="modal-desc" class="text-base sm:text-lg text-neutral-300 leading-relaxed mb-6 font-normal">
+          Cómic en blanco y negro sobre un jardinero que pasa los días regando sus plantas. Con una imaginación desbordante, empieza a ver cómo una de ellas cobra vida y se lanza a atacarlo.
         </p>
 
-        <!-- Mockup Interface Card -->
-        <div class="relative w-full h-64 bg-[#111113] rounded-xl border border-neutral-800 p-6 overflow-hidden flex flex-col justify-between mb-8 shadow-inner">
-          <div class="flex items-center justify-between border-b border-neutral-800/80 pb-3">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-              <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
-              <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
-            </div>
-            <span class="font-mono text-xs text-neutral-500">figma.com/file/canvas-ui3</span>
-            <span class="text-xs font-mono text-[#ea8676]">LIVE PROTOTYPE</span>
-          </div>
-
-          <div class="grid grid-cols-3 gap-4 my-auto py-2">
-            <div class="p-3 bg-neutral-900/90 rounded border border-neutral-700/50">
-              <div class="text-xs text-neutral-400 font-mono">CANVAS PERFORMANCE</div>
-              <div class="text-xl font-bold text-white mt-1">120 FPS</div>
-              <div class="text-[11px] text-[#ea8676] mt-0.5">Smooth GPU Acceleration</div>
-            </div>
-            <div class="p-3 bg-neutral-900/90 rounded border border-neutral-700/50">
-              <div class="text-xs text-neutral-400 font-mono">TOKEN COVERAGE</div>
-              <div class="text-xl font-bold text-white mt-1">100% WCAG</div>
-              <div class="text-[11px] text-[#ea8676] mt-0.5">Dark & High Contrast</div>
-            </div>
-            <div class="p-3 bg-neutral-900/90 rounded border border-neutral-700/50">
-              <div class="text-xs text-neutral-400 font-mono">CLICK ACCURACY</div>
-              <div class="text-xl font-bold text-white mt-1">+34.8%</div>
-              <div class="text-[11px] text-[#ea8676] mt-0.5">Sub-pixel hit areas</div>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between pt-3 border-t border-neutral-800/80 text-xs font-mono text-neutral-400">
-            <span>Role: Principal UX & Interaction Architect</span>
-            <span>Duration: 18 Months</span>
-          </div>
+        <!-- Dynamic Container for Modal Media (Storyboard Gallery, Video or Type Tester) -->
+        <div id="modal-media-slot" class="mb-6">
+          <!-- Storyboard interactive player inserted dynamically -->
         </div>
 
-        <div class="space-y-4">
-          <h4 class="text-sm font-mono uppercase tracking-widest text-neutral-400">Key Architectural Deliverables</h4>
-          <ul class="space-y-2 text-neutral-300 list-disc list-inside">
-            <li>Floating bottom-center toolbar ergonomics tested with over 4,000 professional designers.</li>
-            <li>Zero-latency micro-interactions and tactile physics for snapping, resizing, and dragging surfaces.</li>
-            <li>Accessible typography scaling token system with sub-pixel alignment for OLED & Retina screens.</li>
-          </ul>
+        <!-- Details / Specs Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-neutral-800/80 font-mono text-xs text-neutral-400">
+          <div>
+            <span class="text-neutral-500 block">DISCIPLINA</span>
+            <span id="modal-meta-role" class="text-white font-semibold mt-0.5 block">Ilustración & Cómic Narrativo</span>
+          </div>
+          <div>
+            <span class="text-neutral-500 block">SOFTWARE UTILIZADO</span>
+            <span id="modal-meta-tools" class="text-[#ea8676] font-semibold mt-0.5 block">Illustrator, Photoshop, InDesign</span>
+          </div>
+          <div>
+            <span class="text-neutral-500 block">ESTUDIOS & CONTEXTO</span>
+            <span class="text-white font-semibold mt-0.5 block">ESI (Escuela Superior de Diseño)</span>
+          </div>
         </div>
       </div>
     </div>
@@ -812,199 +671,182 @@
 
     <main class="w-full max-w-[1920px] mx-auto px-6 sm:px-12 md:px-16 lg:px-[76px] pt-0 pb-16 relative z-10">
 
-      <!-- ==================== HERO SECTION (Height exact 1831px to first divider) ==================== -->
+      <!-- ==================== HERO SECTION ==================== -->
       <header class="w-full relative mb-16">
 
-        <!-- HERO IMAGE CONTAINER (1768px x 1095px with 3D Tilt interaction) -->
+        <!-- HERO IMAGE CARD (1768px x 1095px with 3D Tilt interaction) -->
         <div id="hero-tilt-card"
-          class="relative w-full h-[1095px] overflow-hidden rounded-[2px] transform -rotate-[0.6deg] bg-[#111111] shadow-2xl border border-white/5 mt-0 mb-16 cursor-crosshair transition-transform duration-300 ease-out">
+          class="relative w-full h-[620px] sm:h-[820px] lg:h-[1020px] overflow-hidden rounded-[4px] transform -rotate-[0.6deg] bg-[#111215] shadow-2xl border border-white/5 mt-0 mb-14 cursor-crosshair transition-transform duration-300 ease-out">
 
-          <!-- Placeholder Photo / Stage Graphic -->
-          <div class="absolute inset-0 w-full h-full bg-[#141414] overflow-hidden">
-            <svg class="w-full h-full object-cover opacity-90" viewBox="0 0 1768 1095" fill="none"
+          <!-- Background Stage Grid & Texture with Alicia's Portrait & Doodles in Single Coordinate Space -->
+          <div class="relative w-full h-full bg-[#111215] overflow-hidden">
+            
+            <svg id="hero-stage-svg" class="w-full h-full object-cover opacity-95 squiggle-alive" viewBox="0 0 1768 1095" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <radialGradient id="stageGlow" cx="50%" cy="30%" r="60%">
-                  <stop offset="0%" stop-color="#3a3a3a" />
-                  <stop offset="60%" stop-color="#181818" />
-                  <stop offset="100%" stop-color="#0e0e0e" />
+                  <stop offset="0%" stop-color="#2a2c32" />
+                  <stop offset="60%" stop-color="#141518" />
+                  <stop offset="100%" stop-color="#0e0f11" />
                 </radialGradient>
-                <pattern id="dotPattern" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                  <circle cx="6" cy="6" r="1.5" fill="#ffffff" fill-opacity="0.08" />
+                <pattern id="dotPattern" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                  <circle cx="7" cy="7" r="1.5" fill="#ffffff" fill-opacity="0.06" />
                 </pattern>
+                <!-- Soft vignette mask for Alicia's portrait -->
+                <radialGradient id="portraitMaskGrad" cx="50%" cy="45%" r="52%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+                  <stop offset="68%" stop-color="#ffffff" stop-opacity="0.95" />
+                  <stop offset="88%" stop-color="#ffffff" stop-opacity="0.4" />
+                  <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+                </radialGradient>
+                <mask id="portraitMask">
+                  <rect x="1040" y="100" width="680" height="995" fill="url(#portraitMaskGrad)" />
+                </mask>
               </defs>
               <rect width="1768" height="1095" fill="url(#stageGlow)" />
               <rect width="1768" height="1095" fill="url(#dotPattern)" />
 
-              <!-- Large circular logo on presentation screen behind presenter -->
-              <circle cx="620" cy="240" r="280" stroke="#ffffff" stroke-opacity="0.25" stroke-width="14" fill="#181818"
-                fill-opacity="0.8" />
-              <circle cx="620" cy="240" r="240" stroke="#ffffff" stroke-opacity="0.35" stroke-width="8"
-                stroke-dasharray="8 8" />
-              <path d="M620 110 L620 370 M490 240 L750 240" stroke="#ffffff" stroke-opacity="0.2" stroke-width="6" />
+              <!-- Stage presentation screen on left behind speaker (matches reference.png) -->
+              <circle cx="560" cy="270" r="260" stroke="#ffffff" stroke-opacity="0.22" stroke-width="12" fill="#16171b" fill-opacity="0.85" />
+              <circle cx="560" cy="270" r="225" stroke="#ffffff" stroke-opacity="0.3" stroke-width="6" stroke-dasharray="8 8" />
+              
+              <!-- Alicia's Destello logo inside the stage circle -->
+              <path d="M560 145 L566 250 L670 256 L574 270 L590 375 L552 284 L450 290 L546 260 Z" fill="#FFD60A" fill-opacity="0.85" />
+              <path d="M560 145 L566 250 L670 256 L574 270 L590 375 L552 284 L450 290 L546 260 Z" stroke="#ffffff" stroke-width="3" />
 
               <!-- Stage text on backdrop screen -->
-              <text x="380" y="540" font-family="'Inter', sans-serif" font-weight="900" font-size="64" fill="#ffffff"
-                fill-opacity="0.35" letter-spacing="2">Alkemist Live</text>
-              <text x="490" y="600" font-family="'Inter', sans-serif" font-weight="700" font-size="34" fill="#ffffff"
-                fill-opacity="0.2" letter-spacing="1">Config 2026</text>
+              <text x="340" y="560" font-family="'Bebas Neue', sans-serif" font-weight="900" font-size="78" fill="#ffffff" fill-opacity="0.4" letter-spacing="4">ALIMANOG LIVE</text>
+              <text x="440" y="620" font-family="'DM Mono', monospace" font-weight="500" font-size="28" fill="#FFD60A" fill-opacity="0.6" letter-spacing="2">ESI DISEÑO · 2026</text>
 
-              <!-- Presenter Silhouette & Laptop Podium -->
-              <path
-                d="M1020 1095 C1030 890, 1080 760, 1160 660 C1200 610, 1260 600, 1310 600 C1370 600, 1420 620, 1460 670 C1550 780, 1600 920, 1630 1095 Z"
-                fill="#2c2d30" />
-              <path d="M1160 660 C1200 740, 1240 890, 1260 1095 L1400 1095 C1410 920, 1430 760, 1460 670 Z"
-                fill="#383a3f" />
-              <ellipse cx="1300" cy="490" rx="90" ry="110" fill="#4a4b50" />
-              <!-- Baseball Cap -->
-              <path d="M1200 460 C1210 360, 1390 360, 1400 460 Z" fill="#d0d0d2" />
-              <path d="M1170 460 C1220 440, 1370 440, 1420 460 C1380 485, 1210 485, 1170 460 Z" fill="#1c1c1e" />
-              <rect x="1275" y="385" width="50" height="35" rx="4" fill="#222224" stroke="#ffffff" stroke-width="2" />
-              <!-- Headset mic -->
-              <path d="M1380 500 Q1350 550 1320 560" stroke="#111111" stroke-width="4" fill="none" />
-              <circle cx="1320" cy="560" r="6" fill="#111111" />
+              <!-- Alicia's Real Portrait placed in SVG coordinate space -->
+              <g mask="url(#portraitMask)">
+                <image href="images/portrait.jpg" x="1050" y="100" width="660" height="880" preserveAspectRatio="xMidYMid slice" opacity="0.95" />
+              </g>
 
-              <!-- Presenter Laptop & Podium -->
-              <polygon points="980,860 1340,820 1360,1095 960,1095" fill="#26272b" stroke="#333336" stroke-width="3" />
-              <polygon points="970,860 1320,810 1300,1010 950,1060" fill="#e8e8ea" stroke="#ffffff" stroke-width="4" />
-              <!-- Laptop stickers -->
-              <rect x="1000" y="880" width="60" height="24" rx="3" fill="#333333" />
-              <circle cx="1230" cy="880" r="18" fill="#333333" />
-              <circle cx="1120" cy="930" r="22" fill="#555555" />
-              <rect x="1170" y="920" width="80" height="30" rx="4" fill="#333333" />
-
-              <!-- Placeholder label in bottom left of hero -->
-              <rect x="80" y="980" width="340" height="48" rx="4" fill="#000000" fill-opacity="0.65" />
-              <text x="96" y="1012" font-family="'Inter', sans-serif" font-weight="600" font-size="18" fill="#a0a0a0"
-                letter-spacing="1">PLACEHOLDER HERO IMAGE</text>
-            </svg>
-
-            <!-- DOODLES OVERLAY MATCHING REFERENCE (With organic Squigglevision vibration & Draggable physics) -->
-            <svg id="hero-doodles" class="absolute inset-0 w-full h-full pointer-events-none transition-transform duration-200 ease-out squiggle-alive" viewBox="0 0 1768 1095" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
+              <!-- Laptop Podium & Stage Desk in front of Alicia -->
+              <polygon points="860,860 1240,810 1260,1095 840,1095" fill="#1c1d22" stroke="#2b2d35" stroke-width="3" />
+              <polygon points="850,860 1220,805 1190,1020 830,1070" fill="#e8e8ea" stroke="#ffffff" stroke-width="4" />
               
-              <!-- Devil Horns on baseball cap (with twitch animation & draggable) -->
-              <path class="doodle-horn-l draggable-doodle" d="M1215 360 C1200 280, 1225 220, 1265 250 C1245 280, 1240 310, 1248 355" stroke="#ea8676"
-                stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
-              <path class="doodle-horn-r draggable-doodle" d="M1365 355 C1385 280, 1430 240, 1395 300 C1380 325, 1370 340, 1350 375" stroke="#ea8676"
-                stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+              <!-- Laptop Stickers -->
+              <rect x="880" y="880" width="60" height="24" rx="3" fill="#222" />
+              <circle cx="1110" cy="880" r="18" fill="#FFD60A" fill-opacity="0.8" />
+              <circle cx="1000" cy="930" r="22" fill="#ea8676" fill-opacity="0.8" />
+              <rect x="1050" y="920" width="80" height="30" rx="4" fill="#333" />
 
-              <!-- Devil Face Features (Glasses, mustache, goatee - draggable) -->
-              <g class="doodle-face draggable-doodle">
-                <!-- Devil Glasses -->
-                <circle cx="1260" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-                <circle cx="1350" cy="495" r="46" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-                <path d="M1306 495 Q1315 480 1324 495" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <!-- Label in bottom left -->
+              <rect x="80" y="980" width="380" height="48" rx="4" fill="#000000" fill-opacity="0.8" />
+              <text x="96" y="1012" font-family="'DM Mono', monospace" font-weight="500" font-size="16" fill="#FFD60A" letter-spacing="1">ALICIA · ALIMANOG (ESI DISEÑO)</text>
 
-                <!-- Curled Handlebar Mustache -->
-                <path
-                  d="M1230 555 C1250 515, 1295 555, 1308 545 C1320 555, 1365 515, 1385 555 C1350 575, 1308 560, 1308 560 C1308 560, 1265 575, 1230 555 Z"
-                  fill="#ea8676" />
+              <!-- ================= DOODLES EXACTLY OVER ALICIA ================= -->
+              <!-- Devil Horns over Alicia's head (Head top is ~220, centered at x=1380) -->
+              <path class="doodle-horn-l" d="M1310 220 C1290 130, 1320 60, 1370 100 C1345 135, 1340 170, 1350 220" stroke="#ea8676"
+                stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+              <path class="doodle-horn-r" d="M1450 215 C1475 125, 1525 75, 1485 145 C1465 175, 1455 195, 1435 235" stroke="#ea8676"
+                stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
 
-                <!-- Pointed Goatee / Beard -->
-                <polygon points="1295,610 1308,680 1322,610" fill="#ea8676" />
+              <!-- Halo / Destello floating above head -->
+              <circle cx="1380" cy="65" r="48" stroke="#FFD60A" stroke-width="6" stroke-dasharray="14 10" />
+
+              <!-- Playful facial doodles aligned to Alicia's glasses & cheeks -->
+              <g class="doodle-face">
+                <!-- Golden star destello near left frame of glasses (x=1290, y=280) -->
+                <path d="M1270 280 L1278 255 L1286 280 L1310 288 L1286 296 L1278 320 L1270 296 L1246 288 Z" fill="#FFD60A" />
+                <!-- Coral blushes under eyes (y=360) -->
+                <path d="M1270 355 Q1290 360 1310 355" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+                <path d="M1450 355 Q1470 360 1490 355" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
               </g>
 
-              <!-- Devil Tail on Right (with smooth rhythmic wagging - draggable) -->
-              <g class="doodle-tail draggable-doodle">
-                <path d="M1500 820 C1590 770, 1680 530, 1620 370 C1595 320, 1575 370, 1585 405" stroke="#ea8676"
-                  stroke-width="9" stroke-linecap="round" />
-                <polygon points="1620,365 1665,310 1600,330" fill="#ea8676" />
+              <!-- Devil tail on right -->
+              <g class="doodle-tail">
+                <path d="M1620 780 C1690 730, 1750 510, 1700 360 C1675 315, 1655 360, 1665 395" stroke="#ea8676"
+                  stroke-width="10" stroke-linecap="round" />
+                <polygon points="1700,355 1740,305 1680,325" fill="#ea8676" />
               </g>
 
-              <!-- Radiating Idea Sparks / Rays above laptop (with pulsing energy) -->
-              <line class="doodle-ray-1" x1="840" y1="800" x2="770" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-              <line class="doodle-ray-2" x1="910" y1="750" x2="860" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-              <line class="doodle-ray-3" x1="1000" y1="720" x2="980" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-              <line class="doodle-ray-4" x1="1090" y1="750" x2="1140" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <!-- Radiating Idea Sparks / Kinetic Rays above laptop on stage -->
+              <line class="doodle-ray-1" x1="720" y1="800" x2="650" y2="760" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-ray-2" x1="790" y1="750" x2="740" y2="690" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-ray-3" x1="880" y1="720" x2="860" y2="650" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-ray-4" x1="970" y1="750" x2="1020" y2="670" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
 
               <!-- Horizontal Energy Marks next to laptop -->
-              <line class="doodle-energy-1" x1="720" y1="920" x2="820" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
-              <line class="doodle-energy-2" x1="730" y1="985" x2="845" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-energy-1" x1="600" y1="920" x2="700" y2="920" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
+              <line class="doodle-energy-2" x1="610" y1="985" x2="725" y2="985" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
 
-              <!-- Mouse Pointer & Sparkles on top right (floating bob animation - draggable) -->
-              <g class="doodle-sparkle draggable-doodle">
+              <!-- Floating Destello and Cursor Sparkles on top right -->
+              <g class="doodle-sparkle">
                 <path d="M1570 90 C1545 115, 1590 165, 1635 125 C1655 100, 1610 70, 1570 90 Z" stroke="#ea8676"
                   stroke-width="8" stroke-linecap="round" />
                 <line x1="1635" y1="125" x2="1695" y2="175" stroke="#ea8676" stroke-width="8" stroke-linecap="round" />
               </g>
             </svg>
+
           </div>
 
         </div>
 
-        <!-- MAIN HEADLINE TYPOGRAPHY -->
-        <div class="relative z-10 select-none pt-4 pb-6">
-          <!-- Giant Stroked Tube Outline Heading with draw-in animation -->
+        <!-- MAIN HEADLINE TYPOGRAPHY (ALIMANOG + ALICIA handwritten signature) -->
+        <div class="relative z-10 select-none pt-2 pb-4">
+          <!-- Giant Stroked Tube Outline Heading: ALIMANOG -->
           <div class="w-full">
             <svg viewBox="0 0 1768 250" class="w-full h-auto overflow-visible block" xmlns="http://www.w3.org/2000/svg">
-              <text x="0" y="215" font-family="'Bebas Neue', sans-serif" font-size="265" font-weight="900" fill="none"
+              <text x="0" y="215" font-family="'Bebas Neue', 'Impact', sans-serif" font-size="265" font-weight="900" fill="none"
                 stroke="#e2e2e2" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"
-                letter-spacing="6" class="alkemist-title-stroke">ALKEMIST</text>
+                letter-spacing="6" class="alimanog-title-stroke">ALIMANOG</text>
             </svg>
           </div>
 
-          <!-- Hand-drawn Marker Moniker / Subtitle tilted & overlapping with stamp-in animation -->
-          <div class="transform -rotate-[3.5deg] -mt-12 sm:-mt-20 md:-mt-28 lg:-mt-32 ml-8 sm:ml-20 md:ml-36 lg:ml-48">
-            <span
-              class="font-marker text-[#ea8676] text-[64px] sm:text-[92px] md:text-[124px] lg:text-[155px] xl:text-[175px] tracking-wide inline-block leading-none drop-shadow-lg marker-stamp magnetic-target">
-              UX/UI DESIGN
-            </span>
+          <!-- Hand-drawn Marker Moniker: ALICIA (Coral Script matching Max Voltar in reference.png) -->
+          <div class="marker-alicia select-none">
+            ALICIA
           </div>
         </div>
 
       </header>
 
       <!-- KINETIC INFINITE TICKER MARQUEE -->
-      <div class="overflow-hidden py-3.5 -mx-6 sm:-mx-12 md:-mx-16 lg:-mx-[76px] mb-28 border-y border-white/10 bg-white/[0.015] select-none pointer-events-none">
-        <div class="marquee-track flex whitespace-nowrap text-xs sm:text-sm font-mono tracking-[0.3em] uppercase text-neutral-400">
-          <span>✦ SPATIAL COMPUTING &nbsp;•&nbsp; DESIGN SYSTEMS &nbsp;•&nbsp; 120 FPS FLUID MOTION &nbsp;•&nbsp; TACTILE UX SURFACES &nbsp;•&nbsp; RAPID PROTOTYPING &nbsp;•&nbsp; FIGMA ARCHITECTURE &nbsp;•&nbsp; ACCESSIBLE TOKENS &nbsp;•&nbsp; INTERACTION DESIGN &nbsp;•&nbsp;</span>
-          <span>✦ SPATIAL COMPUTING &nbsp;•&nbsp; DESIGN SYSTEMS &nbsp;•&nbsp; 120 FPS FLUID MOTION &nbsp;•&nbsp; TACTILE UX SURFACES &nbsp;•&nbsp; RAPID PROTOTYPING &nbsp;•&nbsp; FIGMA ARCHITECTURE &nbsp;•&nbsp; ACCESSIBLE TOKENS &nbsp;•&nbsp; INTERACTION DESIGN &nbsp;•&nbsp;</span>
+      <div class="overflow-hidden py-3.5 -mx-6 sm:-mx-12 md:-mx-16 lg:-mx-[76px] mb-24 border-y border-white/10 bg-white/[0.015] select-none pointer-events-none">
+        <div class="marquee-track flex whitespace-nowrap text-xs sm:text-sm font-mono tracking-[0.28em] uppercase text-neutral-400">
+          <span>✦ ILUSTRACIÓN DIGITAL &nbsp;•&nbsp; STORYBOARDS & CÓMIC &nbsp;•&nbsp; MOTION GRAPHICS &nbsp;•&nbsp; ANIMACIÓN 3D &nbsp;•&nbsp; DISEÑO EDITORIAL &nbsp;•&nbsp; TIPOGRAFÍA EXPERIMENTAL &nbsp;•&nbsp; ESCUELA SUPERIOR DE DISEÑO &nbsp;•&nbsp; AFTER EFFECTS & ILLUSTRATOR &nbsp;•&nbsp;</span>
+          <span>✦ ILUSTRACIÓN DIGITAL &nbsp;•&nbsp; STORYBOARDS & CÓMIC &nbsp;•&nbsp; MOTION GRAPHICS &nbsp;•&nbsp; ANIMACIÓN 3D &nbsp;•&nbsp; DISEÑO EDITORIAL &nbsp;•&nbsp; TIPOGRAFÍA EXPERIMENTAL &nbsp;•&nbsp; ESCUELA SUPERIOR DE DISEÑO &nbsp;•&nbsp; AFTER EFFECTS & ILLUSTRATOR &nbsp;•&nbsp;</span>
         </div>
       </div>
 
 
       <!-- ==================== SECTION: ABOUT ==================== -->
       <section class="section-divider pt-[53px] pb-[98px] reveal-section">
-        <div class="flex flex-col lg:flex-row items-start">
+        <div class="editorial-grid">
 
-          <!-- Left Column: Badge (Fixed 644px column width on 1920 desktop) -->
-          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+          <!-- Left Column: Badge -->
+          <div class="badge-col mb-8 lg:mb-0">
             <div class="section-badge w-[160px] reveal-badge magnetic-target scramble-trigger" data-original="ABOUT">
               ABOUT
             </div>
           </div>
 
           <!-- Right Content: 2 Columns of Body Text -->
-          <div
-            class="w-full lg:w-[1124px] flex flex-col md:flex-row gap-12 lg:gap-[66px] text-[23px] leading-[40px] text-[#e0e0e0] font-normal">
+          <div class="content-col two-col-text">
 
             <!-- Column 1 -->
-            <div class="w-full md:w-[520px] flex-shrink-0">
+            <div>
               <p class="mb-7">
-                Alkemist (aka. <a href="#work" class="ref-link font-medium text-white hover:text-[#ea8676]">Alex Morgan</a>) is a principal
-                UX/UI designer and design systems architect, crafting digital surfaces that feel natural, tactile, and
-                effortless — work that's everywhere in the product and, by design, mostly unnoticed. Craft is the
-                through-line. He sets a high bar, holds it, and pulls the work around him up to meet it.
+                Soy <span class="font-bold text-white">Alicia</span> (aka. <a href="https://alimanog.netlify.app" target="_blank" rel="noopener" class="ref-link font-medium text-[#FFD60A] hover:text-white">alimanog</a>), una diseñadora gráfica creativa y eficiente, y una persona resolutiva: ante cualquier imprevisto busco alternativas, decido con criterio y encuentro la mejor salida sin perder el hilo del proyecto.
               </p>
               <p>
-                He's also a connector. He jams readily, prototypes to think, and makes a habit of asking
+                Me adapto a cualquier campo del diseño, pero mi foco está en la <span class="text-white font-medium">ilustración y la animación digital</span>, donde convierto cada idea en una solución clara, cuidada y bien ejecutada.
               </p>
             </div>
 
             <!-- Column 2 -->
-            <div class="w-full md:w-[538px] flex-shrink-0">
-              <p class="mb-9">
-                the obvious question nobody else wants to raise. He builds community as seriously as he builds systems —
-                from accessible tokens to the tools designers actually want to use — and has a reputation for making the
-                people around him better without needing credit for it.
+            <div>
+              <p class="mb-8">
+                Estudio en la <span class="text-white font-semibold">ESI (Escuela Superior de Diseño)</span>. Mi flujo de trabajo combina el dibujo tradicional y la narrativa secuencial con herramientas digitales de primer nivel: <span class="text-[#ea8676] font-mono text-lg">Ai, Ps, Id, Pr, Ae</span> y modelado 3D.
               </p>
 
-              <!-- Dotted line & Editor's Note -->
-              <div class="border-t border-dotted border-neutral-600/80 pt-6 mt-10">
-                <p class="text-[14px] tracking-wider text-neutral-400 font-medium uppercase leading-[22px]">
-                  <span class="font-bold text-neutral-200">ED. NOTE</span> — Synthesized from colleagues' notes &
-                  retrospectives; my impostor syndrome would never let me write this.
+              <!-- Dotted line & Note -->
+              <div class="border-t border-dotted border-neutral-600/80 pt-6 mt-8">
+                <p class="text-[13px] tracking-wider text-neutral-400 font-medium uppercase leading-[22px] font-mono">
+                  <span class="font-bold text-neutral-200">NOTA EDITORIAL</span> — Pasión por el ritmo visual, la expresividad gestual y el detalle artesanal en cada fotograma.
                 </p>
               </div>
             </div>
@@ -1017,27 +859,36 @@
 
       <!-- ==================== SECTION: LINKS ==================== -->
       <section class="section-divider pt-[53px] pb-[68px] reveal-section">
-        <div class="flex flex-col lg:flex-row items-center">
+        <div class="editorial-grid">
 
           <!-- Left Column: Badge -->
-          <div class="w-full lg:w-[644px] flex-shrink-0 mb-6 lg:mb-0">
+          <div class="badge-col mb-6 lg:mb-0">
             <div class="section-badge w-[146px] reveal-badge magnetic-target scramble-trigger" data-original="LINKS">
               LINKS
             </div>
           </div>
 
-          <!-- Right Content: Horizontal List of Links -->
-          <div
-            class="w-full lg:w-[1124px] flex flex-wrap items-center gap-x-2 gap-y-2 text-[23px] font-medium text-[#e5e5e5]">
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Twitter/X</a>
+          <!-- Right Content: Horizontal List of Real Links -->
+          <div class="content-col flex flex-wrap items-center gap-x-3 gap-y-2 text-[22px] font-medium text-[#e5e5e5]">
+            <a href="https://instagram.com/alimanog_arts" target="_blank" rel="noopener" class="ref-link link-pill magnetic-target">
+              Instagram (@alimanog_arts)
+            </a>
             <span class="text-neutral-500 mx-1">•</span>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Instagram</a>
+            <a href="https://www.tiktok.com/@megumi_mp4" target="_blank" rel="noopener" class="ref-link link-pill magnetic-target">
+              TikTok (@megumi_mp4)
+            </a>
             <span class="text-neutral-500 mx-1">•</span>
-            <a href="https://bsky.app" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Bluesky</a>
+            <a href="https://wa.me/34659345038?text=Hola%20alimanog%2C%20te%20escribo%20desde%20tu%20portfolio." target="_blank" rel="noopener" class="ref-link link-pill magnetic-target text-[#FFD60A]">
+              WhatsApp
+            </a>
             <span class="text-neutral-500 mx-1">•</span>
-            <a href="https://threads.net" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">Threads</a>
+            <a href="mailto:contacto@alimanog.com" class="ref-link link-pill magnetic-target">
+              Correo ✉
+            </a>
             <span class="text-neutral-500 mx-1">•</span>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="ref-link link-pill magnetic-target">LinkedIn</a>
+            <a href="https://alimanog.netlify.app" target="_blank" rel="noopener" class="ref-link link-pill magnetic-target">
+              Portfolio Netlify ↗
+            </a>
           </div>
 
         </div>
@@ -1046,226 +897,135 @@
 
       <!-- ==================== SECTION: WORK ==================== -->
       <section id="work" class="section-divider pt-[53px] pb-[72px] reveal-section">
-        <div class="flex flex-col lg:flex-row items-start">
+        <div class="editorial-grid">
 
           <!-- Left Column: Badge -->
-          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+          <div class="badge-col mb-8 lg:mb-0">
             <div class="section-badge w-[148px] reveal-badge magnetic-target scramble-trigger" data-original="WORK">
               WORK
             </div>
           </div>
 
-          <!-- Right Content: List of Roles -->
-          <div class="w-full lg:w-[1124px]">
+          <!-- Right Content: List of Projects from alimanog -->
+          <div class="content-col w-full">
 
-            <!-- WORK ITEM 1 -->
-            <div class="work-row group pb-[54px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
-                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="Figma">Figma</a>
+            <!-- PROJECT 1: ILUSTRACIÓN (Visor de Storyboard) -->
+            <div class="editorial-table-row work-row cursor-pointer modal-trigger"
+              data-project="storyboard"
+              data-company="Ilustración & Cómic"
+              data-year="2026"
+              data-title="Visor de Storyboard — El Jardinero"
+              data-desc="Cómic secuencial en blanco y negro sobre un jardinero que pasa los días regando sus plantas y enfrenta una batalla fantástica contra una de ellas que cobra vida."
+              data-tag="Ilustración • Cómic • Narrativa"
+              data-img="images/storyboard/scene-01.jpg">
+              <div class="editorial-row-left">
+                <h3 class="text-[26px] font-bold text-white mb-1 flex items-center">
+                  <span class="ref-link scramble-trigger" data-original="Ilustración">Ilustración</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2023–Current</div>
-                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · Proyecto Académico</div>
+                <div class="text-[17px] text-[#FFD60A] mt-1 font-mono">★ Mi foco principal</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Figma"
-                  data-year="2024"
-                  data-title="UI3 Canvas & Toolbar Overhaul"
-                  data-desc="Next-generation overhaul of Figma's canvas, floating toolbar, and modern dark inspector."
-                  data-tag="Core Architecture • Design System">UI3</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Figma"
-                  data-year="2024"
-                  data-title="Icons & Rebrand System"
-                  data-desc="Comprehensive iconographic system designed for optical clarity across retina displays."
-                  data-tag="Iconography • Systems">Icons/rebrand</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Figma"
-                  data-year="2025"
-                  data-title="Figma Draw Suite"
-                  data-desc="Expressive freehand vector tools and organic bezier pen engines for illustrators."
-                  data-tag="Vector Engine • Tooling">Draw</a>
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <span class="ref-link text-white font-medium">Visor de storyboard</span>, 
+                <span class="text-neutral-300">Cómic en blanco y negro (10 escenas)</span>, 
+                <span class="text-neutral-400">Páginas a lápiz</span> &amp; 
+                <span class="text-neutral-400">Atención al cliente</span>.
               </div>
             </div>
 
-            <!-- WORK ITEM 2 -->
-            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
-                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
+            <!-- PROJECT 2: MOTION GRAPHICS (Tipografía Cinética) -->
+            <div class="editorial-table-row work-row cursor-pointer modal-trigger"
+              data-project="motion"
+              data-company="Motion Graphics"
+              data-year="2026"
+              data-title="Tipografía Cinética & Ritmo Visual"
+              data-desc="Animación tipográfica con palabras que entran, rebotan y mutan sobre clips de anime, sincronizadas con precisión rítmica en After Effects."
+              data-tag="Motion Graphics • After Effects • Kinetic"
+              data-img="images/motion.jpg">
+              <div class="editorial-row-left">
+                <h3 class="text-[26px] font-bold text-white mb-1 flex items-center">
+                  <span class="ref-link scramble-trigger" data-original="Motion Graphics">Motion Graphics</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2021–2023</div>
-                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · Animación Digital</div>
+                <div class="text-[17px] text-[#FFD60A] mt-1 font-mono">★ Mi foco principal</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Gowalla †"
-                  data-year="2022"
-                  data-title="Gowalla 2.0 Passport"
-                  data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
-                  data-tag="Spatial UX • Mobile iOS">Gowalla 2.0</a>
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <span class="ref-link text-white font-medium">Tipografía cinética</span>, 
+                <span class="text-neutral-300">Sincronización rítmica</span>, 
+                <span class="text-neutral-400">Composición &amp; Color</span>.
               </div>
             </div>
 
-            <!-- WORK ITEM 3 -->
-            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
-                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="Abstract †">Abstract †</a>
+            <!-- PROJECT 3: 3D (Animación Jujutsu Kaisen & Escenario) -->
+            <div class="editorial-table-row work-row cursor-pointer modal-trigger"
+              data-project="3d"
+              data-company="Animación 3D & Espacios"
+              data-year="2026"
+              data-title="Animación 3D Jujutsu Kaisen & Escenografía"
+              data-desc="Práctica final en tres dimensiones: animación dinámica de combate (Yuji Itadori) con cámara en movimiento y modelado de escenario para mesa de rol con dados e iluminación de estudio."
+              data-tag="3D • Blender • Escenografía • Packaging"
+              data-img="images/3d.jpg">
+              <div class="editorial-row-left">
+                <h3 class="text-[26px] font-bold text-white mb-1 flex items-center">
+                  <span class="ref-link scramble-trigger" data-original="Animación 3D">Animación 3D</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2016–2021</div>
-                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer, first employee</div>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · Modelado & Render</div>
+                <div class="text-[17px] text-neutral-400 mt-1 font-mono">Blender &amp; Motion 3D</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Abstract †"
-                  data-year="2016"
-                  data-title="Abstract Alpha Engine"
-                  data-desc="Foundational Git-based version control UI built specifically for Sketch & design teams."
-                  data-tag="Version Control • Desktop">Alpha</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Abstract †"
-                  data-year="2017"
-                  data-title="Abstract Public Beta"
-                  data-desc="Branching, merging, and visual commit flows scaled to thousands of design organizations."
-                  data-tag="Product Growth • Core UX">Beta</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Abstract †"
-                  data-year="2018"
-                  data-title="Sketch Libraries Sync"
-                  data-desc="Centralized distributed design library distribution with dependency resolution."
-                  data-tag="Design Ops • Infrastructure">Sketch Libraries</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Abstract †"
-                  data-year="2019"
-                  data-title="Visual Compare Mode"
-                  data-desc="Side-by-side and onion-skin differential inspectors for graphic revisions."
-                  data-tag="Inspection UX • Diffing">Compare mode</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Abstract †"
-                  data-year="2020"
-                  data-title="Dark Mode Experience"
-                  data-desc="Ergonomic dark theme crafted for deep-work focus and low-glare environments."
-                  data-tag="Design Tokens • Theming">Dark mode</a>, 
-                <span class="text-neutral-400">...</span>
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <span class="ref-link text-white font-medium">Homenaje a Jujutsu Kaisen</span>, 
+                <span class="text-neutral-300">Escenario mesa de rol</span>, 
+                <span class="text-neutral-400">Packaging 3D</span>.
               </div>
             </div>
 
-            <!-- WORK ITEM 4 -->
-            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
-                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="Dropbox">Dropbox</a>
+            <!-- PROJECT 4: EDITORIAL & MAQUETACIÓN -->
+            <div class="editorial-table-row work-row cursor-pointer modal-trigger"
+              data-project="editorial"
+              data-company="Diseño Editorial"
+              data-year="2026"
+              data-title="Historia del Diseño & Recetario Mediterráneo"
+              data-desc="Publicación editorial a doble página sobre Bauhaus, Constructivismo y Art Decó (1923-1926), y recetario ilustrado de cocina mediterránea con retícula y diseño tipográfico."
+              data-tag="Editorial • InDesign • Retícula • Tipografía"
+              data-img="images/editorial.jpg">
+              <div class="editorial-row-left">
+                <h3 class="text-[26px] font-bold text-white mb-1 flex items-center">
+                  <span class="ref-link scramble-trigger" data-original="Maquetación">Maquetación</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2013–2015</div>
-                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · Diseño Gráfico</div>
+                <div class="text-[17px] text-neutral-400 mt-1 font-mono">InDesign &amp; Impresión</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Dropbox"
-                  data-year="2013"
-                  data-title="iOS 7 Complete Redesign"
-                  data-desc="Ground-up architectural redesign embracing fluid gestures and typography hierarchy."
-                  data-tag="Mobile Platform • iOS">iOS 7 redesign</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Dropbox"
-                  data-year="2014"
-                  data-title="Suite App Icons"
-                  data-desc="Tactile glyphs and grid alignment across all Dropbox ecosystem applications."
-                  data-tag="Brand Design • Glyphs">App icons</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Dropbox"
-                  data-year="2014"
-                  data-title="Carousel Photo Timeline"
-                  data-desc="Chronological photo stream app designed for seamless infinite scrolling memories."
-                  data-tag="Consumer App • Media">Carousel</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Dropbox"
-                  data-year="2014"
-                  data-title="Mailbox for iOS"
-                  data-desc="Pioneering swipe-to-archive gesture interactions that defined modern inbox zero."
-                  data-tag="Micro-interactions • Gestures">Mailbox for iOS</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Dropbox"
-                  data-year="2015"
-                  data-title="Mailbox for macOS"
-                  data-desc="Keyboard-first desktop mail client built for rapid keyboard navigation."
-                  data-tag="Desktop UX • Productivity">Mailbox for macOS</a>
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <span class="ref-link text-white font-medium">Revista Historia del Diseño (1923-1926)</span>, 
+                <span class="text-neutral-300">Recetario 'Empezando a cocinar'</span>.
               </div>
             </div>
 
-            <!-- WORK ITEM 5 -->
-            <div class="work-row group py-[49px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
-                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="Instagram">Instagram</a>
+            <!-- PROJECT 5: FOTOGRAFÍA (Cuarto Oscuro) -->
+            <div class="editorial-table-row work-row cursor-pointer modal-trigger"
+              data-project="photo"
+              data-company="Fotografía"
+              data-year="2026"
+              data-title="Cuarto Oscuro — Series Naturaleza, Ciudad & Jazz"
+              data-desc="Trece fotografías agrupadas en tres series: paisajes y luz natural, escenas urbanas cotidianas y estudio cromático de lomos y vinilos de jazz bajo iluminación de color."
+              data-tag="Fotografía • Iluminación • Composición"
+              data-img="images/photo.jpg">
+              <div class="editorial-row-left">
+                <h3 class="text-[26px] font-bold text-white mb-1 flex items-center">
+                  <span class="ref-link scramble-trigger" data-original="Fotografía">Fotografía</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2012–2013</div>
-                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · 13 Fotos Seleccionadas</div>
+                <div class="text-[17px] text-neutral-400 mt-1 font-mono">Series de autor</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Instagram"
-                  data-year="2012"
-                  data-title="Redesigned Navigation"
-                  data-desc="Bottom navigation architecture tailored for one-thumb smartphone usability."
-                  data-tag="Ergonomics • Information Architecture">Redesigned navigation</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Instagram"
-                data-year="2012"
-                data-title="Photo Maps & Profile"
-                data-desc="Clustered geotagged photo discovery on interactive world maps."
-                data-tag="Data Visualization • Mapping">Full redesign & photo maps</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Instagram"
-                data-year="2012"
-                data-title="Instagram for Android"
-                data-desc="Bringing Instagram's signature camera and social feed to millions of Android devices."
-                data-tag="Platform Design • Android">Android app</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Instagram"
-                data-year="2013"
-                data-title="Instagram Video Capture"
-                data-desc="Intuitive hold-to-record video storytelling mechanics and real-time stabilization."
-                data-tag="Camera UI • Video">Video</a>, 
-              <a href="#" class="ref-link preview-trigger modal-trigger"
-                data-company="Instagram"
-                data-year="2013"
-                data-title="iOS 7 Design Force"
-                data-desc="Stripping skeuomorphism in favor of high-contrast photography and clarity."
-                data-tag="Visual Design • Flat UI">iOS 7 Design Force</a>
-              </div>
-            </div>
-
-            <!-- WORK ITEM 6 -->
-            <div class="work-row group pt-[49px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
-                <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="Gowalla †">Gowalla †</a>
-                  <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
-                </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2010–2011</div>
-                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Software designer</div>
-              </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#e5e5e5] pt-0.5">
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Gowalla †"
-                  data-year="2010"
-                  data-title="Web Platform Experience"
-                  data-desc="Rich responsive web companion for city explorers and social passport stampers."
-                  data-tag="Web UX • Community">Website</a>, 
-                <a href="#" class="ref-link preview-trigger modal-trigger"
-                  data-company="Gowalla †"
-                  data-year="2011"
-                  data-title="Gowalla iOS Client"
-                  data-desc="Location-based social discovery app featuring spatial maps and digital stamp passports."
-                  data-tag="Native iOS • Checkins">iOS</a>
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#e5e5e5] pt-0.5">
+                <span class="ref-link text-white font-medium">Cuarto oscuro</span>, 
+                <span class="text-neutral-300">Serie Jazz (Blue Train, Miles)</span>, 
+                <span class="text-neutral-400">Naturaleza &amp; Ciudad</span>.
               </div>
             </div>
 
@@ -1277,57 +1037,69 @@
 
       <!-- ==================== SECTION: SIDE PROJECTS ==================== -->
       <section class="section-divider pt-[53px] pb-[72px] reveal-section">
-        <div class="flex flex-col lg:flex-row items-start">
+        <div class="editorial-grid">
 
           <!-- Left Column: Badge -->
-          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+          <div class="badge-col mb-8 lg:mb-0">
             <div class="section-badge px-7 reveal-badge magnetic-target scramble-trigger" data-original="SIDE PROJECTS">
               SIDE PROJECTS
             </div>
           </div>
 
-          <!-- Right Content -->
-          <div class="w-full lg:w-[1124px]">
+          <!-- Right Content: Experiments from alimanog -->
+          <div class="content-col w-full">
 
-            <!-- Side Project 1 -->
-            <div class="work-row group pb-[56px] pt-2 dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
+            <!-- Side Project 1: Würfel Typeface -->
+            <div class="editorial-table-row work-row cursor-pointer modal-trigger"
+              data-project="wuerfel"
+              data-company="Tipografía Experimental"
+              data-year="2026"
+              data-title="Würfel — Tipografía Display Cúbica"
+              data-desc="Tipografía display de formas cúbicas creada íntegramente por Alicia ('Würfel' = cubo/dado en alemán). Diseñada para titulares contundentes, packaging e identidades geométricas."
+              data-tag="Tipografía • Font Design • Würfel">
+              <div class="editorial-row-left">
                 <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="Eventication">Eventication</a>
+                  <span class="ref-link scramble-trigger" data-original="Würfel Font">Würfel Typeface</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2018–Current</div>
-                <div class="text-[18px] text-neutral-300 mt-1 font-normal">Cofounder</div>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · Interactivo</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
-                End-to-end event management platform for event organizers.
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#d4d4d4] pt-0.5">
+                Tipografía experimental de formas cúbicas con probador interactivo para teclear frases en vivo.
               </div>
             </div>
 
-            <!-- Side Project 2 -->
-            <div class="work-row group py-[56px] dotted-separator flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
+            <!-- Side Project 2: Animática del Jardinero -->
+            <div class="editorial-table-row work-row cursor-pointer modal-trigger"
+              data-project="storyboard"
+              data-company="Animática"
+              data-year="2026"
+              data-title="Animática del Jardinero — Player Secuencial"
+              data-desc="Reproductor en bucle automático de las 10 viñetas del cómic para previsualizar el 'timing' cinemático de la historia antes de pasar a animación completa."
+              data-tag="Animática • Storyboard • Timing">
+              <div class="editorial-row-left">
                 <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="MVKB">MVKB</a>
+                  <span class="ref-link scramble-trigger" data-original="Animática">Animática Secuencial</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
-                <div class="text-[17px] text-neutral-400 font-medium">2021–Current</div>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · Storyboard</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
-                A keyboard-focused playground and personal workshop, crafting purposeful physical products.
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#d4d4d4] pt-0.5">
+                Secuencia animada de viñetas con temporizador automático y controles de reproducción paso a paso.
               </div>
             </div>
 
-            <!-- Side Project 3 -->
-            <div class="work-row group pt-[64px] pb-4 flex flex-col md:flex-row gap-6 md:gap-[66px] items-start p-3 -mx-3">
-              <div class="w-full md:w-[520px] flex-shrink-0">
+            <!-- Side Project 3: Identidad & Destello alimanog -->
+            <div class="editorial-table-row work-row">
+              <div class="editorial-row-left">
                 <h3 class="text-[26px] font-bold text-white mb-1.5 flex items-center">
-                  <a href="#" class="ref-link scramble-trigger" data-original="The non-work.">The non-work.</a>
+                  <span class="ref-link scramble-trigger" data-original="Destello alimanog">Destello alimanog</span>
                   <span class="row-arrow text-[#ea8676] text-xl ml-2 font-mono">→</span>
                 </h3>
+                <div class="text-[16px] text-neutral-400 font-medium">2026 · Branding Propio</div>
               </div>
-              <div class="w-full md:w-[538px] flex-shrink-0 text-[22px] leading-relaxed text-[#d4d4d4] pt-0.5">
-                A collection of non-work projects done on the side for fun.
+              <div class="editorial-row-right text-[21px] leading-relaxed text-[#d4d4d4] pt-0.5">
+                Sistema de identidad visual personal con destello geométrico cuatricromático y micro-interacciones lúdicas.
               </div>
             </div>
 
@@ -1339,155 +1111,69 @@
 
       <!-- ==================== SECTION: ELSEWHERE ==================== -->
       <section class="section-divider pt-[53px] pb-[108px] reveal-section">
-        <div class="flex flex-col lg:flex-row items-start">
+        <div class="editorial-grid">
 
           <!-- Left Column: Badge -->
-          <div class="w-full lg:w-[644px] flex-shrink-0 mb-8 lg:mb-0">
+          <div class="badge-col mb-8 lg:mb-0">
             <div class="section-badge w-[258px] reveal-badge magnetic-target scramble-trigger" data-original="ELSEWHERE">
               ELSEWHERE
             </div>
           </div>
 
-          <!-- Right Content: 14 Items List with precise two-column alignment -->
-          <div class="w-full lg:w-[1124px] space-y-[19px]">
+          <!-- Right Content: Formación, Estudios y Publicaciones -->
+          <div class="content-col w-full space-y-[19px]">
 
-            <!-- Item 1 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Expressive design and illustration in Figma Draw</a>
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[56px]">
+              <div class="w-full sm:w-[440px] flex-shrink-0">
+                <span class="ref-link text-[21px] font-normal text-white">Grado en Diseño Gráfico</span>
               </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2025 &nbsp;•&nbsp; Config
+              <div class="flex-1 text-[20px] text-neutral-400 font-mono">
+                2023–Actualidad &nbsp;•&nbsp; ESI (Escuela Superior de Diseño)
               </div>
             </div>
 
-            <!-- Item 2 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Designing Figma's UI3 icons</a>
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[56px]">
+              <div class="w-full sm:w-[440px] flex-shrink-0">
+                <span class="ref-link text-[21px] font-normal text-white">Práctica Final: Animación 3D Jujutsu Kaisen</span>
               </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2025 &nbsp;•&nbsp; Deep Dive with Jay
-              </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Creatives on Creatives (Dutch)</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2024 &nbsp;•&nbsp; APBC
+              <div class="flex-1 text-[20px] text-neutral-400 font-mono">
+                2026 &nbsp;•&nbsp; Proyecto de Animación 3D
               </div>
             </div>
 
-            <!-- Item 4 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Feature Friday</a>
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[56px]">
+              <div class="w-full sm:w-[440px] flex-shrink-0">
+                <span class="ref-link text-[21px] font-normal text-white">Investigación: Bauhaus, Constructivismo y Art Decó</span>
               </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2023 &nbsp;•&nbsp; Cotton Bureau
-              </div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Change is Constant</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2019 &nbsp;•&nbsp; Loupe
+              <div class="flex-1 text-[20px] text-neutral-400 font-mono">
+                2026 &nbsp;•&nbsp; Revista Historia del Diseño (1923-1926)
               </div>
             </div>
 
-            <!-- Item 6 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Dribbble Interview</a>
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[56px]">
+              <div class="w-full sm:w-[440px] flex-shrink-0">
+                <span class="ref-link text-[21px] font-normal text-white">Diseño Tipográfico: Alfabeto Display Würfel</span>
               </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2019 &nbsp;•&nbsp; Dribbble
-              </div>
-            </div>
-
-            <!-- Item 7 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">iOS 7 Was Leggings</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2018 &nbsp;•&nbsp; Layout.fm
+              <div class="flex-1 text-[20px] text-neutral-400 font-mono">
+                2026 &nbsp;•&nbsp; Tipografía Experimental
               </div>
             </div>
 
-            <!-- Item 8 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Founder of Abstract</a>
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[56px]">
+              <div class="w-full sm:w-[440px] flex-shrink-0">
+                <span class="ref-link text-[21px] font-normal text-white">Serie Fotográfica: Luz, Sombras y Jazz</span>
               </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2016 &nbsp;•&nbsp; Sam Solomon
-              </div>
-            </div>
-
-            <!-- Item 9 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Stop Calling the iPhone a Phone</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2016 &nbsp;•&nbsp; Layout.fm
+              <div class="flex-1 text-[20px] text-neutral-400 font-mono">
+                2026 &nbsp;•&nbsp; Cuarto Oscuro
               </div>
             </div>
 
-            <!-- Item 10 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">The Right Look and Feel</a>
+            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[56px]">
+              <div class="w-full sm:w-[440px] flex-shrink-0">
+                <span class="ref-link text-[21px] font-normal text-white">Narrativa Gráfica y Cómic Secuencial</span>
               </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2014 &nbsp;•&nbsp; ZURB Soapbox
-              </div>
-            </div>
-
-            <!-- Item 11 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Working with talented people</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2014 &nbsp;•&nbsp; Creative Bloq
-              </div>
-            </div>
-
-            <!-- Item 12 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Tim Van Damme</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2014 &nbsp;•&nbsp; The Great Discontent
-              </div>
-            </div>
-
-            <!-- Item 13 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Inside the mind of a designer</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2013 &nbsp;•&nbsp; The Next Web
-              </div>
-            </div>
-
-            <!-- Item 14 -->
-            <div class="elsewhere-row flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-[66px]">
-              <div class="w-full sm:w-[520px] flex-shrink-0">
-                <a href="#" class="ref-link text-[22px] font-normal">Van Damme, that's good design</a>
-              </div>
-              <div class="w-full sm:w-[538px] flex-shrink-0 text-[21px] text-neutral-400 font-normal">
-                2010 &nbsp;•&nbsp; Jeffrey Zeldman
+              <div class="flex-1 text-[20px] text-neutral-400 font-mono">
+                2026 &nbsp;•&nbsp; El Jardinero &amp; Atención al Cliente
               </div>
             </div>
 
@@ -1502,18 +1188,18 @@
         
         <!-- Live Ticking Clock & Availability -->
         <div class="flex items-center gap-3 text-xs font-mono text-neutral-400 tracking-wider">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-900 border border-neutral-700/60">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-neutral-900 border border-neutral-700/60">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>AVAILABLE FOR SELECT WORK</span>
+            <span class="text-neutral-200">DISPONIBLE PARA ENCARGOS &amp; ESTUDIOS</span>
           </span>
           <span class="hidden md:inline text-neutral-600">|</span>
           <span id="live-clock" class="hidden md:inline text-neutral-400 font-mono">MADRID, ES — --:--:-- UTC+1</span>
         </div>
 
         <!-- Copyright Stamp -->
-        <div class="transform -rotate-[3.5deg] transition-transform duration-300 hover:rotate-0 hover:scale-110 cursor-pointer magnetic-target">
+        <div class="transform -rotate-[3.5deg] transition-transform duration-300 hover:rotate-0 hover:scale-105 cursor-pointer magnetic-target">
           <span class="font-marker text-[#ea8676] text-[34px] tracking-wide inline-block drop-shadow-sm select-none">
-            © ALKEMIST 2026
+            © ALIMANOG 2026
           </span>
         </div>
       </footer>
@@ -1528,7 +1214,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-      // 1. PROCEDURAL SOUND FX SYNTHESIZER (Web Audio API)
+      // 1. PROCEDURAL SOUND FX SYNTHESIZER
       let audioCtx = null;
       let soundEnabled = false;
       const soundToggleBtn = document.getElementById('sound-toggle-btn');
@@ -1602,12 +1288,11 @@
       
       let lastFrameTime = performance.now();
       let frameCount = 0;
-      let fps = 60;
 
       function updateFps(now) {
         frameCount++;
         if (now - lastFrameTime >= 1000) {
-          fps = Math.round((frameCount * 1000) / (now - lastFrameTime));
+          const fps = Math.round((frameCount * 1000) / (now - lastFrameTime));
           if (hudFps) hudFps.textContent = fps + ' FPS';
           frameCount = 0;
           lastFrameTime = now;
@@ -1652,14 +1337,13 @@
       }
       requestAnimationFrame(animateScrollSkew);
 
-      // 4. AMBIENT MOUSE GLOW & CUSTOM ELASTIC CURSOR WITH INK PARTICLES
+      // 4. CURSOR FOLLOWER
       const cursorFollower = document.getElementById('cursor-follower');
       const cursorDot = document.getElementById('cursor-dot');
       let mouseX = window.innerWidth / 2;
       let mouseY = window.innerHeight / 2;
       let followerX = mouseX;
       let followerY = mouseY;
-      let lastTrailTime = 0;
 
       window.addEventListener('pointermove', (e) => {
         mouseX = e.clientX;
@@ -1670,30 +1354,11 @@
           cursorDot.style.left = mouseX + 'px';
           cursorDot.style.top = mouseY + 'px';
         }
-
-        // Spawn delicate micro-droplets on movement
-        const now = performance.now();
-        if (now - lastTrailTime > 38) {
-          lastTrailTime = now;
-          createInkParticle(e.clientX, e.clientY);
-        }
       }, { passive: true });
 
-      function createInkParticle(x, y) {
-        const p = document.createElement('div');
-        p.className = 'ink-particle';
-        const size = Math.random() * 3 + 2;
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        p.style.left = (x + (Math.random() * 8 - 4)) + 'px';
-        p.style.top = (y + (Math.random() * 8 - 4)) + 'px';
-        document.body.appendChild(p);
-        setTimeout(() => p.remove(), 600);
-      }
-
       function animateCursor() {
-        followerX += (mouseX - followerX) * 0.18;
-        followerY += (mouseY - followerY) * 0.18;
+        followerX += (mouseX - followerX) * 0.2;
+        followerY += (mouseY - followerY) * 0.2;
         if (cursorFollower) {
           cursorFollower.style.left = followerX + 'px';
           cursorFollower.style.top = followerY + 'px';
@@ -1702,8 +1367,8 @@
       }
       requestAnimationFrame(animateCursor);
 
-      // Expand cursor & sound on hover
-      const interactiveTargets = document.querySelectorAll('a, button, .section-badge, .marker-stamp, .preview-trigger, .work-row');
+      // Hover expansion on interactive elements
+      const interactiveTargets = document.querySelectorAll('a, button, .section-badge, .marker-stamp, .work-row');
       interactiveTargets.forEach(el => {
         el.addEventListener('mouseenter', () => {
           if (cursorFollower) cursorFollower.classList.add('cursor-hover');
@@ -1721,8 +1386,8 @@
           const rect = target.getBoundingClientRect();
           const centerX = rect.left + rect.width / 2;
           const centerY = rect.top + rect.height / 2;
-          const deltaX = (e.clientX - centerX) * 0.3;
-          const deltaY = (e.clientY - centerY) * 0.3;
+          const deltaX = (e.clientX - centerX) * 0.28;
+          const deltaY = (e.clientY - centerY) * 0.28;
           target.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.03)`;
         });
         target.addEventListener('mouseleave', () => {
@@ -1733,7 +1398,7 @@
         });
       });
 
-      // 6. CIPHER / TEXT SCRAMBLE ON HOVER
+      // 6. CIPHER / TEXT SCRAMBLE
       const scrambleTriggers = document.querySelectorAll('.scramble-trigger');
       const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
       scrambleTriggers.forEach(el => {
@@ -1743,7 +1408,7 @@
           clearInterval(el.scrambleInterval);
           el.scrambleInterval = setInterval(() => {
             el.textContent = originalText.split('').map((char, index) => {
-              if (index < iteration || char === ' ' || char === '†' || char === '.') return originalText[index];
+              if (index < iteration || char === ' ' || char === '·') return originalText[index];
               return glyphs[Math.floor(Math.random() * glyphs.length)];
             }).join('');
             if (iteration >= originalText.length) {
@@ -1790,89 +1455,46 @@
             doodles.style.transform = `translate(${shiftX}px, ${shiftY}px)`;
           }
         });
-
-        // Click Burst Sparkle on Hero
-        heroCard.addEventListener('click', (e) => {
-          createBurst(e.clientX, e.clientY);
-          playSound('click');
-        });
       }
 
-      function createBurst(x, y) {
-        const star = document.createElement('div');
-        star.className = 'burst-particle';
-        star.style.left = x + 'px';
-        star.style.top = y + 'px';
-        star.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ea8676" stroke-width="2.5" stroke-linecap="round">
-            <path d="M12 2 L12 22 M2 12 L22 12 M4.93 4.93 L19.07 19.07 M4.93 19.07 L19.07 4.93" />
-          </svg>
-        `;
-        document.body.appendChild(star);
-        setTimeout(() => star.remove(), 700);
-      }
-
-      // 8. INTERACTIVE DRAGGABLE DOODLES IN HERO
-      const draggables = document.querySelectorAll('.draggable-doodle');
-      let activeDrag = null;
-      let dragStart = { x: 0, y: 0 };
-      let dragCurrent = { x: 0, y: 0 };
-
-      draggables.forEach(item => {
-        item.addEventListener('mousedown', (e) => {
-          activeDrag = item;
-          dragStart.x = e.clientX;
-          dragStart.y = e.clientY;
-          const transform = item.getAttribute('transform') || '';
-          const match = /translate\(([^,]+)[,\s]+([^)]+)\)/.exec(transform);
-          dragCurrent.x = match ? parseFloat(match[1]) : 0;
-          dragCurrent.y = match ? parseFloat(match[2]) : 0;
-          playSound('hover');
-          e.stopPropagation();
-        });
-      });
-
-      window.addEventListener('mousemove', (e) => {
-        if (!activeDrag) return;
-        const dx = e.clientX - dragStart.x;
-        const dy = e.clientY - dragStart.y;
-        activeDrag.setAttribute('transform', `translate(${dragCurrent.x + dx}, ${dragCurrent.y + dy})`);
-      });
-
-      window.addEventListener('mouseup', () => {
-        if (activeDrag) {
-          playSound('badge');
-          activeDrag = null;
-        }
-      });
-
-      // 9. FLOATING PROJECT PREVIEW CARD
+      // 8. FLOATING PROJECT PREVIEW CARD
       const previewCard = document.getElementById('project-preview-card');
       const previewTitle = document.getElementById('preview-title');
       const previewCompany = document.getElementById('preview-company');
       const previewYear = document.getElementById('preview-year');
       const previewDesc = document.getElementById('preview-desc');
       const previewTag = document.getElementById('preview-tag');
-      const triggers = document.querySelectorAll('.preview-trigger');
+      const previewImg = document.getElementById('preview-img');
+      const previewBadge = document.getElementById('preview-badge');
+      const workRows = document.querySelectorAll('.work-row');
 
-      triggers.forEach(trigger => {
-        trigger.addEventListener('mouseenter', (e) => {
+      workRows.forEach(row => {
+        row.addEventListener('mouseenter', (e) => {
           if (!previewCard) return;
-          previewTitle.textContent = trigger.dataset.title || trigger.textContent;
-          previewCompany.textContent = trigger.dataset.company || 'Selected Work';
-          previewYear.textContent = trigger.dataset.year || '2024';
-          previewDesc.textContent = trigger.dataset.desc || 'High-fidelity interface design & design systems.';
-          previewTag.textContent = trigger.dataset.tag || 'UX Systems • Prototyping';
+          const title = row.dataset.title || row.querySelector('h3 span')?.textContent;
+          const company = row.dataset.company || 'Proyecto';
+          const year = row.dataset.year || '2026';
+          const desc = row.dataset.desc || 'Detalle del proyecto';
+          const tag = row.dataset.tag || 'Diseño';
+          const img = row.dataset.img || 'images/portrait.jpg';
+
+          previewTitle.textContent = title;
+          previewCompany.textContent = company;
+          previewYear.textContent = year;
+          previewDesc.textContent = desc;
+          previewTag.textContent = tag;
+          if (previewImg && img) previewImg.src = img;
+          if (previewBadge) previewBadge.textContent = year;
 
           previewCard.classList.add('active');
           updatePreviewPosition(e);
         });
 
-        trigger.addEventListener('mousemove', (e) => {
+        row.addEventListener('mousemove', (e) => {
           updatePreviewPosition(e);
         });
 
-        trigger.addEventListener('mouseleave', () => {
+        row.addEventListener('mouseleave', () => {
           if (previewCard) previewCard.classList.remove('active');
         });
       });
@@ -1881,10 +1503,10 @@
         if (!previewCard) return;
         const offset = 20;
         let left = e.clientX + offset;
-        let top = e.clientY - 120;
+        let top = e.clientY - 140;
 
-        if (left + 320 > window.innerWidth) {
-          left = e.clientX - 320;
+        if (left + 340 > window.innerWidth) {
+          left = e.clientX - 340;
         }
         if (top < 20) {
           top = e.clientY + 20;
@@ -1894,21 +1516,189 @@
         previewCard.style.top = top + 'px';
       }
 
-      // 10. INTERACTIVE CASE STUDY MODAL DRAWER
+      // 9. CASE STUDY MODAL DRAWER WITH REAL PROJECT CONTENT
       const modal = document.getElementById('case-study-modal');
       const modalCloseBtn = document.getElementById('modal-close-btn');
       const modalTitle = document.getElementById('modal-title');
-      const modalCompanyBadge = document.getElementById('modal-company-badge');
+      const modalCategoryBadge = document.getElementById('modal-category-badge');
       const modalYear = document.getElementById('modal-year');
       const modalDesc = document.getElementById('modal-desc');
+      const modalMediaSlot = document.getElementById('modal-media-slot');
+      const modalMetaRole = document.getElementById('modal-meta-role');
+      const modalMetaTools = document.getElementById('modal-meta-tools');
+      const modalSoftware = document.getElementById('modal-software');
       const modalTriggers = document.querySelectorAll('.modal-trigger');
+
+      // Storyboard scenes data
+      const storyboardScenes = [
+        { src: 'images/storyboard/scene-01.jpg', label: 'Escena 01 · Regando en calma' },
+        { src: 'images/storyboard/scene-02.jpg', label: 'Escena 02 · Un movimiento extraño' },
+        { src: 'images/storyboard/scene-03.jpg', label: 'Escena 03 · La planta despierta' },
+        { src: 'images/storyboard/scene-04.jpg', label: 'Escena 04 · Primera embestida' },
+        { src: 'images/storyboard/scene-05.jpg', label: 'Escena 05 · Reacción y asombro' },
+        { src: 'images/storyboard/scene-06.jpg', label: 'Escena 06 · Defensa con la regadera' },
+        { src: 'images/storyboard/scene-07.jpg', label: 'Escena 07 · El contraataque' },
+        { src: 'images/storyboard/scene-08.jpg', label: 'Escena 08 · Tensión en el jardín' },
+        { src: 'images/storyboard/scene-09.jpg', label: 'Escena 09 · El golpe decisivo' },
+        { src: 'images/storyboard/scene-10.jpg', label: 'Escena 10 · Vuelta a la realidad' }
+      ];
+
+      let currentSceneIdx = 0;
+
+      function renderStoryboardViewer() {
+        return `
+          <div class="relative w-full rounded-xl bg-black border border-neutral-800 overflow-hidden shadow-2xl">
+            <div class="relative aspect-[16/10] bg-neutral-950 flex items-center justify-center overflow-hidden">
+              <img id="sb-main-img" src="${storyboardScenes[currentSceneIdx].src}" alt="${storyboardScenes[currentSceneIdx].label}" class="max-h-full max-w-full object-contain">
+              
+              <!-- Navigation overlay buttons -->
+              <button id="sb-prev-btn" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#ea8676] text-white hover:text-black border border-white/20 flex items-center justify-center font-mono font-bold transition-all cursor-pointer">
+                ←
+              </button>
+              <button id="sb-next-btn" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#ea8676] text-white hover:text-black border border-white/20 flex items-center justify-center font-mono font-bold transition-all cursor-pointer">
+                →
+              </button>
+
+              <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs font-mono text-neutral-300 bg-black/80 backdrop-blur-md px-3.5 py-2 rounded-lg border border-white/10">
+                <span id="sb-caption">${storyboardScenes[currentSceneIdx].label}</span>
+                <span id="sb-counter">${currentSceneIdx + 1} / ${storyboardScenes.length}</span>
+              </div>
+            </div>
+
+            <!-- Thumbnail Reel -->
+            <div class="flex gap-2 p-3 bg-neutral-900/90 overflow-x-auto border-t border-neutral-800">
+              ${storyboardScenes.map((s, idx) => `
+                <button class="sb-thumb relative flex-shrink-0 w-16 h-12 rounded overflow-hidden border ${idx === currentSceneIdx ? 'border-[#ea8676] ring-2 ring-[#ea8676]/40' : 'border-neutral-700 opacity-60 hover:opacity-100'} transition-all cursor-pointer" data-idx="${idx}">
+                  <img src="${s.src}" alt="${s.label}" class="w-full h-full object-cover">
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderWuerfelTypeTester() {
+        return `
+          <div class="w-full rounded-xl bg-neutral-900 border border-neutral-800 p-6">
+            <div class="flex items-center justify-between mb-3 text-xs font-mono text-neutral-400">
+              <span>PROBADOR DE TIPOGRAFÍA CÚBICA</span>
+              <span class="text-[#FFD60A]">TECLEA DIRECTAMENTE EN EL RECUADRO</span>
+            </div>
+            <div class="wuerfel-box text-2xl sm:text-3xl text-[#FFD60A] font-bold" contenteditable="true" spellcheck="false">
+              el diseno es la forma de pensar
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-neutral-800 text-xs font-mono">
+              <span class="text-neutral-500 mr-2 self-center">FRASES DE PRUEBA:</span>
+              <button class="wuerfel-preset px-2.5 py-1 rounded bg-neutral-800 hover:bg-[#FFD60A] hover:text-black text-neutral-300 transition-colors" data-text="el diseno es la forma de pensar">Frase 1</button>
+              <button class="wuerfel-preset px-2.5 py-1 rounded bg-neutral-800 hover:bg-[#FFD60A] hover:text-black text-neutral-300 transition-colors" data-text="wuerfel display 2026">Würfel</button>
+              <button class="wuerfel-preset px-2.5 py-1 rounded bg-neutral-800 hover:bg-[#FFD60A] hover:text-black text-neutral-300 transition-colors" data-text="alimanog ilustracion animacion">Alimanog</button>
+              <button class="wuerfel-preset px-2.5 py-1 rounded bg-neutral-800 hover:bg-[#FFD60A] hover:text-black text-neutral-300 transition-colors" data-text="0123456789 abcdef">Caracteres</button>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderImageDisplay(imgSrc, caption) {
+        return `
+          <div class="relative w-full rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900 shadow-xl">
+            <img src="${imgSrc}" alt="${caption}" class="w-full max-h-[500px] object-contain mx-auto">
+            <div class="p-3 text-xs font-mono text-neutral-400 border-t border-neutral-800 bg-black/40 flex justify-between">
+              <span>${caption}</span>
+              <span class="text-[#ea8676]">Resolución HD</span>
+            </div>
+          </div>
+        `;
+      }
+
+      function setupStoryboardEvents() {
+        const prevBtn = document.getElementById('sb-prev-btn');
+        const nextBtn = document.getElementById('sb-next-btn');
+        const mainImg = document.getElementById('sb-main-img');
+        const caption = document.getElementById('sb-caption');
+        const counter = document.getElementById('sb-counter');
+        const thumbs = document.querySelectorAll('.sb-thumb');
+
+        function updateScene(idx) {
+          currentSceneIdx = (idx + storyboardScenes.length) % storyboardScenes.length;
+          const s = storyboardScenes[currentSceneIdx];
+          if (mainImg) mainImg.src = s.src;
+          if (caption) caption.textContent = s.label;
+          if (counter) counter.textContent = `${currentSceneIdx + 1} / ${storyboardScenes.length}`;
+          thumbs.forEach((t, i) => {
+            if (i === currentSceneIdx) {
+              t.classList.add('border-[#ea8676]', 'ring-2', 'ring-[#ea8676]/40');
+              t.classList.remove('opacity-60');
+            } else {
+              t.classList.remove('border-[#ea8676]', 'ring-2', 'ring-[#ea8676]/40');
+              t.classList.add('opacity-60');
+            }
+          });
+          playSound('click');
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => updateScene(currentSceneIdx - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => updateScene(currentSceneIdx + 1));
+        thumbs.forEach(t => {
+          t.addEventListener('click', () => updateScene(parseInt(t.dataset.idx)));
+        });
+      }
+
+      function setupWuerfelEvents() {
+        const presets = document.querySelectorAll('.wuerfel-preset');
+        const box = document.querySelector('.wuerfel-box');
+        presets.forEach(p => {
+          p.addEventListener('click', () => {
+            if (box) box.textContent = p.dataset.text;
+            playSound('badge');
+          });
+        });
+      }
 
       function openModal(data) {
         if (!modal) return;
-        modalTitle.textContent = data.title || 'Selected Project';
-        modalCompanyBadge.textContent = data.company || 'STUDY';
-        modalYear.textContent = data.year || '2024';
-        modalDesc.textContent = data.desc || 'Comprehensive overview of UX architecture, research, and tactile product solutions.';
+        modalTitle.textContent = data.title || 'Proyecto';
+        modalCategoryBadge.textContent = data.company || 'TRABAJO';
+        modalYear.textContent = data.year || '2026';
+        modalDesc.textContent = data.desc || 'Detalle del proyecto';
+        
+        const projectKey = data.project || 'storyboard';
+
+        if (projectKey === 'storyboard') {
+          modalMediaSlot.innerHTML = renderStoryboardViewer();
+          setupStoryboardEvents();
+          modalMetaRole.textContent = 'Ilustración, Cómic Secuencial & Storyboard';
+          modalMetaTools.textContent = 'Photoshop, Illustrator, InDesign';
+          modalSoftware.textContent = 'Ai • Ps • Id';
+        } else if (projectKey === 'wuerfel') {
+          modalMediaSlot.innerHTML = renderWuerfelTypeTester();
+          setupWuerfelEvents();
+          modalMetaRole.textContent = 'Diseño Tipográfico & Display Experimental';
+          modalMetaTools.textContent = 'Illustrator, FontLab, Web';
+          modalSoftware.textContent = 'Typography • Cubic';
+        } else if (projectKey === 'motion') {
+          modalMediaSlot.innerHTML = renderImageDisplay('images/motion.jpg', 'Tipografía cinética y animación sincronizada con ritmo de anime');
+          modalMetaRole.textContent = 'Animación Tipográfica & Motion Graphics';
+          modalMetaTools.textContent = 'After Effects, Premiere Pro';
+          modalSoftware.textContent = 'Ae • Pr';
+        } else if (projectKey === '3d') {
+          modalMediaSlot.innerHTML = renderImageDisplay('images/3d.jpg', 'Animación 3D inspirada en Jujutsu Kaisen & Escenarios 3D');
+          modalMetaRole.textContent = 'Animación 3D, Modelado y Profundidad de Campo';
+          modalMetaTools.textContent = 'Blender, After Effects';
+          modalSoftware.textContent = 'Blender • 3D';
+        } else if (projectKey === 'editorial') {
+          modalMediaSlot.innerHTML = renderImageDisplay('images/editorial.jpg', 'Revista Historia del Diseño: Bauhaus, Constructivismo y Art Decó');
+          modalMetaRole.textContent = 'Maquetación Editorial, Retícula y Composición';
+          modalMetaTools.textContent = 'Adobe InDesign, Illustrator';
+          modalSoftware.textContent = 'Id • Print';
+        } else if (projectKey === 'photo') {
+          modalMediaSlot.innerHTML = renderImageDisplay('images/photo.jpg', 'Cuarto Oscuro: Serie La Librería & Discos de Jazz');
+          modalMetaRole.textContent = 'Fotografía de Autor y Tratamiento Cromático';
+          modalMetaTools.textContent = 'Lightroom, Photoshop';
+          modalSoftware.textContent = 'Ps • Lr';
+        } else {
+          modalMediaSlot.innerHTML = renderImageDisplay(data.img || 'images/portrait.jpg', data.title || 'Proyecto');
+        }
+
         modal.classList.add('open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -1942,70 +1732,7 @@
         }
       });
 
-      // 11. INTERACTIVE DOODLE MODE CANVAS (Draw directly on screen)
-      const doodleCanvas = document.getElementById('doodle-canvas');
-      const doodleToggleBtn = document.getElementById('doodle-toggle-btn');
-      const doodleStatusText = document.getElementById('doodle-status-text');
-      const clearDoodleBtn = document.getElementById('clear-doodle-btn');
-      let isDoodleMode = false;
-      let isDrawing = false;
-      let ctx = null;
-
-      if (doodleCanvas) {
-        ctx = doodleCanvas.getContext('2d');
-        function resizeCanvas() {
-          doodleCanvas.width = window.innerWidth;
-          doodleCanvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        doodleToggleBtn.addEventListener('click', () => {
-          isDoodleMode = !isDoodleMode;
-          doodleCanvas.classList.toggle('active', isDoodleMode);
-          playSound('click');
-          if (isDoodleMode) {
-            doodleStatusText.textContent = 'DOODLE MODE: ON';
-            doodleToggleBtn.classList.add('bg-[#ea8676]', 'text-black', 'border-[#ea8676]');
-            clearDoodleBtn.classList.remove('hidden');
-          } else {
-            doodleStatusText.textContent = 'DOODLE MODE: OFF';
-            doodleToggleBtn.classList.remove('bg-[#ea8676]', 'text-black', 'border-[#ea8676]');
-            clearDoodleBtn.classList.add('hidden');
-          }
-        });
-
-        clearDoodleBtn.addEventListener('click', () => {
-          ctx.clearRect(0, 0, doodleCanvas.width, doodleCanvas.height);
-          playSound('badge');
-        });
-
-        doodleCanvas.addEventListener('mousedown', (e) => {
-          if (!isDoodleMode) return;
-          isDrawing = true;
-          ctx.beginPath();
-          ctx.moveTo(e.clientX, e.clientY);
-          ctx.strokeStyle = '#ea8676';
-          ctx.lineWidth = 4;
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-        });
-
-        doodleCanvas.addEventListener('mousemove', (e) => {
-          if (!isDoodleMode || !isDrawing) return;
-          ctx.lineTo(e.clientX, e.clientY);
-          ctx.stroke();
-        });
-
-        window.addEventListener('mouseup', () => {
-          if (isDrawing) {
-            isDrawing = false;
-            ctx.closePath();
-          }
-        });
-      }
-
-      // 12. LIVE TICKING CLOCK IN FOOTER
+      // 10. LIVE TICKING CLOCK
       const liveClock = document.getElementById('live-clock');
       function updateClock() {
         if (!liveClock) return;
@@ -2013,12 +1740,12 @@
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
-        liveClock.textContent = `MADRID, ES — ${hours}:${minutes}:${seconds} UTC+1`;
+        liveClock.textContent = `MADRID / CIUDAD REAL, ES — ${hours}:${minutes}:${seconds} UTC+1`;
       }
       setInterval(updateClock, 1000);
       updateClock();
 
-      // 13. SCROLL REVEAL OBSERVER
+      // 11. SCROLL REVEAL OBSERVER
       const revealSections = document.querySelectorAll('.reveal-section');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -2028,7 +1755,7 @@
         });
       }, {
         threshold: 0.08,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -40px 0px'
       });
 
       revealSections.forEach(section => observer.observe(section));
